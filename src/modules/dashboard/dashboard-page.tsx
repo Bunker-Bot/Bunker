@@ -32,7 +32,7 @@ export const DashboardPage: React.FC = () => {
   });
 
   return (
-    <div className="w-full max-w-[1700px] mx-auto space-y-5 p-3 sm:p-6 text-zinc-100 font-mono select-none">
+    <div className="w-full max-w-[1700px] mx-auto space-y-5 text-zinc-100 font-mono select-none">
       {/* 1. Executive Workspace Health Banner */}
       <WorkspaceHealthBanner />
 
