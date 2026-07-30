@@ -24,4 +24,7 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+# Supabase temp directory
+supabase/.temp/
+.supabase/
+
