@@ -56,7 +56,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       } ${className}`}
     >
       {/* 1. Main Responsive Header Row: Title, Icon, Badge & Action Buttons */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 w-full min-w-0">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 w-full min-w-0">
         <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
           {backButton && (
             <button
@@ -67,10 +67,6 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               <HugeiconsIcon icon={ArrowLeft02Icon} size={14} />
               <span className="hidden sm:inline">Back</span>
             </button>
-          )}
-
-          {IconComponent && (
-            <HugeiconsIcon icon={IconComponent} size={18} className="text-zinc-400 shrink-0" />
           )}
 
           {breadcrumbs && breadcrumbs.length > 0 && (
@@ -86,7 +82,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             </div>
           )}
 
-          <div className="flex items-center flex-wrap gap-2 min-w-0">
+          <div className="flex items-center flex-wrap gap-2.5 min-w-0">
+            {IconComponent && (
+              <HugeiconsIcon icon={IconComponent} size={20} className="text-cyan-400 shrink-0" />
+            )}
+
             <h1 className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white font-sans break-words" title={title}>
               {title}
             </h1>
