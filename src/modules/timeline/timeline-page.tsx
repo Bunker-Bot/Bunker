@@ -41,7 +41,7 @@ export const TimelinePage: React.FC = () => {
   const activeProject = projects.find((p: any) => p.id === selectedProjectId);
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-6 text-zinc-100 font-mono select-none pb-12">
+    <div className="w-full max-w-[1700px] mx-auto space-y-6 text-zinc-100 font-mono select-none pb-12">
       {/* Shared Platform PageHeader Component */}
       <PageHeader
         title="Timeline & Progress Log"

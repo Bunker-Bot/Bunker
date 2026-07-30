@@ -137,7 +137,7 @@ export const SettingsPage: React.FC = () => {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18 }}
-      className="space-y-6 font-sans text-zinc-100 select-none pb-16 max-w-6xl mx-auto"
+      className="space-y-6 font-sans text-zinc-100 select-none pb-16 w-full max-w-[1700px] mx-auto"
     >
       {/* Shared Platform PageHeader Component */}
       <PageHeader

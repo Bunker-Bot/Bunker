@@ -488,7 +488,7 @@ export const PortalShell: React.FC = () => {
         />
 
         {/* Responsive Content Area */}
-        <main className="flex-1 lg:ml-56 p-3 sm:p-6 lg:p-8 max-w-[1500px] min-h-[calc(100vh-64px)] space-y-4 overflow-x-hidden">
+        <main className="flex-1 lg:ml-56 p-3 sm:p-6 lg:p-8 max-w-[1700px] min-h-[calc(100vh-64px)] space-y-4 overflow-x-hidden">
           {!isModuleAllowed ? (
             <Module403Page
               moduleName={activeModule}

@@ -127,7 +127,7 @@ export const ClientsListPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-4 sm:space-y-6 p-3 sm:p-6 text-zinc-100 font-mono select-none">
+    <div className="w-full max-w-[1700px] mx-auto space-y-4 sm:space-y-6 p-3 sm:p-6 text-zinc-100 font-mono select-none">
       {/* 1. Shared PageHeader */}
       <PageHeader
         title="Client Directory"

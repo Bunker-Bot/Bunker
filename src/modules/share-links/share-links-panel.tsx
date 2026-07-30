@@ -128,7 +128,7 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
       {/* 1. Header (If standalone page) */}
       {!initialProjectId && (
         <PageHeader
-          title="Share Links & Client Access"
+          title="Share Links & Client Access Management"
           description="Generate zero-trust, read-only client portal links with module isolation, expiration policies, and access analytics."
           icon={Link01Icon}
           badge="Token Exchange Engine"

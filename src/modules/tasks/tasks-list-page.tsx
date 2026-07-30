@@ -528,7 +528,7 @@ export const TasksListPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-6 text-zinc-100 font-mono select-none pb-20">
+    <div className="w-full max-w-[1700px] mx-auto space-y-6 text-zinc-100 font-mono select-none pb-20">
       {/* 1. Page Header */}
       <PageHeader
         title="Internal Tasks & Kanban Workspace"
