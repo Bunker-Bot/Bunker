@@ -65,12 +65,11 @@ export const GlobalCommandPalette: React.FC<GlobalCommandPaletteProps> = ({
 
   return (
     <CommandDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <div className="bg-zinc-950 text-zinc-100 font-mono text-xs border border-zinc-800 rounded-sm overflow-hidden shadow-2xl backdrop-blur-2xl">
-        <CommandInput placeholder="Type a command or search workspace..." className="font-mono text-xs py-2.5" />
-        <CommandList className="max-h-[380px] p-1.5 space-y-1">
-          <CommandEmpty className="text-zinc-500 font-mono text-xs py-8">
-            No matching commands or pages found.
-          </CommandEmpty>
+      <CommandInput placeholder="Type a command or search workspace..." className="font-mono text-xs py-2.5" />
+      <CommandList className="max-h-[380px] p-1.5 space-y-1">
+        <CommandEmpty className="text-zinc-500 font-mono text-xs py-8">
+          No matching commands or pages found.
+        </CommandEmpty>
 
           {/* Quick Actions */}
           <CommandGroup heading="Quick Actions">
@@ -217,7 +216,6 @@ export const GlobalCommandPalette: React.FC<GlobalCommandPaletteProps> = ({
             </CommandItem>
           </CommandGroup>
         </CommandList>
-      </div>
     </CommandDialog>
   );
 };
