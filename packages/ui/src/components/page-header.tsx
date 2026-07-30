@@ -55,9 +55,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         sticky ? 'sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-md pt-2 px-1' : 'pt-0.5'
       } ${className}`}
     >
-      {/* 1. Main Single Row Header: Title, Icon, Badge & Action Buttons */}
-      <div className="flex items-center justify-between gap-2.5 w-full min-w-0">
-        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+      {/* 1. Main Responsive Header Row: Title, Icon, Badge & Action Buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 w-full min-w-0">
+        <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
           {backButton && (
             <button
               type="button"
@@ -86,13 +86,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             </div>
           )}
 
-          <div className="flex items-center gap-2 min-w-0 truncate">
-            <h1 className="text-sm sm:text-lg font-bold tracking-tight text-white font-sans truncate" title={title}>
+          <div className="flex items-center flex-wrap gap-2 min-w-0">
+            <h1 className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white font-sans break-words" title={title}>
               {title}
             </h1>
 
             {badge && (
-              <div className="shrink-0 hidden md:block">
+              <div className="shrink-0">
                 {typeof badge === 'string' ? (
                   <span className="px-2 py-0.5 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
                     {badge}
@@ -107,7 +107,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
         {/* Right Side Action Buttons */}
         {actions && (
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
             {actions}
           </div>
         )}
@@ -115,7 +115,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
       {/* 2. Description Line */}
       {description && (
-        <p className="text-[11.5px] text-zinc-400 max-w-4xl leading-snug truncate sm:whitespace-normal">{description}</p>
+        <p className="text-xs text-zinc-400 max-w-5xl leading-relaxed break-words">{description}</p>
       )}
 
       {/* 3. Optional Statistics Line */}
