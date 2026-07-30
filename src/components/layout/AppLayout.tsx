@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SidebarProvider, SidebarInset } from '../ui/sidebar';
 import { AppSidebar } from '../app-sidebar';
 import { Header } from './Header';
+import { GlobalCommandPalette } from './GlobalCommandPalette';
 import type { ViewMode, NotificationItem } from '../../types';
 import { useAppearanceSettings } from '../../modules/settings/hooks/useSettings';
 import { cn } from '../../lib/utils';
@@ -24,6 +25,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   onLogout
 }) => {
   const { data: appearance } = useAppearanceSettings();
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenEvent = () => setIsCommandPaletteOpen(true);
+    window.addEventListener('bunker:open-command-palette', handleOpenEvent);
+    return () => window.removeEventListener('bunker:open-command-palette', handleOpenEvent);
+  }, []);
 
   const sidebarWidthValue = appearance?.sidebarWidth === 'compact' ? '14rem' : '16rem';
 
@@ -51,7 +59,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         <SidebarInset className="relative z-10 flex-1 h-screen max-h-screen flex flex-col overflow-hidden bg-transparent p-0 m-0 border-none shadow-none">
           <Header
             currentView={currentView}
-            onOpenCommandMenu={() => {}}
+            onOpenCommandMenu={() => setIsCommandPaletteOpen(true)}
             onOpenCreateProject={onOpenCreateProject}
           />
 
@@ -67,6 +75,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             </motion.div>
           </main>
         </SidebarInset>
+
+        {/* Global Command Palette Modal (shadcn UI Command) */}
+        <GlobalCommandPalette
+          isOpen={isCommandPaletteOpen}
+          onClose={() => setIsCommandPaletteOpen(false)}
+          onOpenCreateProject={onOpenCreateProject}
+        />
       </div>
     </SidebarProvider>
   );
