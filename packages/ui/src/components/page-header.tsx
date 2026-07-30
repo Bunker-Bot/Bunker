@@ -55,9 +55,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         sticky ? 'sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-md pt-2 px-1' : 'pt-0.5'
       } ${className}`}
     >
-      {/* 1. Main Responsive Header Row: Title, Icon, Badge & Action Buttons */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 w-full min-w-0">
-        <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+      {/* 1. Single Sleek Row Header: Icon + Title + Badge on left, Actions on right */}
+      <div className="flex items-center justify-between gap-3 w-full min-w-0">
+        {/* Left Title & Icon Container */}
+        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
           {backButton && (
             <button
               type="button"
@@ -82,17 +83,17 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             </div>
           )}
 
-          <div className="flex items-center flex-wrap gap-2.5 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0 overflow-hidden">
             {IconComponent && (
-              <HugeiconsIcon icon={IconComponent} size={20} className="text-cyan-400 shrink-0" />
+              <HugeiconsIcon icon={IconComponent} size={19} className="text-cyan-400 shrink-0" />
             )}
 
-            <h1 className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-white font-sans break-words" title={title}>
+            <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white font-sans truncate" title={title}>
               {title}
             </h1>
 
             {badge && (
-              <div className="shrink-0">
+              <div className="shrink-0 hidden sm:block">
                 {typeof badge === 'string' ? (
                   <span className="px-2 py-0.5 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-400 text-[10px] uppercase font-bold tracking-wider">
                     {badge}
@@ -105,9 +106,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           </div>
         </div>
 
-        {/* Right Side Action Buttons */}
+        {/* Right Side Action Buttons (Stays in the exact same top row) */}
         {actions && (
-          <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+          <div className="flex items-center gap-2 shrink-0">
             {actions}
           </div>
         )}
@@ -115,7 +116,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
       {/* 2. Description Line */}
       {description && (
-        <p className="text-xs text-zinc-400 max-w-5xl leading-relaxed break-words">{description}</p>
+        <p className="text-xs text-zinc-400 max-w-5xl leading-relaxed truncate sm:whitespace-normal">{description}</p>
       )}
 
       {/* 3. Optional Statistics Line */}
