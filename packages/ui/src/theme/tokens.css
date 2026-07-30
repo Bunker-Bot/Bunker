@@ -1,0 +1,40 @@
+/* Bunker Monochrome Enterprise Design Token System */
+:root {
+  --color-bg: #09090b;
+  --color-surface: #18181b;
+  --color-surface-elevated: #27272a;
+  --color-border: #27272a;
+  --color-border-hover: #3f3f46;
+  
+  /* Primary Monochrome Tokens */
+  --color-primary: #ffffff;
+  --color-primary-hover: #e4e4e7;
+  
+  /* Status Color Indicators Only */
+  --color-success: #10b981;
+  --color-active: #3b82f6;
+  --color-planning: #64748b;
+  --color-review: #a855f7;
+  --color-testing: #06b6d4;
+  --color-warning: #f59e0b;
+  --color-urgent: #f43f5e;
+  --color-danger: #ef4444;
+  
+  /* Monochrome Typography Tokens */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-text-disabled: #52525b;
+  
+  /* Unified Token Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  
+  /* Motion Duration & Easing */
+  --motion-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}

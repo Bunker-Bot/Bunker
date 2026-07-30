@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" class="dark" style="color-scheme: dark;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+
+    <!-- Primary Metadata -->
+    <title>Bunker — Professional Project Vault</title>
+    <meta name="title" content="Bunker — Professional Project Vault" />
+    <meta
+      name="description"
+      content="Bunker is a premium Project Vault built for managing clients, software projects, GitHub repositories, milestones, documentation, deployments, secure client portals, and project lifecycle management from a single modern workspace."
+    />
+    <meta name="keywords" content="project vault, client portal, software project management, software delivery, developer dashboard, agency portal, github integration" />
+    <meta name="author" content="Bunker" />
+    <meta name="application-name" content="Bunker" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme & Color Scheme -->
+    <meta name="theme-color" content="#09090B" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Inline Anti-FOUC Theme Script -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('bunker_theme');
+          var supportDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (theme === 'dark' || (!theme && supportDark) || theme === null) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bunker" />
+    <meta property="og:title" content="Bunker — Professional Project Vault" />
+    <meta
+      property="og:description"
+      content="Bunker is a premium Project Vault built for managing clients, software projects, GitHub repositories, milestones, documentation, deployments, secure client portals, and project lifecycle management from a single modern workspace."
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bunker — Professional Project Vault" />
+    <meta
+      name="twitter:description"
+      content="Bunker is a premium Project Vault built for managing clients, software projects, GitHub repositories, milestones, documentation, deployments, secure client portals, and project lifecycle management from a single modern workspace."
+    />
+
+    <!-- Progressive Web App & Apple Mobile Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Bunker" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Font Preconnect & Performance Tuning -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body class="bg-background text-foreground antialiased min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

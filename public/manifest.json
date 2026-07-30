@@ -1,0 +1,17 @@
+{
+  "short_name": "Bunker",
+  "name": "Bunker — Professional Project Vault",
+  "description": "Premium project-delivery and client-collaboration platform for independent developers and studios.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#09090B",
+  "theme_color": "#09090B",
+  "display": "standalone",
+  "orientation": "any"
+}
