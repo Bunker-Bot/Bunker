@@ -147,7 +147,7 @@ export const ProjectRepository = {
   async getWorkspaceStorage() {
     return requestQueue.enqueue(async () => {
       const [docsRes, shareLinksRes] = await Promise.all([
-        supabase.from('documents').select('id, document_type', { count: 'exact' }),
+        supabase.from('documents').select('id, doc_type', { count: 'exact' }),
         supabase.from('share_links').select('id', { count: 'exact', head: true }),
       ]);
 
