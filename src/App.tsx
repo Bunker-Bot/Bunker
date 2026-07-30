@@ -43,6 +43,7 @@ export function App() {
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="/share/:token/*" element={<PortalShell />} />
+                <Route path="/portal/:token/*" element={<PortalShell />} />
                 <Route path="/app/*" element={<DashboardLayout />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
