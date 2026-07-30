@@ -54,12 +54,12 @@ function CommandDialog({
       </DialogHeader>
       <DialogContent
         className={cn(
-          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0 bg-transparent border-none shadow-none",
+          "top-[12%] sm:top-[15%] translate-y-0 overflow-hidden rounded-sm! p-0 bg-transparent border-none shadow-none max-w-2xl w-[92vw]",
           className
         )}
         showCloseButton={showCloseButton}
       >
-        <Command className="[&_[data-slot=command-input-wrapper]]:h-12 [&_[data-slot=command-input-wrapper]_svg]:size-5 [&_[data-slot=command-input-wrapper]_input]:h-12 [&_[data-slot=command-item]]:px-2 [&_[data-slot=command-item]]:py-3 [&_[data-slot=command-item]_svg]:size-5">
+        <Command className="[&_[data-slot=command-input-wrapper]]:h-11 [&_[data-slot=command-input-wrapper]_svg]:size-4 [&_[data-slot=command-input-wrapper]_input]:h-11 [&_[data-slot=command-item]]:px-2.5 [&_[data-slot=command-item]]:py-2 [&_[data-slot=command-item]]:rounded-sm [&_[data-slot=command-item]_svg]:size-4">
           {children}
         </Command>
       </DialogContent>
@@ -72,19 +72,19 @@ function CommandInput({
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
-    <div data-slot="command-input-wrapper" className="p-1 pb-0">
-      <InputGroup className="h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!">
+    <div data-slot="command-input-wrapper" className="p-1.5 pb-1">
+      <InputGroup className="h-10! rounded-sm! border-zinc-800 bg-zinc-900/90 shadow-none! focus-within:border-cyan-600/80 transition-colors">
+        <InputGroupAddon>
+          <HugeiconsIcon icon={SearchIcon} strokeWidth={2} className="size-4 shrink-0 text-zinc-400" />
+        </InputGroupAddon>
         <CommandPrimitive.Input
           data-slot="command-input"
           className={cn(
-            "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+            "w-full text-xs font-mono text-white placeholder-zinc-500 outline-none disabled:cursor-not-allowed disabled:opacity-50",
             className
           )}
           {...props}
         />
-        <InputGroupAddon>
-          <HugeiconsIcon icon={SearchIcon} strokeWidth={2} className="size-4 shrink-0 opacity-50" />
-        </InputGroupAddon>
       </InputGroup>
     </div>
   )
@@ -157,7 +157,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:**:[svg]:text-foreground",
+        "group/command-item relative flex cursor-pointer items-center gap-2 rounded-sm! px-2.5 py-2 text-xs font-mono outline-none select-none border border-transparent data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-zinc-900 data-selected:text-white data-selected:border-zinc-800 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
