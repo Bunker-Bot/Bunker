@@ -55,10 +55,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         sticky ? 'sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-md pt-2 px-1' : 'pt-0.5'
       } ${className}`}
     >
-      {/* 1. Single Sleek Row Header: Icon + Title + Badge on left, Actions on right */}
-      <div className="flex items-center justify-between gap-3 w-full min-w-0">
+      {/* 1. Sleek Responsive Header Row: Icon + Title + Badge & Action Buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 w-full min-w-0">
         {/* Left Title & Icon Container */}
-        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
           {backButton && (
             <button
               type="button"
@@ -83,12 +83,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             </div>
           )}
 
-          <div className="flex items-center gap-2.5 min-w-0 overflow-hidden">
+          <div className="flex items-center gap-2.5 min-w-0">
             {IconComponent && (
               <HugeiconsIcon icon={IconComponent} size={19} className="text-cyan-400 shrink-0" />
             )}
 
-            <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white font-sans truncate" title={title}>
+            <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-white font-sans break-words" title={title}>
               {title}
             </h1>
 
@@ -106,9 +106,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           </div>
         </div>
 
-        {/* Right Side Action Buttons (Stays in the exact same top row) */}
+        {/* Right Side Action Buttons */}
         {actions && (
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
             {actions}
           </div>
         )}
