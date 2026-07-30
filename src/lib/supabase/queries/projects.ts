@@ -197,17 +197,12 @@ export const useDeleteProject = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const deps = await ProjectService.checkDependencies(id);
-      if (deps.hasDependencies) {
-        throw new Error(
-          `This project contains ${deps.tasksCount} related tasks and ${deps.milestonesCount} milestones. Delete or archive them first.`
-        );
-      }
       return await ProjectService.deleteProject(id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
       queryClient.invalidateQueries({ queryKey: projectKeys.counts() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.all });
     },
   });
 };

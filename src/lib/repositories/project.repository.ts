@@ -135,7 +135,7 @@ export const ProjectRepository = {
     return requestQueue.enqueue(async () => {
       const { data, error } = await supabase
         .from('project_updates')
-        .select('id, project_id, title, content, update_type, created_at, projects(name, slug)')
+        .select('id, project_id, title, description, entry_date, created_at, projects(name, slug)')
         .order('created_at', { ascending: false })
         .limit(6);
 
