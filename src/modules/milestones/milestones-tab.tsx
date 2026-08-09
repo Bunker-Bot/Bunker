@@ -227,7 +227,7 @@ export const MilestonesTab: React.FC<MilestonesTabProps> = ({
     });
 
   return (
-    <div className="space-y-4 sm:space-y-6 font-sans text-xs select-none overflow-x-hidden">
+    <div className="w-full max-w-[1700px] mx-auto space-y-4 sm:space-y-6 font-sans text-xs select-none overflow-x-hidden">
       {/* Page Header */}
       <div className="flex flex-col gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-sm bg-zinc-950/80 border border-zinc-800 shadow-xl backdrop-blur-md">
         <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">

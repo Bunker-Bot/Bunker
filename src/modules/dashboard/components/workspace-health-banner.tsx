@@ -22,23 +22,24 @@ export const WorkspaceHealthBanner: React.FC = () => {
   }
 
   const h = health || {
-    healthStatus: 'Excellent',
-    healthScore: 96,
-    averageCompletion: 74,
-    activeProjectsCount: 12,
-    nextDeadline: 'Tomorrow',
-    lastDeployment: '18 minutes ago',
-    lastGithubSync: '4 minutes ago',
+    healthStatus: 'Good',
+    healthScore: 100,
+    averageCompletion: 0,
+    activeProjectsCount: 0,
+    nextDeadline: null,
+    lastDeployment: null,
+    lastGithubSync: null,
   };
 
-  const formatTimeAgo = (dateStr: string | null, fallback: string) => {
-    if (!dateStr) return fallback;
+  const formatTimeAgo = (dateStr: string | null) => {
+    if (!dateStr) return 'None';
     const diff = new Date().getTime() - new Date(dateStr).getTime();
     const mins = Math.floor(diff / (1000 * 60));
-    if (mins < 60) return `${Math.max(1, mins)}m ago`;
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
     const hours = Math.floor(mins / 60);
     if (hours < 24) return `${hours}h ago`;
-    return fallback;
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
   return (
@@ -106,7 +107,7 @@ export const WorkspaceHealthBanner: React.FC = () => {
             <HugeiconsIcon icon={Clock01Icon} size={11} className="text-white" />
             Active Projects
           </span>
-          <p className="font-bold text-white text-xs sm:text-sm">{h.activeProjectsCount} Repos</p>
+          <p className="font-bold text-white text-xs sm:text-sm">{h.activeProjectsCount} Projects</p>
         </div>
 
         <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
@@ -115,7 +116,7 @@ export const WorkspaceHealthBanner: React.FC = () => {
             Next Deadline
           </span>
           <p className="font-bold text-amber-400 text-[11px] sm:text-xs truncate">
-            {h.nextDeadline ? h.nextDeadline : 'Tomorrow'}
+            {h.nextDeadline ? h.nextDeadline : 'None'}
           </p>
         </div>
 
@@ -125,7 +126,7 @@ export const WorkspaceHealthBanner: React.FC = () => {
             Last Deployment
           </span>
           <p className="font-bold text-emerald-400 text-[11px] sm:text-xs truncate">
-            {formatTimeAgo(h.lastDeployment, '18m ago')}
+            {formatTimeAgo(h.lastDeployment)}
           </p>
         </div>
 
@@ -135,7 +136,7 @@ export const WorkspaceHealthBanner: React.FC = () => {
             Last GitHub Sync
           </span>
           <p className="font-bold text-zinc-300 text-[11px] sm:text-xs truncate">
-            {formatTimeAgo(h.lastGithubSync, '4m ago')}
+            {formatTimeAgo(h.lastGithubSync)}
           </p>
         </div>
       </div>

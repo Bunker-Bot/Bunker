@@ -54,7 +54,7 @@ export const ClientDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full max-w-[1600px] mx-auto p-4 sm:p-6 space-y-6 text-zinc-100 font-mono select-none">
+      <div className="w-full max-w-[1700px] mx-auto space-y-6 text-zinc-100 font-mono select-none">
         <div className="h-32 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
         <div className="h-20 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -99,7 +99,7 @@ export const ClientDetailPage: React.FC = () => {
   ];
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-4 sm:space-y-6 p-3 sm:p-6 text-zinc-100 font-mono select-none">
+    <div className="w-full max-w-[1700px] mx-auto space-y-4 sm:space-y-6 text-zinc-100 font-mono select-none">
       {/* 1. Breadcrumb Page Header */}
       <PageHeader
         title={client.name}

@@ -125,7 +125,7 @@ export const GitHubWorkspacePage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-4 sm:space-y-6 p-3 sm:p-6 text-zinc-100 font-mono select-none pb-12 max-w-[1700px] mx-auto">
+    <div className="w-full max-w-[1700px] mx-auto space-y-4 sm:space-y-6 text-zinc-100 font-mono select-none pb-12">
       <GithubWorkspaceHeader
         onConnectRepo={() => setIsLinkFormOpen(true)}
         onSyncAll={handleSyncAll}

@@ -100,7 +100,7 @@ export const FinancesDashboard: React.FC<FinancesDashboardProps> = ({
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18 }}
-      className="space-y-6 font-mono text-zinc-100 select-none pb-12 max-w-[1700px] mx-auto"
+      className="w-full max-w-[1700px] mx-auto space-y-6 font-mono text-zinc-100 select-none pb-12"
     >
       {/* 1. Workspace Header */}
       <FinancesHeader

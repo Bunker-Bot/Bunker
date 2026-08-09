@@ -131,19 +131,22 @@ export function useRecentProjects(limit = 6) {
       requestQueue.enqueue(async () => {
         const { data, error } = await supabase
           .from('projects')
-          .select('id, name, slug, description, status, priority, completion_percent, color, created_at, updated_at')
+          .select('id, name, slug, description, status, priority, completion_percent, color, created_at, updated_at, clients(name)')
           .order('updated_at', { ascending: false })
           .limit(limit);
 
         if (error) throw error;
-        return (data || []).map((p: any) => ({
-          ...p,
-          clientName: 'Internal Workspace',
-          formattedUpdatedAt: new Date(p.updated_at || p.created_at).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-          }),
-        }));
+        return (data || []).map((p: any) => {
+          const clientName = Array.isArray(p.clients) ? p.clients[0]?.name : p.clients?.name;
+          return {
+            ...p,
+            clientName: clientName || 'Internal Workspace',
+            formattedUpdatedAt: new Date(p.updated_at || p.created_at).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+            }),
+          };
+        });
       }, 'high'),
     ...DEFAULT_DASHBOARD_CONFIG,
   });
@@ -182,19 +185,7 @@ export function useRecentActivity(limit = 15) {
           timeAgo: formatTimeAgo(u.created_at),
         }));
 
-        if (dbActivities.length > 0) {
-          return dbActivities;
-        }
-
-        // Fallback Executive Operational Activity Telemetry
-        return [
-          { id: 'act-1', actorName: 'Administrator', actionTitle: 'Deployed Production build v2.4.1 to Vercel Edge', entityType: 'DEPLOYMENT', timeAgo: '18m ago' },
-          { id: 'act-2', actorName: 'GitHub Sync Engine', actionTitle: 'Synchronized commit history for PawCareAI repository', entityType: 'GITHUB', timeAgo: '32m ago' },
-          { id: 'act-3', actorName: 'Administrator', actionTitle: 'Generated secure client portal link for Acme Corp', entityType: 'SHARE_LINK', timeAgo: '1h ago' },
-          { id: 'act-4', actorName: 'System Monitor', actionTitle: 'Automated Supabase database snapshot & health check', entityType: 'SYSTEM', timeAgo: '2h ago' },
-          { id: 'act-5', actorName: 'Administrator', actionTitle: 'Updated completion progress to 85% on Vault Core', entityType: 'MILESTONE', timeAgo: '4h ago' },
-          { id: 'act-6', actorName: 'Administrator', actionTitle: 'Uploaded technical specification document (spec_v2.pdf)', entityType: 'DOCUMENT', timeAgo: '6h ago' },
-        ];
+        return dbActivities;
       }, 'medium'),
     ...DEFAULT_DASHBOARD_CONFIG,
   });
@@ -273,46 +264,19 @@ export function useDeploymentSummary() {
       requestQueue.enqueue(async () => {
         const { data } = await supabase
           .from('deployments')
-          .select('id, project_id, environment, status, created_at')
+          .select('id, project_id, environment, status, version, created_at')
           .order('created_at', { ascending: false })
           .limit(8);
 
         const deploymentsList = data || [];
-
-        return [
-          {
-            environment: 'Production',
-            status: 'Operational',
-            version: 'v2.4.1',
-            lastDeployment: deploymentsList.find((d) => d.environment === 'production')?.created_at || '18m ago',
-            responseTime: '42ms',
-            color: 'emerald',
-          },
-          {
-            environment: 'Staging',
-            status: 'Operational',
-            version: 'v2.5.0-rc.2',
-            lastDeployment: '1h ago',
-            responseTime: '68ms',
-            color: 'emerald',
-          },
-          {
-            environment: 'Development',
-            status: 'Operational',
-            version: 'v2.5.0-dev',
-            lastDeployment: '5m ago',
-            responseTime: '35ms',
-            color: 'cyan',
-          },
-          {
-            environment: 'Local Sandbox',
-            status: 'Active',
-            version: 'v2.5.0-local',
-            lastDeployment: 'Just now',
-            responseTime: '12ms',
-            color: 'white',
-          },
-        ];
+        return deploymentsList.map((d: any) => ({
+          environment: d.environment || 'Production',
+          status: d.status === 'successful' ? 'Operational' : d.status || 'Active',
+          version: d.version || 'v1.0.0',
+          lastDeployment: d.created_at,
+          responseTime: '42ms',
+          color: d.status === 'successful' ? 'emerald' : 'cyan',
+        }));
       }, 'medium'),
     ...DEFAULT_DASHBOARD_CONFIG,
   });
@@ -328,7 +292,7 @@ export function useUpcomingDeadlines() {
       requestQueue.enqueue(async () => {
         const { data, error } = await supabase
           .from('projects')
-          .select('id, name, slug, deadline, priority, completion_percent, color')
+          .select('id, name, slug, deadline, priority, completion_percent, color, clients(name)')
           .not('deadline', 'is', null)
           .neq('status', 'completed')
           .order('deadline', { ascending: true })
@@ -344,10 +308,11 @@ export function useUpcomingDeadlines() {
           deadlineDate.setHours(0, 0, 0, 0);
           const diffMs = deadlineDate.getTime() - now.getTime();
           const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+          const clientName = Array.isArray(p.clients) ? p.clients[0]?.name : p.clients?.name;
 
           return {
             ...p,
-            clientName: 'Internal Workspace',
+            clientName: clientName || 'Internal Workspace',
             daysRemaining: diffDays,
             isOverdue: diffDays < 0,
             formattedDeadline: deadlineDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
@@ -368,9 +333,9 @@ export function useShareAnalytics() {
       requestQueue.enqueue(async () => {
         const { data, error } = await supabase
           .from('share_links')
-          .select('id, project_id, is_active, view_count, created_at');
+          .select('id, project_id, is_active, view_count, created_at, projects(name)');
 
-        if (error) return { totalLinks: 0, activeLinks: 0, expiredLinks: 0, totalViews: 0, topProject: 'PawCareAI' };
+        if (error) return { totalLinks: 0, activeLinks: 0, expiredLinks: 0, totalViews: 0, topProject: 'N/A' };
 
         const links = data || [];
         const totalLinks = links.length;
@@ -378,12 +343,20 @@ export function useShareAnalytics() {
         const expiredLinks = links.filter((l) => !l.is_active).length;
         const totalViews = links.reduce((acc, l) => acc + (l.view_count || 0), 0);
 
+        let topProject = 'N/A';
+        if (links.length > 0) {
+          const sortedByViews = [...links].sort((a, b) => (b.view_count || 0) - (a.view_count || 0));
+          const topLink = sortedByViews[0];
+          const pName = Array.isArray(topLink.projects) ? topLink.projects[0]?.name : topLink.projects?.name;
+          if (pName) topProject = pName;
+        }
+
         return {
           totalLinks,
           activeLinks,
           expiredLinks,
           totalViews,
-          topProject: 'PawCareAI',
+          topProject,
         };
       }, 'medium'),
     ...DEFAULT_DASHBOARD_CONFIG,

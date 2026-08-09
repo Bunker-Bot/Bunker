@@ -110,7 +110,7 @@ export const ProjectDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-5 p-3 sm:p-6 text-zinc-100 font-mono select-none pb-16 max-w-[1700px] mx-auto">
+    <div className="w-full max-w-[1700px] mx-auto space-y-5 text-zinc-100 font-mono select-none pb-16">
       {/* 1. Breadcrumb Header Nav */}
       <div className="flex items-center justify-between gap-3 text-xs text-zinc-400 border-b border-zinc-800/60 pb-3">
         <div className="flex items-center gap-2">
