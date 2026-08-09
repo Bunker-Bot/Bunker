@@ -347,7 +347,7 @@ export function useShareAnalytics() {
         if (links.length > 0) {
           const sortedByViews = [...links].sort((a, b) => (b.view_count || 0) - (a.view_count || 0));
           const topLink = sortedByViews[0];
-          const pName = Array.isArray(topLink.projects) ? topLink.projects[0]?.name : topLink.projects?.name;
+          const pName = Array.isArray((topLink as any)?.projects) ? (topLink as any).projects[0]?.name : (topLink as any)?.projects?.name;
           if (pName) topProject = pName;
         }
 

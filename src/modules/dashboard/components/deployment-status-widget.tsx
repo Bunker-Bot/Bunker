@@ -31,7 +31,7 @@ export const DeploymentStatusWidget: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {environments.map((env, index) => (
+          {environments.map((env: any, index) => (
             <div key={env.id || index} className="p-2.5 rounded-sm bg-zinc-950 border border-zinc-800 space-y-1.5">
               <div className="flex items-center justify-between text-[10px]">
                 <span className="font-bold text-white truncate">{env.environment}</span>
