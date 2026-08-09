@@ -61,6 +61,7 @@ export function AppSidebar({
 
     return raw.map((p: any) => ({
       id: String(p.id),
+      slug: p.slug || String(p.id),
       name: p.name || "Untitled Project",
       view: "projects" as ViewMode,
       icon: <HugeiconsIcon icon={Folder01Icon} size={16} />,

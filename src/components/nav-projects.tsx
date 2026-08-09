@@ -25,6 +25,7 @@ import type { ViewMode } from "../types"
 
 export interface NavProjectItem {
   id?: string
+  slug?: string
   name: string
   view: ViewMode
   icon: React.ReactNode
@@ -45,8 +46,9 @@ export function NavProjects({
   const navigate = useNavigate()
 
   const handleProjectClick = (item: NavProjectItem) => {
-    if (item.id) {
-      navigate(`/app/projects/${item.id}`)
+    const target = item.slug || item.id
+    if (target) {
+      navigate(`/app/projects/${target}`)
     } else {
       onSelectView("projects")
     }

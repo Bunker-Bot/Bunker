@@ -78,17 +78,20 @@ export const ProjectRepository = {
     }, 'high');
   },
 
-  async getProjectBySlug(slug: string) {
+  async getProjectBySlug(identifier: string) {
     return requestQueue.enqueue(async () => {
       const { data, error } = await supabase
         .from('projects')
         .select(
           'id, client_id, name, slug, description, status, priority, start_date, deadline, completion_percent, color, thumbnail_url, created_by, created_at, updated_at, clients(id, name, company, email), project_technologies(name)'
         )
-        .eq('slug', slug)
-        .single();
+        .or(`slug.eq.${identifier},id.eq.${identifier}`)
+        .limit(1)
+        .maybeSingle();
 
       if (error) throw error;
+      if (!data) throw new Error(`Project not found: ${identifier}`);
+
       return {
         ...data,
         technologies: data.project_technologies?.map((t: any) => t.name) || [],
