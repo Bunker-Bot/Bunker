@@ -172,9 +172,9 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         />
 
         {/* Top Title & Spec Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-5 relative z-10">
+        <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4 xl:gap-6 relative z-10">
           {/* Left Brand Identifier */}
-          <div className="flex items-start gap-3 sm:gap-4">
+          <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
             <div
               className="w-10 h-10 sm:w-12 sm:h-12 rounded-md flex items-center justify-center font-bold text-white shadow-lg text-base sm:text-lg shrink-0 ring-2 ring-white/10"
               style={{ backgroundColor: project.color || '#E11D48' }}
@@ -182,9 +182,9 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
               {project.name.charAt(0).toUpperCase()}
             </div>
 
-            <div className="space-y-1 min-w-0">
+            <div className="space-y-1.5 flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white truncate max-w-[220px] sm:max-w-none">{project.name}</h1>
+                <h1 className="text-lg sm:text-2xl font-extrabold tracking-tight text-white">{project.name}</h1>
                 
                 {/* Colorful Shadcn/UI Status Badge */}
                 {renderStatusBadge(project.status)}
@@ -192,52 +192,48 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
                 {/* Colorful Shadcn/UI Priority Badge */}
                 {project.priority && renderPriorityBadge(project.priority)}
               </div>
-              <p className="text-xs text-zinc-400 font-sans max-w-2xl leading-relaxed line-clamp-2 sm:line-clamp-none">
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans max-w-3xl leading-relaxed">
                 {project.description || 'No detailed project description provided.'}
               </p>
             </div>
           </div>
 
           {/* Right Mobile Responsive Action Toolbar */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0">
+          <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar shrink-0 w-full xl:w-auto pt-3 xl:pt-0 border-t border-zinc-800/80 xl:border-t-0 pb-1 xl:pb-0">
             <button
               onClick={onOpenEdit}
-              className="px-2.5 sm:px-3.5 py-1.5 rounded-md bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-md bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={Edit01Icon} size={14} />
-              <span className="hidden sm:inline">Edit Workspace</span>
-              <span className="sm:hidden">Edit</span>
+              <span>Edit Workspace</span>
             </button>
 
             <button
               onClick={() => onSelectTab('share-links')}
-              className="px-2.5 sm:px-3.5 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={Link01Icon} size={14} className="text-cyan-400" />
-              <span className="hidden sm:inline">Share Portal ({shareLinksCount})</span>
-              <span className="sm:hidden">Portal ({shareLinksCount})</span>
+              <span>Share Portal ({shareLinksCount})</span>
             </button>
 
             <button
               onClick={() => onSelectTab('github')}
-              className={`px-2.5 sm:px-3.5 py-1.5 rounded-md border font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-md border font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 githubRepoUrl
                   ? 'bg-zinc-950 border-emerald-800/90 text-emerald-300 hover:border-emerald-700'
                   : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
               }`}
             >
               <HugeiconsIcon icon={GithubIcon} size={14} className={githubRepoUrl ? 'text-emerald-400' : 'text-zinc-400'} />
-              <span className="hidden sm:inline">{githubRepoUrl ? 'GitHub Connected' : 'Connect GitHub'}</span>
-              <span className="sm:hidden">{githubRepoUrl ? 'GitHub' : 'Link GitHub'}</span>
+              <span>{githubRepoUrl ? 'GitHub Connected' : 'Connect GitHub'}</span>
             </button>
 
             <button
               onClick={() => onSelectTab('deployments')}
-              className="px-2.5 sm:px-3.5 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={CloudIcon} size={14} className="text-emerald-400" />
-              <span className="hidden sm:inline">Deployments ({deploymentsCount})</span>
-              <span className="sm:hidden">Deploy ({deploymentsCount})</span>
+              <span>Deployments ({deploymentsCount})</span>
             </button>
           </div>
         </div>
