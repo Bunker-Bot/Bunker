@@ -188,25 +188,26 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ client }) => {
                     </Badge>
                   </div>
 
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[10px] text-zinc-400">
-                    <span>Progress Completion</span>
-                    <span className="font-bold text-cyan-400">{p.completionPercent}%</span>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-[10px] text-zinc-400">
+                      <span>Progress Completion</span>
+                      <span className="font-bold text-cyan-400">{p.completionPercent}%</span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-sm bg-zinc-900 overflow-hidden border border-zinc-800">
+                      <div
+                        className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-sm"
+                        style={{ width: `${p.completionPercent}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full h-1.5 rounded-sm bg-zinc-900 overflow-hidden border border-zinc-800">
-                    <div
-                      className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-sm"
-                      style={{ width: `${p.completionPercent}%` }}
-                    />
+
+                  <div className="flex items-center justify-between text-[10px] text-zinc-400 font-sans border-t border-zinc-850 pt-2">
+                    <span>Deadline: <strong className="text-zinc-200 font-mono">{p.deadline}</strong></span>
+                    <span className="text-zinc-500 font-mono text-[9px]">Priority: {p.priority}</span>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between text-[10px] text-zinc-400 font-sans border-t border-zinc-850 pt-2">
-                  <span>Deadline: <strong className="text-zinc-200 font-mono">{p.deadline}</strong></span>
-                  <span className="text-zinc-500 font-mono text-[9px]">Priority: {p.priority}</span>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
         )}
       </div>
