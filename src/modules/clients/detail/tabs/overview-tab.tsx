@@ -171,20 +171,22 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ client }) => {
           <p className="text-xs text-zinc-500 italic py-4 text-center">No assigned projects for this client.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {recentProjects.map((p: any) => (
-              <div
-                key={p.id}
-                onClick={() => navigate('/app/projects')}
-                className="p-3.5 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 transition-all cursor-pointer space-y-2.5 shadow-sm group"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-sm group-hover:text-cyan-400 transition-colors truncate">
-                    {p.name}
-                  </span>
-                  <Badge variant="outline" className="rounded-sm bg-emerald-950/80 text-emerald-300 border-emerald-800 text-[10px] font-bold uppercase">
-                    {p.status}
-                  </Badge>
-                </div>
+            {recentProjects.map((p: any) => {
+              const target = p.slug || p.id;
+              return (
+                <div
+                  key={p.id}
+                  onClick={() => navigate(`/app/projects/${target}`)}
+                  className="p-3.5 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 transition-all cursor-pointer space-y-2.5 shadow-sm group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-white text-sm group-hover:text-cyan-400 transition-colors truncate">
+                      {p.name}
+                    </span>
+                    <Badge variant="outline" className="rounded-sm bg-emerald-950/80 text-emerald-300 border-emerald-800 text-[10px] font-bold uppercase">
+                      {p.status}
+                    </Badge>
+                  </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-[10px] text-zinc-400">
@@ -202,9 +204,9 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ client }) => {
                 <div className="flex items-center justify-between text-[10px] text-zinc-400 font-sans border-t border-zinc-850 pt-2">
                   <span>Deadline: <strong className="text-zinc-200 font-mono">{p.deadline}</strong></span>
                   <span className="text-zinc-500 font-mono text-[9px]">Priority: {p.priority}</span>
-                </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         )}
       </div>

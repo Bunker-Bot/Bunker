@@ -84,44 +84,50 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({ client, onCreateProjec
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/80 text-zinc-300">
-              {filtered.map((proj: any) => (
-                <tr key={proj.id} className="hover:bg-zinc-800/40 transition-colors">
-                  <td className="px-4 py-3 font-bold text-white">
-                    <span className="hover:underline cursor-pointer" onClick={() => navigate('/app/projects')}>
-                      {proj.name}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <Badge variant="outline" className="rounded-sm bg-emerald-950/80 text-emerald-300 border-emerald-800 text-[10px] uppercase font-bold">
-                      {proj.status}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="text-[10px] uppercase font-bold text-amber-400">{proj.priority}</span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2 max-w-[120px]">
-                      <div className="w-full h-1.5 rounded-sm bg-zinc-950 overflow-hidden border border-zinc-800">
-                        <div
-                          className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-sm"
-                          style={{ width: `${proj.completionPercent}%` }}
-                        />
+              {filtered.map((proj: any) => {
+                const target = proj.slug || proj.id;
+                return (
+                  <tr key={proj.id} className="hover:bg-zinc-800/40 transition-colors">
+                    <td className="px-4 py-3 font-bold text-white">
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() => navigate(`/app/projects/${target}`)}
+                      >
+                        {proj.name}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge variant="outline" className="rounded-sm bg-emerald-950/80 text-emerald-300 border-emerald-800 text-[10px] uppercase font-bold">
+                        {proj.status}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-[10px] uppercase font-bold text-amber-400">{proj.priority}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2 max-w-[120px]">
+                        <div className="w-full h-1.5 rounded-sm bg-zinc-950 overflow-hidden border border-zinc-800">
+                          <div
+                            className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-sm"
+                            style={{ width: `${proj.completionPercent}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] font-bold text-cyan-400">{proj.completionPercent}%</span>
                       </div>
-                      <span className="text-[10px] font-bold text-cyan-400">{proj.completionPercent}%</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-zinc-400 font-sans">{proj.deadline}</td>
-                  <td className="px-4 py-3 text-zinc-400 text-[11px] font-mono">{proj.formattedUpdatedAt}</td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => navigate('/app/projects')}
-                      className="text-zinc-400 hover:text-white font-bold cursor-pointer"
-                    >
-                      Open
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="px-4 py-3 text-zinc-400 font-sans">{proj.deadline}</td>
+                    <td className="px-4 py-3 text-zinc-400 text-[11px] font-mono">{proj.formattedUpdatedAt}</td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => navigate(`/app/projects/${target}`)}
+                        className="text-zinc-400 hover:text-white font-bold cursor-pointer"
+                      >
+                        Open
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
