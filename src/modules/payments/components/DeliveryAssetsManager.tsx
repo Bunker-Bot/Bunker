@@ -182,15 +182,31 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                   )}
                 </div>
 
-                {/* Google Drive Preview or Direct Link */}
-                {driveInfo.isValid && driveInfo.embedUrl && asset.isUnlocked && (
-                  <div className="w-full aspect-video rounded-md bg-zinc-950 border border-zinc-800 overflow-hidden">
-                    <iframe
-                      src={driveInfo.embedUrl}
-                      className="w-full h-full border-none"
-                      title={asset.title}
-                      allow="autoplay"
-                    />
+                {/* Verified Resource Preview Banner */}
+                {asset.isUnlocked && asset.assetUrl && (
+                  <div className="p-2.5 rounded-md bg-zinc-950 border border-zinc-850 flex items-center justify-between gap-2.5 text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                        <HugeiconsIcon icon={driveInfo.isValid ? Folder01Icon : Link01Icon} size={12} />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="text-[9px] text-zinc-500 font-sans uppercase font-bold block">
+                          {driveInfo.isValid ? 'Google Drive Cloud Asset' : 'Verified Resource Link'}
+                        </span>
+                        <span className="text-zinc-300 font-mono text-[10px] truncate block max-w-[180px] sm:max-w-xs">
+                          {asset.assetUrl}
+                        </span>
+                      </div>
+                    </div>
+                    <a
+                      href={asset.assetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-200 hover:text-white text-[10px] font-mono inline-flex items-center gap-1 shrink-0 transition-colors"
+                    >
+                      <HugeiconsIcon icon={Link01Icon} size={11} />
+                      <span>Open Link</span>
+                    </a>
                   </div>
                 )}
 
