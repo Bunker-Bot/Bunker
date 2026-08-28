@@ -24,7 +24,7 @@ import { PaymentProgressStacked } from './components/payment-progress-stacked';
 import { PaymentJourneyTimeline } from './components/payment-journey-timeline';
 import { InvoicesGrid } from './components/invoices-grid';
 import { TransactionsTable } from './components/transactions-table';
-import { DeliverablesWorkspace } from './components/deliverables-workspace';
+import { DeliveryAssetsManager } from '../payments/components/DeliveryAssetsManager';
 import { FinancialInsights } from './components/financial-insights';
 import { RecentFinancialActivity } from './components/recent-financial-activity';
 
@@ -153,7 +153,7 @@ export const FinancesDashboard: React.FC<FinancesDashboardProps> = ({
       />
 
       {/* 8. Deliverables & Asset Releases */}
-      <DeliverablesWorkspace
+      <DeliveryAssetsManager
         assets={deliverables}
         projectId={activeProjectId || ''}
         onCreateAsset={async (input) => {

@@ -12,6 +12,7 @@ import { ShareLinksPanel } from '../share-links/share-links-panel';
 import { KanbanBoard } from '../kanban/kanban-board';
 import { DeploymentsTab } from '../deployments/deployments-tab';
 import { MilestonesTab } from '../milestones/milestones-tab';
+import { FinancesDashboard } from '../finances/finances-dashboard';
 
 import { useTaskStatistics } from '../../lib/supabase/queries/tasks';
 import { useDocuments } from '../../lib/supabase/queries/documents';
@@ -19,6 +20,7 @@ import { useProjectUpdates } from '../../lib/supabase/queries/timeline';
 import { useDeployments } from '../../lib/supabase/queries/changelog-notes-deployments';
 import { useShareLinks } from '../../lib/supabase/queries/share-links';
 import { useGithubRepository } from '../../lib/supabase/queries/github';
+import { useDeliverables } from '../../lib/supabase/queries/finances';
 
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -32,13 +34,14 @@ import {
   FileCodeIcon,
   CloudIcon,
   Link01Icon,
-  Flag01Icon
+  Flag01Icon,
+  PackageIcon
 } from '@hugeicons/core-free-icons';
 
 export const ProjectDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'overview' | 'milestones' | 'timeline' | 'github' | 'tasks' | 'deployments' | 'documentation' | 'share-links'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'milestones' | 'finances' | 'timeline' | 'github' | 'tasks' | 'deployments' | 'documentation' | 'share-links'>('overview');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { data: project, isLoading, isError, refetch } = useProjectBySlug(slug || '');
@@ -51,6 +54,7 @@ export const ProjectDetailPage: React.FC = () => {
   const { data: deployments } = useDeployments(projectId);
   const { data: shareLinks } = useShareLinks(projectId);
   const { data: dbGithubRepo } = useGithubRepository(projectId);
+  const { data: deliverablesData } = useDeliverables(projectId);
 
   const realTaskCount = taskStats?.total || 0;
   const realDocsCount = docsData?.totalCount || docsData?.documents?.length || 0;
@@ -58,6 +62,7 @@ export const ProjectDetailPage: React.FC = () => {
     timelineData?.pages?.reduce((acc, p) => acc + (p.items?.length || 0), 0) || 0;
   const realDeploymentsCount = deployments?.length || 0;
   const realShareLinksCount = shareLinks?.length || 0;
+  const realDeliverablesCount = deliverablesData?.length || 0;
   const isGithubConnected = Boolean(dbGithubRepo?.repo_url || (project as any)?.github_repo_url || (project as any)?.githubRepo);
 
   // Realtime subscription for project updates
@@ -158,6 +163,18 @@ export const ProjectDetailPage: React.FC = () => {
         </button>
 
         <button
+          onClick={() => setActiveTab('finances')}
+          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
+            activeTab === 'finances'
+              ? 'bg-white text-black shadow'
+              : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
+          }`}
+        >
+          <HugeiconsIcon icon={PackageIcon} size={15} />
+          <span>Deliverables & Finances ({realDeliverablesCount})</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('timeline')}
           className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
             activeTab === 'timeline'
@@ -241,6 +258,12 @@ export const ProjectDetailPage: React.FC = () => {
 
       {activeTab === 'milestones' && (
         <MilestonesTab projectId={project.id} readonly={false} />
+      )}
+
+      {activeTab === 'finances' && (
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+          <FinancesDashboard projectId={project.id} />
+        </motion.div>
       )}
 
       {activeTab === 'timeline' && (

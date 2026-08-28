@@ -18,7 +18,8 @@ import {
   GitBranchIcon,
   Loading03Icon,
   SparklesIcon,
-  Tick02Icon
+  Tick02Icon,
+  Link01Icon
 } from '@hugeicons/core-free-icons';
 
 import { milestoneFormSchema, type MilestoneFormData } from '../../lib/validators/milestone-schema';
@@ -716,31 +717,42 @@ export const MilestoneForm: React.FC<MilestoneFormProps> = ({
                     </button>
                   </div>
 
-                  <div className="space-y-2 max-h-52 overflow-y-auto custom-scrollbar">
+                  <div className="space-y-2 max-h-56 overflow-y-auto custom-scrollbar">
                     {deliverableFields.map((item, idx) => (
-                      <div key={item.id} className="flex items-center gap-2 p-2 rounded-sm bg-zinc-950 border border-zinc-800">
-                        <input
-                          type="checkbox"
-                          checked={watch(`deliverables.${idx}.status`) === 'completed'}
-                          onChange={(e) =>
-                            setValue(`deliverables.${idx}.status`, e.target.checked ? 'completed' : 'pending')
-                          }
-                          className="rounded-sm bg-zinc-900 border-zinc-700 text-cyan-400 cursor-pointer"
-                        />
-                        <input
-                          type="text"
-                          {...register(`deliverables.${idx}.name`)}
-                          placeholder="Deliverable item name..."
-                          className="flex-1 px-2 py-1 bg-zinc-900 border border-zinc-850 rounded-sm text-xs text-white focus:outline-none focus:border-cyan-500 font-sans"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeDeliverable(idx)}
-                          className="p-1 rounded-sm text-zinc-500 hover:text-rose-400 cursor-pointer"
-                          title="Remove item"
-                        >
-                          <HugeiconsIcon icon={Delete02Icon} size={13} />
-                        </button>
+                      <div key={item.id} className="p-2 rounded-sm bg-zinc-950 border border-zinc-800 space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={watch(`deliverables.${idx}.status`) === 'completed'}
+                            onChange={(e) =>
+                              setValue(`deliverables.${idx}.status`, e.target.checked ? 'completed' : 'pending')
+                            }
+                            className="rounded-sm bg-zinc-900 border-zinc-700 text-cyan-400 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            {...register(`deliverables.${idx}.name`)}
+                            placeholder="Deliverable item name..."
+                            className="flex-1 px-2 py-1 bg-zinc-900 border border-zinc-850 rounded-sm text-xs text-white focus:outline-none focus:border-cyan-500 font-sans"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeDeliverable(idx)}
+                            className="p-1 rounded-sm text-zinc-500 hover:text-rose-400 cursor-pointer"
+                            title="Remove item"
+                          >
+                            <HugeiconsIcon icon={Delete02Icon} size={13} />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-1.5 pl-6">
+                          <HugeiconsIcon icon={Link01Icon} size={11} className="text-zinc-500 shrink-0" />
+                          <input
+                            type="url"
+                            {...register(`deliverables.${idx}.url`)}
+                            placeholder="Asset URL / Google Drive link (optional)..."
+                            className="w-full px-2 py-0.5 bg-zinc-900/60 border border-zinc-850 rounded-sm text-[11px] text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 font-mono"
+                          />
+                        </div>
                       </div>
                     ))}
                     {deliverableFields.length === 0 && (
