@@ -236,10 +236,31 @@ BEGIN
 
   v_proj_id := (v_link_jsonb->>'project_id')::uuid;
 
-  -- 4. Calculate total budget on backend
+  -- 4. Fetch Project with Client Information
   BEGIN
-    SELECT to_jsonb(p.*) INTO v_project
+    SELECT jsonb_build_object(
+      'id', p.id,
+      'name', p.name,
+      'slug', p.slug,
+      'description', p.description,
+      'status', p.status,
+      'priority', p.priority,
+      'start_date', p.start_date,
+      'deadline', p.deadline,
+      'due_date', COALESCE(p.deadline, p.start_date),
+      'completion_percent', p.completion_percent,
+      'color', p.color,
+      'budget', p.budget,
+      'cost', p.budget,
+      'amount', p.budget,
+      'client_id', p.client_id,
+      'client_name', COALESCE(NULLIF(v_link_jsonb->>'client_name', ''), NULLIF(c.name, ''), NULLIF(c.company, ''), 'Valued Client'),
+      'client', CASE WHEN c.id IS NOT NULL THEN jsonb_build_object('id', c.id, 'name', c.name, 'company', c.company, 'email', c.email) ELSE NULL END,
+      'created_at', p.created_at,
+      'updated_at', p.updated_at
+    ) INTO v_project
     FROM public.projects p
+    LEFT JOIN public.clients c ON c.id = p.client_id
     WHERE p.id = v_proj_id;
 
     v_total_budget := COALESCE((v_project->>'budget')::numeric, (v_project->>'amount')::numeric, 0);

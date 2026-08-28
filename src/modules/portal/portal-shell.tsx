@@ -120,9 +120,38 @@ export const PortalShell: React.FC = () => {
           }
         }
 
+        let projectObj = rpcResult.project || {};
+        if (projectObj.client_id && (!projectObj.client_name || projectObj.client_name === 'Valued Client')) {
+          try {
+            const { data: clientRecord } = await supabase
+              .from('clients')
+              .select('id, name, company, email')
+              .eq('id', projectObj.client_id)
+              .maybeSingle();
+            if (clientRecord) {
+              projectObj.client = clientRecord;
+              projectObj.client_name = clientRecord.name || clientRecord.company || projectObj.client_name;
+            }
+          } catch (_e) {}
+        }
+
+        const resolvedClientName =
+          (rpcResult.link?.client_name && rpcResult.link.client_name.trim()) ||
+          (projectObj.client_name && projectObj.client_name.trim() !== 'Valued Client' && projectObj.client_name.trim()) ||
+          (projectObj.client?.name && projectObj.client.name.trim()) ||
+          (projectObj.client?.company && projectObj.client.company.trim()) ||
+          'Valued Client';
+
+        projectObj = {
+          ...projectObj,
+          client_name: resolvedClientName,
+          clientName: resolvedClientName,
+          share_link: rpcResult.link,
+        };
+
         return {
           link: rpcResult.link,
-          project: rpcResult.project || {},
+          project: projectObj,
           milestones: rpcResult.milestones || [],
           payments: rpcResult.payments || [],
           assets: rpcResult.assets || [],
@@ -189,6 +218,33 @@ export const PortalShell: React.FC = () => {
       } catch (_e) {}
 
       let projectObj = link.project || {};
+      if (projectObj.client_id && !projectObj.client) {
+        try {
+          const { data: clientRecord } = await supabase
+            .from('clients')
+            .select('id, name, company, email')
+            .eq('id', projectObj.client_id)
+            .maybeSingle();
+          if (clientRecord) {
+            projectObj.client = clientRecord;
+            projectObj.client_name = clientRecord.name || clientRecord.company;
+          }
+        } catch (_e) {}
+      }
+
+      const fallbackClientName =
+        (link?.client_name && link.client_name.trim()) ||
+        (projectObj.client_name && projectObj.client_name.trim() !== 'Valued Client' && projectObj.client_name.trim()) ||
+        (projectObj.client?.name && projectObj.client.name.trim()) ||
+        (projectObj.client?.company && projectObj.client.company.trim()) ||
+        'Valued Client';
+
+      projectObj = {
+        ...projectObj,
+        client_name: fallbackClientName,
+        clientName: fallbackClientName,
+        share_link: link,
+      };
       try {
         const { data: techs } = await supabase.from('project_technologies').select('name').eq('project_id', link.project_id);
         if (techs && techs.length > 0) {

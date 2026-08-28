@@ -36,7 +36,14 @@ export const ClientHero: React.FC<ClientHeroProps> = ({
   const strokeDashoffset = circumference - (completionPct / 100) * circumference;
 
   const status = project?.status || 'Active';
-  const clientName = project?.client_name || project?.clientName || 'Valued Client';
+  const clientName =
+    (project?.client_name && project.client_name !== 'Valued Client' ? project.client_name : null) ||
+    (project?.clientName && project.clientName !== 'Valued Client' ? project.clientName : null) ||
+    project?.client?.name ||
+    project?.client?.company ||
+    project?.share_link?.client_name ||
+    project?.client_name ||
+    'Valued Client';
   const updatedDate = project?.updated_at ? new Date(project.updated_at).toLocaleDateString() : new Date().toLocaleDateString();
   const estimatedDelivery = project?.due_date || project?.target_date || 'Q3 2026';
 
