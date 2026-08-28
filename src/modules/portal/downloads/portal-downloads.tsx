@@ -14,6 +14,7 @@ import {
 } from '@hugeicons/core-free-icons';
 
 import { Badge } from '../../../components/ui/badge';
+import { supabase } from '../../../lib/supabase/client';
 
 interface DownloadItem {
   id: string;
@@ -136,22 +137,47 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
     setDownloadModalItem(item);
   };
 
-  const handleConfirmDownload = () => {
+  const handleConfirmDownload = async () => {
     if (!downloadModalItem) return;
-    if (!downloadModalItem.unlocked || !downloadModalItem.downloadUrl || downloadModalItem.downloadUrl === '#' || downloadModalItem.downloadUrl === '') {
-      alert('Payment Required: The total project amount must be fully cleared before accessing and downloading deliverable packages.');
-      if (onOpenPaymentModal) onOpenPaymentModal();
-      setDownloadModalItem(null);
-      return;
-    }
     setDownloadingItem(downloadModalItem.id);
-    setTimeout(() => {
-      setDownloadingItem(null);
-      if (downloadModalItem.downloadUrl && downloadModalItem.downloadUrl !== '#') {
-        window.open(downloadModalItem.downloadUrl, '_blank');
+
+    try {
+      let finalUrl = downloadModalItem.downloadUrl;
+
+      // Server-side payment verification via PostgreSQL RPC
+      const token = window.location.pathname.split('/')[2] || '';
+      if (token && downloadModalItem.id && !downloadModalItem.id.startsWith('dl-')) {
+        const { data: rpcData, error: rpcErr } = await (supabase as any).rpc('get_secure_deliverable_url', {
+          p_token: token,
+          p_asset_id: downloadModalItem.id,
+        });
+
+        if (rpcErr || !rpcData?.success) {
+          alert(rpcData?.message || 'Payment Required: The project balance must be 100% fully paid before downloading release packages.');
+          if (onOpenPaymentModal) onOpenPaymentModal();
+          setDownloadModalItem(null);
+          return;
+        }
+
+        if (rpcData?.asset_url) {
+          finalUrl = rpcData.asset_url;
+        }
       }
+
+      if (!finalUrl || finalUrl === '#' || finalUrl === '') {
+        alert('Payment Required: The total project amount must be fully cleared in the database before accessing and downloading deliverable packages.');
+        if (onOpenPaymentModal) onOpenPaymentModal();
+        setDownloadModalItem(null);
+        return;
+      }
+
+      window.open(finalUrl, '_blank');
       setDownloadModalItem(null);
-    }, 1200);
+    } catch (_err) {
+      alert('Security verification failed. Please complete your project balance payment.');
+    } finally {
+      setDownloadingItem(null);
+    }
   };
 
   const handleCopySha = (sha: string) => {

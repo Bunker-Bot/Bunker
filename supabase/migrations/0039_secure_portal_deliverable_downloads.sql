@@ -1,7 +1,161 @@
--- Migration 0039: Secure Client Portal Deliverables & Downloads RPC
--- Ensures deliverable links and storage paths are strictly protected
--- and NEVER returned to clients unless the project is 100% fully paid or manually unlocked.
+-- Migration 0039: Server-Side Strict Backend Payment Verification for Deliverables & Downloads
+-- Prevents DevTools / client-side tampering by enforcing 100% payment verification directly in PostgreSQL.
 
+-- 1. Helper function to compute verified paid amount on the backend
+CREATE OR REPLACE FUNCTION public.get_project_paid_amount(p_project_id uuid)
+RETURNS numeric
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_paid numeric := 0;
+BEGIN
+  SELECT COALESCE(SUM(amount), 0) INTO v_paid
+  FROM public.project_payments
+  WHERE project_id = p_project_id
+    AND is_verified = true;
+  RETURN v_paid;
+END;
+$$;
+
+-- 2. Strict Backend Unlock Evaluator: MUST BE 100% FULLY PAID in PostgreSQL
+CREATE OR REPLACE FUNCTION public.is_asset_unlocked(
+  p_unlock_type text,
+  p_is_manual_unlocked boolean,
+  p_project_id uuid
+)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_budget numeric := 0;
+  v_paid numeric := 0;
+BEGIN
+  -- Admin manual unlock overrides payment rules
+  IF COALESCE(p_is_manual_unlocked, false) = true THEN
+    RETURN true;
+  END IF;
+
+  IF p_unlock_type = 'manual' THEN
+    RETURN false;
+  END IF;
+
+  -- Fetch project budget directly from database table
+  SELECT COALESCE(budget, cost, amount, 0) INTO v_budget
+  FROM public.projects
+  WHERE id = p_project_id;
+
+  -- Fetch total verified paid amount directly from database table
+  SELECT COALESCE(SUM(amount), 0) INTO v_paid
+  FROM public.project_payments
+  WHERE project_id = p_project_id
+    AND is_verified = true;
+
+  -- STRICT SERVER-SIDE CHECK: Total amount must be 100% fully cleared
+  IF v_budget > 0 THEN
+    RETURN v_paid >= v_budget;
+  ELSE
+    RETURN v_paid > 0;
+  END IF;
+END;
+$$;
+
+-- 3. Strict Row Level Security Policies on delivery_assets
+ALTER TABLE public.delivery_assets ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "viewer_read_unlocked_delivery_assets" ON public.delivery_assets;
+CREATE POLICY "viewer_read_unlocked_delivery_assets" ON public.delivery_assets
+  FOR SELECT USING (
+    is_archived = false
+    AND (
+      public.is_project_viewer(project_id)
+      OR EXISTS (
+        SELECT 1 FROM public.share_links sl
+        WHERE sl.project_id = delivery_assets.project_id
+          AND sl.is_active = true
+          AND (sl.expires_at IS NULL OR sl.expires_at > now())
+      )
+    )
+    AND public.is_asset_unlocked(unlock_type, is_manual_unlocked, project_id) = true
+  );
+
+-- 4. Server-Side RPC for fetching single signed deliverable link
+CREATE OR REPLACE FUNCTION public.get_secure_deliverable_url(
+  p_token text,
+  p_asset_id uuid
+)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_link record;
+  v_asset record;
+  v_budget numeric := 0;
+  v_paid numeric := 0;
+  v_is_unlocked boolean := false;
+BEGIN
+  -- Find and validate share link
+  SELECT * INTO v_link
+  FROM public.share_links
+  WHERE (token = p_token OR token = encode(digest(p_token, 'sha256'), 'hex'))
+    AND is_active = true
+    AND (expires_at IS NULL OR expires_at > now())
+  LIMIT 1;
+
+  IF v_link IS NULL THEN
+    RETURN jsonb_build_object('success', false, 'error', 'INVALID_OR_EXPIRED_LINK');
+  END IF;
+
+  -- Find asset
+  SELECT * INTO v_asset
+  FROM public.delivery_assets
+  WHERE id = p_asset_id AND project_id = v_link.project_id AND is_archived = false
+  LIMIT 1;
+
+  IF v_asset IS NULL THEN
+    RETURN jsonb_build_object('success', false, 'error', 'ASSET_NOT_FOUND');
+  END IF;
+
+  -- Verify backend payment strictly
+  SELECT COALESCE(budget, cost, amount, 0) INTO v_budget
+  FROM public.projects
+  WHERE id = v_link.project_id;
+
+  SELECT COALESCE(SUM(amount), 0) INTO v_paid
+  FROM public.project_payments
+  WHERE project_id = v_link.project_id AND is_verified = true;
+
+  IF COALESCE(v_asset.is_manual_unlocked, false) = true THEN
+    v_is_unlocked := true;
+  ELSIF v_budget > 0 THEN
+    v_is_unlocked := (v_paid >= v_budget);
+  ELSE
+    v_is_unlocked := (v_paid > 0);
+  END IF;
+
+  IF NOT v_is_unlocked THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'PAYMENT_REQUIRED',
+      'message', 'Project balance must be 100% fully cleared before downloading deliverable packages.'
+    );
+  END IF;
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'asset_id', v_asset.id,
+    'title', v_asset.title,
+    'asset_url', v_asset.asset_url,
+    'storage_path', v_asset.storage_path
+  );
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_secure_deliverable_url(text, uuid) TO anon, authenticated;
+
+-- 5. Ultra-Secure get_portal_data RPC (Never returns asset_url to client if unpaid)
 CREATE OR REPLACE FUNCTION public.get_portal_data(p_token_hash text, p_raw_token text DEFAULT NULL)
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -50,23 +204,21 @@ BEGIN
     RETURN jsonb_build_object('error', 'LIMIT_EXCEEDED');
   END IF;
 
-  -- 2. Safely increment view count
+  -- 2. Increment view count
   BEGIN
     UPDATE public.share_links
     SET view_count = COALESCE(view_count, 0) + 1
     WHERE id = v_link.id;
   EXCEPTION WHEN OTHERS THEN
-    -- Ignore update errors on restricted environments
   END;
 
-  -- 3. Extract allowed modules safely
+  -- 3. Allowed modules
   v_allowed := COALESCE(
     v_link_jsonb->'permissions',
     v_link_jsonb->'allowed_modules',
     '["overview","timeline","documentation","github","finance","deliverables","downloads"]'::jsonb
   );
 
-  -- Build safe link JSON
   v_link_json := jsonb_build_object(
     'id', v_link_jsonb->>'id',
     'project_id', v_link_jsonb->>'project_id',
@@ -84,7 +236,7 @@ BEGIN
 
   v_proj_id := (v_link_jsonb->>'project_id')::uuid;
 
-  -- 4. Fetch Project & Calculate Payment Completion
+  -- 4. Calculate total budget on backend
   BEGIN
     SELECT to_jsonb(p.*) INTO v_project
     FROM public.projects p
@@ -96,7 +248,7 @@ BEGIN
     v_total_budget := 0;
   END;
 
-  -- 5. Fetch Verified Payments & Calculate Total Paid
+  -- 5. Calculate verified paid amount on backend
   BEGIN
     SELECT COALESCE(
       jsonb_agg(to_jsonb(pay.*) ORDER BY pay.payment_date DESC),
@@ -113,7 +265,7 @@ BEGIN
     v_total_paid := 0;
   END;
 
-  -- Compute strictly whether project is fully paid (0 balance due)
+  -- Strict check on backend
   IF v_total_budget > 0 THEN
     v_is_fully_paid := (v_total_paid >= v_total_budget);
   ELSE
@@ -132,7 +284,7 @@ BEGIN
     v_milestones := '[]'::jsonb;
   END;
 
-  -- 7. Fetch Delivery Assets (STRICT SECURITY: asset_url & storage_path are redacted unless fully paid or manual unlocked)
+  -- 7. Fetch Delivery Assets (CRITICAL: asset_url and storage_path are set to NULL if not fully paid)
   BEGIN
     SELECT COALESCE(
       jsonb_agg(
@@ -161,7 +313,7 @@ BEGIN
     v_assets := '[]'::jsonb;
   END;
 
-  -- 8. Fetch GitHub Repository
+  -- 8. Fetch GitHub
   BEGIN
     SELECT to_jsonb(gh.*) INTO v_github
     FROM public.github_repositories gh
@@ -171,7 +323,7 @@ BEGIN
     v_github := '{}'::jsonb;
   END;
 
-  -- 9. Fetch Documents
+  -- 9. Fetch Docs
   BEGIN
     SELECT COALESCE(
       jsonb_agg(jsonb_build_object(
@@ -190,7 +342,7 @@ BEGIN
     v_docs := '[]'::jsonb;
   END;
 
-  -- 10. Fetch Timeline Updates
+  -- 10. Fetch Timeline
   BEGIN
     SELECT COALESCE(
       jsonb_agg(jsonb_build_object(
@@ -222,10 +374,8 @@ BEGIN
       v_project := jsonb_set(COALESCE(v_project, '{}'::jsonb), '{tech_stack}', v_techs);
     END IF;
   EXCEPTION WHEN OTHERS THEN
-    -- Ignore if table does not exist
   END;
 
-  -- Return final consolidated portal payload
   RETURN jsonb_build_object(
     'link', v_link_json,
     'project', COALESCE(v_project, '{}'::jsonb),
