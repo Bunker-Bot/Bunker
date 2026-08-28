@@ -54,8 +54,8 @@ export const InsightsTab: React.FC<InsightsTabProps> = ({ telemetry }) => {
               <span className="text-[10px] text-cyan-400 font-mono">{commits.length} total</span>
             </div>
 
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-48 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 300, height: 180 }}>
                 <AreaChart data={commitData}>
                   <XAxis dataKey="day" stroke="#71717A" fontSize={10} tickLine={false} />
                   <YAxis stroke="#71717A" fontSize={10} tickLine={false} />
@@ -77,8 +77,8 @@ export const InsightsTab: React.FC<InsightsTabProps> = ({ telemetry }) => {
               <span className="text-[10px] text-emerald-400 font-mono">{pullRequests.length} total</span>
             </div>
 
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-48 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 300, height: 180 }}>
                 <BarChart data={prData}>
                   <XAxis dataKey="label" stroke="#71717A" fontSize={10} tickLine={false} />
                   <YAxis stroke="#71717A" fontSize={10} tickLine={false} />

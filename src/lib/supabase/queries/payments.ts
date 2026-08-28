@@ -96,7 +96,7 @@ export async function fetchDeliveryAssets(
   try {
     let query = (supabase as any)
       .from('delivery_assets')
-      .select('id, project_id, title, description, asset_type, asset_url, storage_path, unlock_type, is_manual_unlocked, is_archived, sort_order, created_at, updated_at')
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (projectId && projectId !== 'all') {

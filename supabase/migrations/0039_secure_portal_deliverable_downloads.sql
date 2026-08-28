@@ -42,7 +42,7 @@ BEGIN
   END IF;
 
   -- Fetch project budget directly from database table
-  SELECT COALESCE(budget, cost, amount, 0) INTO v_budget
+  SELECT COALESCE(budget, 0) INTO v_budget
   FROM public.projects
   WHERE id = p_project_id;
 
@@ -119,7 +119,7 @@ BEGIN
   END IF;
 
   -- Verify backend payment strictly
-  SELECT COALESCE(budget, cost, amount, 0) INTO v_budget
+  SELECT COALESCE(budget, 0) INTO v_budget
   FROM public.projects
   WHERE id = v_link.project_id;
 
@@ -263,7 +263,7 @@ BEGIN
     LEFT JOIN public.clients c ON c.id = p.client_id
     WHERE p.id = v_proj_id;
 
-    v_total_budget := COALESCE((v_project->>'budget')::numeric, (v_project->>'amount')::numeric, 0);
+    v_total_budget := COALESCE((v_project->>'budget')::numeric, 0);
   EXCEPTION WHEN OTHERS THEN
     v_project := '{}'::jsonb;
     v_total_budget := 0;

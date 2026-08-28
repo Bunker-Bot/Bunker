@@ -115,8 +115,8 @@ export const RevenueCharts: React.FC<RevenueChartsProps> = ({ summary, payments 
             <span className="text-[10px] text-zinc-500 font-sans">Contract Share</span>
           </div>
 
-          <div className="relative h-56 w-full flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="relative h-56 w-full min-w-0 flex items-center justify-center">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 280, height: 220 }}>
               <PieChart>
                 <Pie
                   data={donutData}
@@ -161,8 +161,8 @@ export const RevenueCharts: React.FC<RevenueChartsProps> = ({ summary, payments 
           </div>
 
           {trendData.length > 0 ? (
-            <div className="h-56 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-56 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 400, height: 220 }}>
                 <AreaChart data={trendData}>
                   <defs>
                     <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
@@ -196,8 +196,8 @@ export const RevenueCharts: React.FC<RevenueChartsProps> = ({ summary, payments 
         <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-sm">
           <span className="font-bold text-white text-xs block border-b border-zinc-800 pb-1.5">Monthly Revenue</span>
           {monthlyData.length > 0 ? (
-            <div className="h-36 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-36 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 220, height: 140 }}>
                 <BarChart data={monthlyData}>
                   <XAxis dataKey="month" stroke="#71717A" fontSize={9} tickLine={false} />
                   <Tooltip contentStyle={{ backgroundColor: '#09090B', borderColor: '#27272A', color: '#FFF', fontSize: '10px' }} />
@@ -216,8 +216,8 @@ export const RevenueCharts: React.FC<RevenueChartsProps> = ({ summary, payments 
         <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-sm">
           <span className="font-bold text-white text-xs block border-b border-zinc-800 pb-1.5">Contract Burn-down</span>
           {burndownData.length > 0 ? (
-            <div className="h-36 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-36 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 220, height: 140 }}>
                 <LineChart data={burndownData}>
                   <XAxis dataKey="stage" stroke="#71717A" fontSize={8} tickLine={false} />
                   <Tooltip contentStyle={{ backgroundColor: '#09090B', borderColor: '#27272A', color: '#FFF', fontSize: '10px' }} />
@@ -237,8 +237,8 @@ export const RevenueCharts: React.FC<RevenueChartsProps> = ({ summary, payments 
         <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900/90 border border-zinc-800 space-y-2 shadow-sm">
           <span className="font-bold text-white text-xs block border-b border-zinc-800 pb-1.5">Payment Method Share</span>
           {distributionData.length > 0 ? (
-            <div className="h-36 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-36 w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} initialDimension={{ width: 220, height: 140 }}>
                 <PieChart>
                   <Pie data={distributionData} cx="50%" cy="50%" outerRadius={45} dataKey="value">
                     {distributionData.map((_, idx) => (
