@@ -226,11 +226,33 @@ export const PortalShell: React.FC = () => {
   const docs = portalData?.docs || [];
   const timeline = portalData?.timeline || [];
 
-  const totalBudget = Number(project?.budget || project?.amount || 10000);
-  const verifiedPayments = (payments || []).filter((p: any) => p.is_verified !== false);
+  const totalBudget = Number(project?.budget || project?.amount || project?.cost || 0);
+  const verifiedPayments = (payments || []).filter(
+    (p: any) => p.is_verified !== false && p.status !== 'Failed' && p.status !== 'Cancelled'
+  );
   const totalPaid = verifiedPayments.reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0);
-  const remainingAmount = Math.max(0, totalBudget - totalPaid);
+  const remainingAmount = totalBudget > 0 ? Math.max(0, totalBudget - totalPaid) : (totalPaid > 0 ? 0 : 0);
+  const isFullyPaid = totalBudget > 0 ? remainingAmount <= 0 : (totalPaid > 0);
   const currencySymbol = project?.currency === 'USD' ? '$' : project?.currency === 'EUR' ? '€' : project?.currency === 'GBP' ? '£' : '₹';
+
+  const secureAssets = React.useMemo(() => {
+    return (assets || []).map((a: any) => {
+      const isManualUnlocked = Boolean(a.is_manual_unlocked || a.isManualUnlocked);
+      const isUnlocked = isManualUnlocked || (isFullyPaid && a.unlock_type !== 'manual' && a.unlockType !== 'manual');
+      const realUrl = isUnlocked ? (a.asset_url || a.downloadUrl || a.file_url || '') : '';
+      return {
+        ...a,
+        is_unlocked: isUnlocked,
+        unlocked: isUnlocked,
+        isUnlocked: isUnlocked,
+        is_manual_unlocked: isManualUnlocked,
+        asset_url: realUrl,
+        downloadUrl: realUrl,
+        download_url: realUrl,
+        file_url: realUrl,
+      };
+    });
+  }, [assets, isFullyPaid]);
 
   useEffect(() => {
     if (link?.id) {
@@ -507,7 +529,7 @@ export const PortalShell: React.FC = () => {
                   <PortalOverviewView
                     project={project}
                     milestones={milestones}
-                    deliverables={assets}
+                    deliverables={secureAssets}
                     docs={docs}
                     github={github}
                     timeline={timeline}
@@ -536,7 +558,7 @@ export const PortalShell: React.FC = () => {
 
                 {activeModule === 'deliverables' && (
                   <PortalDeliverablesView
-                    assets={assets}
+                    assets={secureAssets}
                     payments={payments}
                     project={project}
                     milestones={milestones}
@@ -546,7 +568,7 @@ export const PortalShell: React.FC = () => {
 
                 {activeModule === 'downloads' && (
                   <PortalDownloadsView
-                    assets={assets}
+                    assets={secureAssets}
                     docs={docs}
                     project={project}
                     payments={payments}

@@ -81,25 +81,31 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
     return Number(project?.paid_amount || 0);
   }, [paymentList, project]);
 
-  const paymentPct = totalAmount > 0 ? Math.min(100, Math.round((paidAmount / totalAmount) * 100)) : (paidAmount > 0 ? 100 : 0);
+  const remainingBalance = totalAmount > 0 ? Math.max(0, totalAmount - paidAmount) : 0;
+  const isFullyPaid = totalAmount > 0 ? remainingBalance <= 0 : (paidAmount > 0);
+  const paymentPct = totalAmount > 0 ? Math.min(100, Math.round((paidAmount / totalAmount) * 100)) : (isFullyPaid ? 100 : 0);
 
   const fileCatalog: DownloadItem[] = useMemo(() => {
     const rawList = (downloads && downloads.length > 0) ? downloads : (assets && Array.isArray(assets) ? assets : []);
     if (rawList && rawList.length > 0) {
       return rawList.map((f: any, idx: number) => {
-        const reqPct = f.reqPct || f.required_payment_pct || (idx === 0 ? 25 : idx === 1 ? 50 : idx === 2 ? 75 : 100);
-        const unlocked = f.unlocked ?? (paymentPct >= reqPct);
+        const isManualUnlocked = Boolean(f.is_manual_unlocked || f.isManualUnlocked);
+        // Only unlock if 100% fully paid (zero balance due) or manually unlocked by admin
+        const isUnlocked = isManualUnlocked || (isFullyPaid && (f.unlock_type !== 'manual' && f.unlockType !== 'manual'));
+        const rawUrl = f.downloadUrl || f.asset_url || f.assetUrl || f.file_url || '';
+        const safeDownloadUrl = isUnlocked ? rawUrl : '';
+
         return {
           id: f.id || `dl-${idx}`,
           name: f.name || f.title || 'Verified Release Asset Package',
-          category: f.category || f.asset_type || 'Source Code',
+          category: f.category || f.asset_type || f.assetType || 'Source Code',
           version: f.version || 'v1.0.0',
           size: f.size || f.file_size || 'N/A',
           sha256: f.sha256 || f.hash || null,
-          downloadUrl: f.downloadUrl || f.asset_url || f.file_url || '#',
+          downloadUrl: safeDownloadUrl,
           date: f.date || (f.created_at ? new Date(f.created_at).toLocaleDateString() : 'Recent'),
-          unlocked,
-          reqPct,
+          unlocked: isUnlocked,
+          reqPct: 100,
           downloadsCount: f.downloadsCount || 0,
           desc: f.desc || f.description || 'Digitally signed production release package verified via SHA-256.',
         };
@@ -107,7 +113,7 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
     }
 
     return [];
-  }, [downloads, assets, paymentPct]);
+  }, [downloads, assets, isFullyPaid]);
 
   const filteredFiles = useMemo(() => {
     return fileCatalog.filter((f) => {
@@ -132,13 +138,17 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
 
   const handleConfirmDownload = () => {
     if (!downloadModalItem) return;
+    if (!downloadModalItem.unlocked || !downloadModalItem.downloadUrl || downloadModalItem.downloadUrl === '#' || downloadModalItem.downloadUrl === '') {
+      alert('Payment Required: The total project amount must be fully cleared before accessing and downloading deliverable packages.');
+      if (onOpenPaymentModal) onOpenPaymentModal();
+      setDownloadModalItem(null);
+      return;
+    }
     setDownloadingItem(downloadModalItem.id);
     setTimeout(() => {
       setDownloadingItem(null);
       if (downloadModalItem.downloadUrl && downloadModalItem.downloadUrl !== '#') {
         window.open(downloadModalItem.downloadUrl, '_blank');
-      } else {
-        alert(`Signed package download initiated for ${downloadModalItem.name}`);
       }
       setDownloadModalItem(null);
     }, 1200);
@@ -309,7 +319,7 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
           <div className="p-3 rounded-sm bg-zinc-900/90 border border-zinc-850 space-y-1">
             <span className="text-[9px] text-zinc-500 font-sans uppercase font-bold block">Locked</span>
             <span className="text-xs font-extrabold text-amber-400 block truncate">{totalCount - unlockedCount} Pending</span>
-            <span className="text-[9px] text-amber-500/80 font-sans block">Requires Escrow</span>
+            <span className="text-[9px] text-amber-500/80 font-sans block">{paymentPct}% Paid</span>
           </div>
 
           <div className="p-3 rounded-sm bg-zinc-900/90 border border-zinc-850 space-y-1">
@@ -445,13 +455,13 @@ export const PortalDownloadsView: React.FC<PortalDownloadsProps> = ({
                       if (onOpenPaymentModal) {
                         onOpenPaymentModal();
                       } else {
-                        alert(`This package unlocks after ${file.reqPct}% milestone escrow is cleared.`);
+                        alert('This package requires the project balance to be fully cleared (100% paid) before downloading.');
                       }
                     }}
-                    className="h-8 px-3 rounded-sm bg-amber-950/60 border border-amber-800/80 text-amber-300 text-[11px] font-bold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="h-8 px-3 rounded-sm bg-amber-950/60 border border-amber-800/80 hover:bg-amber-900 text-amber-300 hover:text-white text-[11px] font-bold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <HugeiconsIcon icon={CreditCardIcon} size={13} />
-                    <span>Requires {file.reqPct}% Escrow</span>
+                    <span>Pay Balance to Unlock</span>
                   </button>
                 )}
               </div>

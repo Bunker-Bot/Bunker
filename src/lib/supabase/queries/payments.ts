@@ -117,18 +117,12 @@ export async function fetchDeliveryAssets(
     if (!isReadOnly) {
       isUnlocked = true;
     } else {
-      if (unlockType === 'immediate') {
+      if (isManualUnlocked) {
         isUnlocked = true;
       } else if (unlockType === 'manual') {
         isUnlocked = isManualUnlocked;
-      } else if (unlockType === '25_percent') {
-        isUnlocked = summary.paymentPercentage >= 25;
-      } else if (unlockType === '50_percent') {
-        isUnlocked = summary.paymentPercentage >= 50;
-      } else if (unlockType === '75_percent') {
-        isUnlocked = summary.paymentPercentage >= 75;
-      } else if (unlockType === '100_percent') {
-        isUnlocked = summary.remainingBalance <= 0 || summary.paymentPercentage >= 100;
+      } else {
+        isUnlocked = summary.remainingBalance <= 0 && summary.paymentPercentage >= 100;
       }
     }
 
@@ -138,8 +132,8 @@ export async function fetchDeliveryAssets(
       title: row.title || 'Deliverable',
       description: row.description || null,
       assetType: row.asset_type || 'google_drive',
-      assetUrl: row.asset_url || '',
-      storagePath: row.storage_path || null,
+      assetUrl: isUnlocked ? (row.asset_url || '') : '',
+      storagePath: isUnlocked ? (row.storage_path || null) : null,
       unlockType,
       isManualUnlocked,
       isArchived: Boolean(row.is_archived),

@@ -71,36 +71,20 @@ export const PortalDeliverablesView: React.FC<PortalDeliverablesProps> = ({
     return Number(project?.paid_amount || 0);
   }, [paymentList, project]);
 
-  const paymentPct = totalAmount > 0 ? Math.min(100, Math.round((paidAmount / totalAmount) * 100)) : (paidAmount > 0 ? 100 : 0);
+  const remainingBalance = totalAmount > 0 ? Math.max(0, totalAmount - paidAmount) : 0;
+  const isFullyPaid = totalAmount > 0 ? remainingBalance <= 0 : (paidAmount > 0);
+  const paymentPct = totalAmount > 0 ? Math.min(100, Math.round((paidAmount / totalAmount) * 100)) : (isFullyPaid ? 100 : 0);
 
   const rawData = deliverables || assets || project?.assets || [];
 
   const deliverableItems = useMemo(() => {
     if (Array.isArray(rawData) && rawData.length > 0) {
       return rawData.map((d: any, idx: number) => {
-        const unlockType = d.unlock_type || '100_percent';
-        let reqPct = d.required_payment_pct;
-        if (reqPct === undefined || reqPct === null) {
-          if (unlockType === '25_percent') reqPct = 25;
-          else if (unlockType === '50_percent') reqPct = 50;
-          else if (unlockType === '75_percent') reqPct = 75;
-          else if (unlockType === '100_percent') reqPct = 100;
-          else if (unlockType === 'immediate') reqPct = 0;
-          else reqPct = (idx === 0 ? 25 : idx === 1 ? 50 : idx === 2 ? 75 : 100);
-        }
-
-        let isUnlocked = false;
-        if (d.is_unlocked !== undefined) {
-          isUnlocked = Boolean(d.is_unlocked);
-        } else if (d.unlocked !== undefined) {
-          isUnlocked = Boolean(d.unlocked);
-        } else if (unlockType === 'immediate') {
-          isUnlocked = true;
-        } else if (unlockType === 'manual') {
-          isUnlocked = Boolean(d.is_manual_unlocked);
-        } else {
-          isUnlocked = paymentPct >= reqPct;
-        }
+        const isManualUnlocked = Boolean(d.is_manual_unlocked || d.isManualUnlocked);
+        // Only unlock if 100% fully paid (zero balance due) or manually unlocked by admin
+        const isUnlocked = isManualUnlocked || (isFullyPaid && (d.unlock_type !== 'manual' && d.unlockType !== 'manual'));
+        const rawUrl = d.asset_url || d.download_url || d.downloadUrl || d.file_url || '';
+        const safeDownloadUrl = isUnlocked ? rawUrl : '';
 
         let category = d.category || d.asset_type || 'Source Code';
         if (category === 'google_drive') category = 'Cloud Storage';
@@ -117,16 +101,16 @@ export const PortalDeliverablesView: React.FC<PortalDeliverablesProps> = ({
           size: d.size || d.file_size || d.package_size || 'N/A',
           date: d.created_at ? new Date(d.created_at).toLocaleDateString() : 'Recent',
           unlocked: isUnlocked,
-          reqPct,
+          reqPct: 100,
           sha256: d.sha256 || d.hash || null,
-          downloadUrl: d.asset_url || d.download_url || d.file_url || '#',
+          downloadUrl: safeDownloadUrl,
           desc: d.description || d.desc || 'Verified production deliverable package.',
         };
       });
     }
 
     return [];
-  }, [rawData, paymentPct]);
+  }, [rawData, isFullyPaid]);
 
   const filteredItems = useMemo(() => {
     return deliverableItems.filter((item: any) => {
@@ -181,13 +165,17 @@ export const PortalDeliverablesView: React.FC<PortalDeliverablesProps> = ({
 
   const handleConfirmDownload = () => {
     if (!downloadModalItem) return;
+    if (!downloadModalItem.unlocked || !downloadModalItem.downloadUrl || downloadModalItem.downloadUrl === '#' || downloadModalItem.downloadUrl === '') {
+      alert('Payment Required: The project balance must be fully cleared before accessing and downloading deliverable packages.');
+      if (onOpenPaymentModal) onOpenPaymentModal();
+      setDownloadModalItem(null);
+      return;
+    }
     setDownloadingItem(downloadModalItem.id);
     setTimeout(() => {
       setDownloadingItem(null);
       if (downloadModalItem.downloadUrl && downloadModalItem.downloadUrl !== '#') {
         window.open(downloadModalItem.downloadUrl, '_blank');
-      } else {
-        alert(`Signed download initiated for ${downloadModalItem.title}`);
       }
       setDownloadModalItem(null);
     }, 1200);
