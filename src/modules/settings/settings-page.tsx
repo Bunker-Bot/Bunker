@@ -32,6 +32,7 @@ import {
   GlobalIcon,
   Delete02Icon,
   Settings01Icon,
+  Cancel01Icon,
 } from '@hugeicons/core-free-icons';
 import {
   Select,
@@ -82,8 +83,11 @@ export const SettingsPage: React.FC = () => {
 
   // Password Change Modal State
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [passwordStatus, setPasswordStatus] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+  const [passwordStatus, setPasswordStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Danger Dialog State
   const [isDeleteExpiredDialogOpen, setIsDeleteExpiredDialogOpen] = useState(false);
@@ -98,22 +102,61 @@ export const SettingsPage: React.FC = () => {
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPassword.trim() || newPassword.length < 6) {
-      setPasswordStatus('Password must be at least 6 characters.');
+    if (!newPassword.trim()) {
+      setPasswordStatus({ type: 'error', message: 'Please enter a new password.' });
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPasswordStatus({ type: 'error', message: 'Password must be at least 6 characters (8+ recommended).' });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordStatus({ type: 'error', message: 'New password and confirm password do not match.' });
       return;
     }
 
+    setIsUpdatingPassword(true);
+    setPasswordStatus(null);
+
     try {
+      // 1. Refresh session first to ensure active JWT credentials
+      await supabase.auth.refreshSession();
+
+      // 2. If current password is provided, optionally re-authenticate
+      if (currentPassword.trim()) {
+        const { data: authData } = await supabase.auth.getUser();
+        const userEmail = authData?.user?.email || profile?.email;
+        if (userEmail) {
+          const { error: signInErr } = await supabase.auth.signInWithPassword({
+            email: userEmail,
+            password: currentPassword.trim(),
+          });
+          if (signInErr) {
+            throw new Error(`Current password incorrect: ${signInErr.message}`);
+          }
+        }
+      }
+
+      // 3. Update password in Supabase Auth
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw error;
-      setPasswordStatus('Password updated successfully.');
+
+      setPasswordStatus({ type: 'success', message: 'Administrator password updated successfully!' });
       setTimeout(() => {
         setIsPasswordModalOpen(false);
         setPasswordStatus(null);
+        setCurrentPassword('');
         setNewPassword('');
+        setConfirmPassword('');
       }, 1500);
     } catch (err: any) {
-      setPasswordStatus(err.message || 'Failed to update password.');
+      console.error('Password update error:', err);
+      setPasswordStatus({
+        type: 'error',
+        message: err.message || 'Failed to update password. Please ensure it is different from your previous password.',
+      });
+    } finally {
+      setIsUpdatingPassword(false);
     }
   };
 
@@ -581,32 +624,103 @@ export const SettingsPage: React.FC = () => {
       {/* Password Change Dialog */}
       {isPasswordModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-          <div className="w-full max-w-sm rounded-lg bg-[#0c0c0e] border border-zinc-800 p-5 font-mono text-xs space-y-4 shadow-2xl">
-            <h3 className="text-sm font-bold text-white font-sans">Change Administrator Password</h3>
-            <form onSubmit={handlePasswordChange} className="space-y-3">
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="New Password (min 6 chars)"
-                className="w-full h-9 px-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-600 rounded text-xs text-white outline-none font-mono"
-              />
+          <div className="w-full max-w-md rounded-lg bg-[#0c0c0e] border border-zinc-800 p-5 font-mono text-xs space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300">
+                  <HugeiconsIcon icon={LockKeyIcon} size={14} />
+                </div>
+                <h3 className="text-sm font-bold text-white font-sans">Change Administrator Password</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsPasswordModalOpen(false);
+                  setPasswordStatus(null);
+                }}
+                className="w-7 h-7 rounded bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white cursor-pointer transition-colors"
+              >
+                <HugeiconsIcon icon={Cancel01Icon} size={14} />
+              </button>
+            </div>
 
-              {passwordStatus && <p className="text-[10px] text-amber-400">{passwordStatus}</p>}
+            <form onSubmit={handlePasswordChange} className="space-y-3.5">
+              <div className="space-y-1">
+                <label className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider block">
+                  Current Password (Optional)
+                </label>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Enter current password if prompted"
+                  className="w-full h-9 px-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-600 rounded text-xs text-white outline-none font-mono"
+                />
+              </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2">
+              <div className="space-y-1">
+                <label className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider block">
+                  New Password (*)
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Minimum 6 characters (different from old)"
+                  className="w-full h-9 px-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-600 rounded text-xs text-white outline-none font-mono"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider block">
+                  Confirm New Password (*)
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter new password"
+                  className="w-full h-9 px-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-600 rounded text-xs text-white outline-none font-mono"
+                />
+              </div>
+
+              {passwordStatus && (
+                <div
+                  className={`p-2.5 rounded border text-[11px] font-mono flex items-center gap-2 ${
+                    passwordStatus.type === 'success'
+                      ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300'
+                      : 'bg-amber-950/40 border-amber-800 text-amber-300'
+                  }`}
+                >
+                  <HugeiconsIcon
+                    icon={passwordStatus.type === 'success' ? CheckmarkCircle02Icon : Alert02Icon}
+                    size={14}
+                    className="shrink-0"
+                  />
+                  <span>{passwordStatus.message}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-zinc-800/80">
                 <button
                   type="button"
-                  onClick={() => setIsPasswordModalOpen(false)}
-                  className="h-8 px-3 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono cursor-pointer"
+                  disabled={isUpdatingPassword}
+                  onClick={() => {
+                    setIsPasswordModalOpen(false);
+                    setPasswordStatus(null);
+                  }}
+                  className="h-8 px-3 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono cursor-pointer hover:text-white transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="h-8 px-4 rounded bg-white text-black font-semibold text-xs font-mono cursor-pointer"
+                  disabled={isUpdatingPassword}
+                  className="h-8 px-4 rounded bg-white text-black font-semibold text-xs font-mono cursor-pointer hover:bg-zinc-200 transition-colors disabled:opacity-50"
                 >
-                  Update Password
+                  {isUpdatingPassword ? 'Updating...' : 'Update Password'}
                 </button>
               </div>
             </form>
