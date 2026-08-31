@@ -11,6 +11,8 @@ import {
 import { type FormattedClient } from '../../../lib/services/client.service';
 import { Badge } from '../../../components/ui/badge';
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '../../../components/ui/hover-card';
+import { AvatarPoster } from '../../../features/identity-avatar';
+import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
 
 interface ClientTableRowProps {
   client: FormattedClient;
@@ -25,6 +27,13 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({
   onToggleExpand,
   onOpenMenu,
 }) => {
+  const avatarConfig = React.useMemo(() => {
+    return generateAvatarConfig({
+      entityId: client.id,
+      entityKind: 'client',
+      name: client.name,
+    });
+  }, [client.id, client.name]);
   const getHealthBadge = (health: string) => {
     switch (health) {
       case 'healthy':
@@ -63,8 +72,8 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({
         <HoverCard>
           <HoverCardTrigger className="inline-block">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 border border-zinc-700 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow">
-                {client.name.substring(0, 2).toUpperCase()}
+              <div className="w-8 h-8 rounded-sm overflow-hidden bg-zinc-950 border border-zinc-750 flex items-center justify-center shrink-0 shadow">
+                <AvatarPoster config={avatarConfig} size="100%" />
               </div>
               <div className="space-y-0.5 min-w-0">
                 <Link
@@ -84,8 +93,8 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({
 
           <HoverCardContent className="w-64 p-3 rounded-sm bg-zinc-950 border border-zinc-800/80 shadow-2xl font-mono text-xs space-y-2 text-zinc-200">
             <div className="flex items-center gap-2 border-b border-zinc-800/70 pb-2">
-              <div className="w-7 h-7 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-white font-bold text-xs">
-                {client.name.substring(0, 2).toUpperCase()}
+              <div className="w-8 h-8 rounded-sm overflow-hidden bg-zinc-900 border border-zinc-700 flex items-center justify-center shrink-0">
+                <AvatarPoster config={avatarConfig} size="100%" />
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-white truncate">{client.name}</p>

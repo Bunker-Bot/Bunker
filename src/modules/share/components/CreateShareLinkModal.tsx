@@ -71,7 +71,7 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="w-full max-w-xl p-6 rounded-xl bg-zinc-950 border border-zinc-800 shadow-2xl text-zinc-100 font-mono text-xs space-y-4">
+      <div className="w-full max-w-xl p-6 rounded-sm bg-zinc-950 border border-zinc-800 shadow-2xl text-zinc-100 font-mono text-xs space-y-4">
         <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
           <div className="flex items-center gap-2 font-bold text-sm text-white">
             <HugeiconsIcon icon={Link01Icon} size={18} className="text-rose-500" />
@@ -90,7 +90,7 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Client Review, QA Build, Final Delivery"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
+              className="w-full px-3 py-2 rounded-sm bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
               required
             />
           </div>
@@ -119,7 +119,7 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
                 value={maxViews}
                 onChange={(e) => setMaxViews(e.target.value === '' ? '' : Number(e.target.value))}
                 placeholder="Unlimited"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
+                className="w-full px-3 py-2 rounded-sm bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Leave empty for no password"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
+              className="w-full px-3 py-2 rounded-sm bg-zinc-900 border border-zinc-800 text-white outline-none focus:border-zinc-700"
             />
           </div>
 
@@ -158,14 +158,14 @@ export const CreateShareLinkModal: React.FC<CreateShareLinkModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white cursor-pointer"
+              className="px-4 py-2 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-all cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 rounded-sm bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-all cursor-pointer"
             >
               {isLoading && <RadialSpinner size={12} />}
               <span>Generate Share Link</span>

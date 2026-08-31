@@ -43,7 +43,7 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
           <img
             src={src}
             alt={alt || 'Full-screen Image'}
-            className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl border border-zinc-800"
+            className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl border border-zinc-800"
           />
 
           {alt && (

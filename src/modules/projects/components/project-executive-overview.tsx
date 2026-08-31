@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -24,6 +25,8 @@ import { useProjectUpdates } from '../../../lib/supabase/queries/timeline';
 import { useDeployments } from '../../../lib/supabase/queries/changelog-notes-deployments';
 import { useShareLinks } from '../../../lib/supabase/queries/share-links';
 import { useGithubRepository } from '../../../lib/supabase/queries/github';
+import { IdentityAvatar3D } from '../../../features/identity-avatar';
+import { AvatarCode } from '../../../features/identity-avatar/components/AvatarCode';
 
 interface ProjectExecutiveOverviewProps {
   project: any;
@@ -36,6 +39,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
   onOpenEdit,
   onSelectTab,
 }) => {
+  const navigate = useNavigate();
   const projectId = project?.id || '';
 
   // 1. Fetch Real Client Profile Details
@@ -69,7 +73,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
 
   const docsCount = docsData?.totalCount || docsData?.documents?.length || 0;
 
-  const timelineCount = timelineData?.pages?.[0]?.totalCount || 
+  const timelineCount = timelineData?.pages?.[0]?.totalCount ||
     timelineData?.pages?.reduce((acc, p) => acc + (p.items?.length || 0), 0) || 0;
 
   const deploymentsCount = deployments?.length || 0;
@@ -111,7 +115,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
     const s = (statusStr || 'active').toLowerCase();
     if (s === 'completed') {
       return (
-        <Badge variant="outline" className="rounded-md bg-blue-950/90 border-blue-700/80 text-blue-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
+        <Badge variant="outline" className="rounded-sm bg-blue-950/90 border-blue-700/80 text-blue-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
           Completed
         </Badge>
@@ -119,14 +123,14 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
     }
     if (s === 'in_progress' || s === 'in progress') {
       return (
-        <Badge variant="outline" className="rounded-md bg-cyan-950/90 border-cyan-700/80 text-cyan-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
+        <Badge variant="outline" className="rounded-sm bg-cyan-950/90 border-cyan-700/80 text-cyan-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
           In Progress
         </Badge>
       );
     }
     return (
-      <Badge variant="outline" className="rounded-md bg-emerald-950/90 border-emerald-700/80 text-emerald-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
+      <Badge variant="outline" className="rounded-sm bg-emerald-950/90 border-emerald-700/80 text-emerald-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 flex items-center gap-1.5 shadow-sm">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
         {statusStr ? statusStr.replace('_', ' ') : 'Active'}
       </Badge>
@@ -138,20 +142,20 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
     const p = (priorityStr || 'medium').toLowerCase();
     if (p === 'urgent') {
       return (
-        <Badge variant="outline" className="rounded-md bg-rose-950/90 border-rose-700/80 text-rose-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
+        <Badge variant="outline" className="rounded-sm bg-rose-950/90 border-rose-700/80 text-rose-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
           Urgent Priority
         </Badge>
       );
     }
     if (p === 'high') {
       return (
-        <Badge variant="outline" className="rounded-md bg-amber-950/90 border-amber-700/80 text-amber-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
+        <Badge variant="outline" className="rounded-sm bg-amber-950/90 border-amber-700/80 text-amber-300 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
           High Priority
         </Badge>
       );
     }
     return (
-      <Badge variant="outline" className="rounded-md bg-amber-950/70 border-amber-800/60 text-amber-400 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
+      <Badge variant="outline" className="rounded-sm bg-amber-950/70 border-amber-800/60 text-amber-400 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 shadow-sm">
         {priorityStr} Priority
       </Badge>
     );
@@ -163,7 +167,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-md bg-gradient-to-b from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 p-3.5 sm:p-6 shadow-xl space-y-4 sm:space-y-5 relative overflow-hidden"
+        className="rounded-sm bg-gradient-to-b from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 p-3.5 sm:p-6 shadow-xl space-y-4 sm:space-y-5 relative overflow-hidden"
       >
         {/* Glow Accent Ambient Light */}
         <div
@@ -174,18 +178,36 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Top Title & Spec Row */}
         <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4 xl:gap-6 relative z-10">
           {/* Left Brand Identifier */}
-          <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+          <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 flex-1 min-w-0">
             <div
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-md flex items-center justify-center font-bold text-white shadow-lg text-base sm:text-lg shrink-0 ring-2 ring-white/10"
-              style={{ backgroundColor: project.color || '#E11D48' }}
+              onClick={() => navigate(`/app/avatar-studio?project=${projectId}`)}
+              className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-sm bg-zinc-950/90 border border-zinc-800 hover:border-cyan-500/70 shadow-xl flex items-center justify-center overflow-hidden shrink-0 cursor-pointer transition-all group"
+              title="Click to open in Avatar Studio"
             >
-              {project.name.charAt(0).toUpperCase()}
+              <IdentityAvatar3D
+                config={project.avatar_config || project.guardian_avatar?.avatar_config}
+                input={{
+                  entityId: projectId,
+                  entityKind: 'project',
+                  name: project.name,
+                  preferredColor: project.color,
+                  parentEntityId: project.clientId || project.client_id || '',
+                  logoUrl: project.thumbnail_url || (client as any)?.logo_url || null,
+                }}
+                badgeLogoUrl={(client as any)?.logo_url || null}
+                size="100%"
+              />
             </div>
 
             <div className="space-y-1.5 flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-lg sm:text-2xl font-extrabold tracking-tight text-white">{project.name}</h1>
-                
+
+                {/* 10-Digit Avatar Code */}
+                {(project.avatar_code || project.avatarCode) && (
+                  <AvatarCode code={project.avatar_code || project.avatarCode} size="xs" />
+                )}
+
                 {/* Colorful Shadcn/UI Status Badge */}
                 {renderStatusBadge(project.status)}
 
@@ -202,15 +224,24 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
           <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar shrink-0 w-full xl:w-auto pt-3 xl:pt-0 border-t border-zinc-800/80 xl:border-t-0 pb-1 xl:pb-0">
             <button
               onClick={onOpenEdit}
-              className="px-3 py-1.5 rounded-md bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+              className="px-3 py-1.5 rounded-sm bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={Edit01Icon} size={14} />
               <span>Edit Workspace</span>
             </button>
 
             <button
+              onClick={() => navigate(`/app/avatar-studio?project=${projectId}`)}
+              className="px-3 py-1.5 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-cyan-500/80 text-zinc-200 hover:text-cyan-300 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+              title="Customize Guardian in Avatar Studio"
+            >
+              <HugeiconsIcon icon={SparklesIcon} size={14} className="text-cyan-400" />
+              <span>Avatar Studio</span>
+            </button>
+
+            <button
               onClick={() => onSelectTab('share-links')}
-              className="px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+              className="px-3 py-1.5 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={Link01Icon} size={14} className="text-cyan-400" />
               <span>Share Portal ({shareLinksCount})</span>
@@ -218,11 +249,10 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
 
             <button
               onClick={() => onSelectTab('github')}
-              className={`px-3 py-1.5 rounded-md border font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-                githubRepoUrl
-                  ? 'bg-zinc-950 border-emerald-800/90 text-emerald-300 hover:border-emerald-700'
-                  : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
-              }`}
+              className={`px-3 py-1.5 rounded-sm border font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${githubRepoUrl
+                ? 'bg-zinc-950 border-emerald-800/90 text-emerald-300 hover:border-emerald-700'
+                : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                }`}
             >
               <HugeiconsIcon icon={GithubIcon} size={14} className={githubRepoUrl ? 'text-emerald-400' : 'text-zinc-400'} />
               <span>{githubRepoUrl ? 'GitHub Connected' : 'Connect GitHub'}</span>
@@ -230,7 +260,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
 
             <button
               onClick={() => onSelectTab('deployments')}
-              className="px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+              className="px-3 py-1.5 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
             >
               <HugeiconsIcon icon={CloudIcon} size={14} className="text-emerald-400" />
               <span>Deployments ({deploymentsCount})</span>
@@ -247,7 +277,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
             </span>
             <span className="font-bold text-cyan-400 font-mono text-xs sm:text-sm">{completionPercent}%</span>
           </div>
-          <div className="w-full h-2 rounded-md bg-zinc-950 border border-zinc-800 overflow-hidden">
+          <div className="w-full h-2 rounded-sm bg-zinc-950 border border-zinc-800 overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${completionPercent}%` }}
@@ -259,38 +289,38 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
 
         {/* Specs Metadata Bar Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-2 border-t border-zinc-800/80 text-xs relative z-10">
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Status</span>
             <p className="font-bold text-emerald-400 capitalize text-xs">{project.status ? project.status.replace('_', ' ') : 'Active'}</p>
           </div>
 
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Priority</span>
             <p className="font-bold text-amber-400 uppercase text-xs">{project.priority || 'Medium'}</p>
           </div>
 
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Client Sponsor</span>
             <p className="font-bold text-white truncate text-xs" title={clientName || 'Unassigned'}>
               {clientName || 'Internal'}
             </p>
           </div>
 
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Created</span>
             <p className="font-bold text-zinc-300 text-xs">
               {project.createdAt ? new Date(project.createdAt).toLocaleDateString() : 'N/A'}
             </p>
           </div>
 
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Deadline</span>
             <p className="font-bold text-zinc-300 text-xs">
               {project.deadline ? new Date(project.deadline).toLocaleDateString() : 'No Target'}
             </p>
           </div>
 
-          <div className="p-2 sm:p-2.5 rounded-md bg-zinc-950/80 border border-zinc-800 space-y-0.5">
+          <div className="p-2 sm:p-2.5 rounded-sm bg-zinc-950/80 border border-zinc-800 space-y-0.5">
             <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Time Remaining</span>
             <p className="font-bold text-cyan-400 text-xs">
               {daysLeft !== null ? `${daysLeft} Days` : 'Ongoing'}
@@ -305,7 +335,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
             {technologies.map((tech) => (
               <div
                 key={tech}
-                className="px-2 py-0.5 sm:py-1 rounded-md bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 text-[10px] sm:text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+                className="px-2 py-0.5 sm:py-1 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-200 text-[10px] sm:text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
               >
                 <img
                   src={getTechnologyIcon(tech)}
@@ -332,7 +362,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Tasks KPI */}
         <div
           onClick={() => onSelectTab('tasks')}
-          className="p-3 sm:p-3.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-cyan-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
+          className="p-3 sm:p-3.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-cyan-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
         >
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">Tasks</span>
@@ -350,7 +380,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Timeline KPI */}
         <div
           onClick={() => onSelectTab('timeline')}
-          className="p-3 sm:p-3.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
+          className="p-3 sm:p-3.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
         >
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">Timeline</span>
@@ -366,7 +396,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Documents KPI */}
         <div
           onClick={() => onSelectTab('documentation')}
-          className="p-3 sm:p-3.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
+          className="p-3 sm:p-3.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
         >
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">Documents</span>
@@ -382,7 +412,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Deployments KPI */}
         <div
           onClick={() => onSelectTab('deployments')}
-          className="p-3 sm:p-3.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
+          className="p-3 sm:p-3.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
         >
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">Deployments</span>
@@ -398,7 +428,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* GitHub KPI */}
         <div
           onClick={() => onSelectTab('github')}
-          className="p-3 sm:p-3.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
+          className="p-3 sm:p-3.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 hover:bg-zinc-850 transition-all cursor-pointer space-y-1.5 sm:space-y-2 group shadow-sm"
         >
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">GitHub</span>
@@ -418,7 +448,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         </div>
 
         {/* Project Health Score KPI */}
-        <div className="p-3 sm:p-3.5 rounded-md bg-gradient-to-b from-emerald-950/40 to-zinc-900 border border-emerald-800/60 space-y-1.5 sm:space-y-2 shadow-sm">
+        <div className="p-3 sm:p-3.5 rounded-sm bg-gradient-to-b from-emerald-950/40 to-zinc-900 border border-emerald-800/60 space-y-1.5 sm:space-y-2 shadow-sm">
           <div className="flex items-center justify-between text-emerald-400">
             <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">Health</span>
             <HugeiconsIcon icon={FireIcon} size={15} className="text-emerald-400 animate-pulse" />
@@ -441,38 +471,38 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
           {/* GitHub Repository Status Banner */}
           {githubRepoUrl ? (
-            <div className="p-3.5 sm:p-4 rounded-md bg-gradient-to-r from-zinc-900 via-zinc-900 to-emerald-950/30 border border-emerald-800/80 space-y-3 shadow-sm">
+            <div className="p-3.5 sm:p-4 rounded-sm bg-gradient-to-r from-zinc-900 via-zinc-900 to-emerald-950/30 border border-emerald-800/80 space-y-3 shadow-sm">
               <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
                 <div className="flex items-center gap-2">
                   <HugeiconsIcon icon={GithubIcon} size={16} className="text-white" />
                   <h2 className="text-xs font-bold uppercase text-zinc-100 tracking-wider">
                     GitHub Repository
                   </h2>
-                  <Badge variant="outline" className="rounded-md bg-emerald-950 border-emerald-800 text-emerald-300 text-[10px] font-mono font-bold uppercase px-2 py-0.5 flex items-center gap-1">
+                  <Badge variant="outline" className="rounded-sm bg-emerald-950 border-emerald-800 text-emerald-300 text-[10px] font-mono font-bold uppercase px-2 py-0.5 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     Synced
                   </Badge>
                 </div>
                 <button
                   onClick={() => onSelectTab('github')}
-                  className="px-3 py-1 rounded-md bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs cursor-pointer transition-all shadow"
+                  className="px-3 py-1 rounded-sm bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs cursor-pointer transition-all shadow"
                 >
                   View Telemetry
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-mono">
-                <div className="p-2 rounded-md bg-zinc-950 border border-zinc-800 space-y-0.5">
+                <div className="p-2 rounded-sm bg-zinc-950 border border-zinc-800 space-y-0.5">
                   <span className="text-[9px] text-zinc-500 uppercase font-bold">Repository Name</span>
                   <p className="font-bold text-white truncate" title={repoName}>{repoName}</p>
                 </div>
 
-                <div className="p-2 rounded-md bg-zinc-950 border border-zinc-800 space-y-0.5">
+                <div className="p-2 rounded-sm bg-zinc-950 border border-zinc-800 space-y-0.5">
                   <span className="text-[9px] text-zinc-500 uppercase font-bold">Default Branch</span>
                   <p className="font-bold text-cyan-400">{dbGithubRepo?.branch || 'main'}</p>
                 </div>
 
-                <div className="p-2 rounded-md bg-zinc-950 border border-zinc-800 space-y-0.5">
+                <div className="p-2 rounded-sm bg-zinc-950 border border-zinc-800 space-y-0.5">
                   <span className="text-[9px] text-zinc-500 uppercase font-bold">Open PRs & Issues</span>
                   <p className="font-bold text-amber-400">
                     {dbGithubRepo?.open_prs ?? 0} PRs • {dbGithubRepo?.open_issues ?? 0} Issues
@@ -481,7 +511,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
               </div>
             </div>
           ) : (
-            <div className="p-3.5 sm:p-4 rounded-md bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm">
+            <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <HugeiconsIcon icon={GithubIcon} size={16} className="text-zinc-400" />
@@ -489,7 +519,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
                 </div>
                 <button
                   onClick={() => onSelectTab('github')}
-                  className="px-3 py-1 rounded-md bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow"
+                  className="px-3 py-1 rounded-sm bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow"
                 >
                   Connect GitHub
                 </button>
@@ -499,7 +529,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
           )}
 
           {/* Real Technology Architecture Breakdown */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm">
+          <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm">
             <h2 className="text-xs font-bold uppercase text-zinc-300 tracking-wider flex items-center gap-2 border-b border-zinc-800 pb-2.5">
               <HugeiconsIcon icon={CpuIcon} size={14} className="text-cyan-400" />
               <span>Technology Architecture Breakdown</span>
@@ -508,7 +538,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
             {technologies.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono">
                 {technologies.map((tech) => (
-                  <div key={tech} className="p-2 rounded-md bg-zinc-950 border border-zinc-800 flex items-center justify-between hover:border-zinc-700 transition-colors">
+                  <div key={tech} className="p-2 rounded-sm bg-zinc-950 border border-zinc-800 flex items-center justify-between hover:border-zinc-700 transition-colors">
                     <div className="flex items-center gap-1.5 min-w-0">
                       <img src={getTechnologyIcon(tech)} alt={tech} className="w-3.5 h-3.5 object-contain shrink-0" />
                       <span className="font-bold text-white capitalize truncate text-[11px]">{tech}</span>
@@ -518,7 +548,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-zinc-500 italic p-3 rounded-md bg-zinc-950 border border-zinc-800">
+              <p className="text-xs text-zinc-500 italic p-3 rounded-sm bg-zinc-950 border border-zinc-800">
                 No technology tags configured for this workspace. Click Edit Workspace to add technologies.
               </p>
             )}
@@ -528,13 +558,13 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
         {/* Right Column (4 Columns Sidebar Widgets) */}
         <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
           {/* Real Client Profile Card */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm text-xs">
+          <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm text-xs">
             <h2 className="text-xs font-bold uppercase text-zinc-300 tracking-wider flex items-center justify-between border-b border-zinc-800 pb-2.5">
               <span className="flex items-center gap-2">
                 <HugeiconsIcon icon={Building01Icon} size={14} className="text-cyan-400" />
                 <span>Client Sponsor</span>
               </span>
-              <Badge variant="outline" className="rounded-md bg-emerald-950 border-emerald-800 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5">
+              <Badge variant="outline" className="rounded-sm bg-emerald-950 border-emerald-800 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5">
                 {clientName ? 'Connected' : 'Internal'}
               </Badge>
             </h2>
@@ -542,7 +572,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
             {clientName ? (
               <>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-white text-xs shrink-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-sm bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-white text-xs shrink-0">
                     {clientName.charAt(0)}
                   </div>
                   <div className="min-w-0">
@@ -568,11 +598,11 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
                 </div>
               </>
             ) : (
-              <div className="p-2.5 rounded-md bg-zinc-950 border border-zinc-800 space-y-2 text-center">
+              <div className="p-2.5 rounded-sm bg-zinc-950 border border-zinc-800 space-y-2 text-center">
                 <p className="text-zinc-400 text-xs">No client linked to this workspace.</p>
                 <button
                   onClick={onOpenEdit}
-                  className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs cursor-pointer"
+                  className="px-3 py-1 rounded-sm bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs cursor-pointer"
                 >
                   Assign Client
                 </button>
@@ -581,7 +611,7 @@ export const ProjectExecutiveOverview: React.FC<ProjectExecutiveOverviewProps> =
           </div>
 
           {/* Project Information Inspector */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm text-xs font-mono">
+          <div className="p-3.5 sm:p-4 rounded-sm bg-zinc-900 border border-zinc-800 space-y-3 shadow-sm text-xs font-mono">
             <h2 className="text-xs font-bold uppercase text-zinc-300 tracking-wider flex items-center gap-2 border-b border-zinc-800 pb-2.5">
               <HugeiconsIcon icon={Tag01Icon} size={14} className="text-cyan-400" />
               <span>Project Information</span>

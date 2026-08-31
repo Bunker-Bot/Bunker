@@ -58,7 +58,7 @@ export const ProjectDetailPage: React.FC = () => {
 
   const realTaskCount = taskStats?.total || 0;
   const realDocsCount = docsData?.totalCount || docsData?.documents?.length || 0;
-  const realTimelineCount = timelineData?.pages?.[0]?.totalCount || 
+  const realTimelineCount = timelineData?.pages?.[0]?.totalCount ||
     timelineData?.pages?.reduce((acc, p) => acc + (p.items?.length || 0), 0) || 0;
   const realDeploymentsCount = deployments?.length || 0;
   const realShareLinksCount = shareLinks?.length || 0;
@@ -76,15 +76,15 @@ export const ProjectDetailPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-6 space-y-4 font-mono select-none">
-        <div className="h-44 rounded-md bg-zinc-900 border border-zinc-800 animate-pulse" />
+        <div className="h-44 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-24 rounded-md bg-zinc-900 border border-zinc-800 animate-pulse" />
+            <div key={i} className="h-24 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-          <div className="lg:col-span-8 h-80 rounded-md bg-zinc-900 border border-zinc-800 animate-pulse" />
-          <div className="lg:col-span-4 h-80 rounded-md bg-zinc-900 border border-zinc-800 animate-pulse" />
+          <div className="lg:col-span-8 h-80 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
+          <div className="lg:col-span-4 h-80 rounded-sm bg-zinc-900 border border-zinc-800 animate-pulse" />
         </div>
       </div>
     );
@@ -100,12 +100,12 @@ export const ProjectDetailPage: React.FC = () => {
           <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
           <span>Back to Projects Directory</span>
         </button>
-        <div className="p-6 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs space-y-3">
+        <div className="p-6 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs space-y-3">
           <h2 className="text-sm font-bold text-white">Project Not Found</h2>
           <p className="text-zinc-400">The requested project workspace could not be loaded from Supabase.</p>
           <button
             onClick={() => refetch()}
-            className="px-3.5 py-2 rounded-md bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow"
+            className="px-3.5 py-2 rounded-sm bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer shadow"
           >
             Retry Loading
           </button>
@@ -129,22 +129,21 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setIsDrawerOpen(true)}
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-200 text-xs font-bold cursor-pointer transition-all"
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-200 text-xs font-bold cursor-pointer transition-all"
         >
           <HugeiconsIcon icon={Edit01Icon} size={13} />
           <span>Edit Workspace</span>
         </button>
       </div>
 
-      {/* 2. Interactive Navigation Tabs with Real Live Badges & rounded-md */}
+      {/* 2. Interactive Navigation Tabs with Real Live Badges & rounded-sm */}
       <div className="flex items-center gap-1.5 sm:gap-2 border-b border-zinc-800/80 pb-3 text-xs overflow-x-auto custom-scrollbar whitespace-nowrap">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'overview'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'overview'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={DashboardSquare01Icon} size={15} />
           <span>Overview</span>
@@ -152,11 +151,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('milestones')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'milestones'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'milestones'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={Flag01Icon} size={15} />
           <span>Milestones</span>
@@ -164,11 +162,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('finances')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'finances'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'finances'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={PackageIcon} size={15} />
           <span>Deliverables & Finances ({realDeliverablesCount})</span>
@@ -176,11 +173,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('timeline')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'timeline'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'timeline'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={Clock01Icon} size={15} />
           <span>Timeline ({realTimelineCount})</span>
@@ -188,11 +184,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('github')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'github'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'github'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={GithubIcon} size={15} className={isGithubConnected ? 'text-zinc-200' : ''} />
           <span>GitHub {isGithubConnected ? '(Connected)' : ''}</span>
@@ -200,11 +195,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('tasks')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'tasks'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'tasks'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={Task01Icon} size={15} />
           <span>Tasks ({realTaskCount})</span>
@@ -212,11 +206,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('deployments')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'deployments'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'deployments'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={CloudIcon} size={15} />
           <span>Deployments ({realDeploymentsCount})</span>
@@ -224,11 +217,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('documentation')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'documentation'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'documentation'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={FileCodeIcon} size={15} />
           <span>Documentation ({realDocsCount})</span>
@@ -236,11 +228,10 @@ export const ProjectDetailPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('share-links')}
-          className={`px-3.5 py-2 rounded-md font-bold cursor-pointer transition-all flex items-center gap-2 ${
-            activeTab === 'share-links'
+          className={`px-3.5 py-2 rounded-sm font-bold cursor-pointer transition-all flex items-center gap-2 ${activeTab === 'share-links'
               ? 'bg-white text-black shadow'
               : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-          }`}
+            }`}
         >
           <HugeiconsIcon icon={Link01Icon} size={15} />
           <span>Share Links ({realShareLinksCount})</span>

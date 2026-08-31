@@ -51,7 +51,7 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ code = '', chart
   if (!chartDefinition) return null;
 
   return (
-    <div className="my-5 p-5 rounded-xl bg-zinc-950/90 border border-zinc-800 shadow-xl backdrop-blur-2xl space-y-4 select-none">
+    <div className="my-5 p-5 rounded-sm bg-zinc-950/90 border border-zinc-800 shadow-xl backdrop-blur-2xl space-y-4 select-none">
       <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2 text-xs font-mono text-zinc-400">
         <div className="flex items-center gap-1.5 font-bold text-white">
           <HugeiconsIcon icon={GridIcon} size={14} className="text-zinc-400" />
@@ -64,7 +64,7 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ code = '', chart
 
       <div className="flex justify-center items-center py-2 overflow-x-auto custom-scrollbar">
         {error ? (
-          <div className="p-3 text-xs font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-md w-full">
+          <div className="p-3 text-xs font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-sm w-full">
             Failed to render Mermaid diagram.
           </div>
         ) : svgHtml ? (

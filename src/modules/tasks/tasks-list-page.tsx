@@ -116,9 +116,8 @@ const TaskDroppableColumn: React.FC<{
     <div
       ref={setNodeRef}
       id={col.key}
-      className={`p-3.5 rounded border transition-colors ${col.border} ${col.bg} ${
-        isOver ? 'ring-2 ring-cyan-500/50 bg-zinc-900/90 border-cyan-500' : ''
-      } space-y-3 min-h-[140px] md:min-h-[550px] flex flex-col shadow-inner`}
+      className={`p-3.5 rounded border transition-colors ${col.border} ${col.bg} ${isOver ? 'ring-2 ring-cyan-500/50 bg-zinc-900/90 border-cyan-500' : ''
+        } space-y-3 min-h-[140px] md:min-h-[550px] flex flex-col shadow-inner`}
     >
       {/* Column Header */}
       <div className="flex items-center justify-between gap-2 border-b border-zinc-800/80 pb-2.5">
@@ -685,18 +684,16 @@ export const TasksListPage: React.FC = () => {
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded border border-zinc-800 shrink-0">
             <button
               onClick={() => setViewMode('table')}
-              className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${
-                viewMode === 'table' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-400 hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${viewMode === 'table' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-400 hover:text-white'
+                }`}
             >
               <HugeiconsIcon icon={Menu01Icon} size={14} />
               <span>Table</span>
             </button>
             <button
               onClick={() => setViewMode('kanban')}
-              className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${
-                viewMode === 'kanban' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-400 hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${viewMode === 'kanban' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-400 hover:text-white'
+                }`}
             >
               <HugeiconsIcon icon={Grid02Icon} size={14} />
               <span>Kanban</span>
@@ -746,9 +743,8 @@ export const TasksListPage: React.FC = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className={`hover:bg-zinc-800/40 transition-colors ${
-                          isSelected ? 'bg-zinc-800/60' : ''
-                        }`}
+                        className={`hover:bg-zinc-800/40 transition-colors ${isSelected ? 'bg-zinc-800/60' : ''
+                          }`}
                       >
                         {/* Checkbox */}
                         <td className="p-3 text-center">
@@ -824,13 +820,12 @@ export const TasksListPage: React.FC = () => {
                             </div>
                             <div className="w-full h-1.5 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800/80">
                               <div
-                                className={`h-full transition-all duration-300 rounded-full ${
-                                  task.progress === 100
+                                className={`h-full transition-all duration-300 rounded-full ${task.progress === 100
                                     ? 'bg-emerald-400'
                                     : task.progress > 50
-                                    ? 'bg-cyan-400'
-                                    : 'bg-zinc-400'
-                                }`}
+                                      ? 'bg-cyan-400'
+                                      : 'bg-zinc-400'
+                                  }`}
                                 style={{ width: `${task.progress}%` }}
                               />
                             </div>
@@ -942,10 +937,10 @@ export const TasksListPage: React.FC = () => {
               {activeTask ? (
                 <KanbanTaskCard
                   task={activeTask}
-                  onOpenDetail={() => {}}
-                  onEdit={() => {}}
-                  onDuplicate={() => {}}
-                  onDelete={() => {}}
+                  onOpenDetail={() => { }}
+                  onEdit={() => { }}
+                  onDuplicate={() => { }}
+                  onDelete={() => { }}
                   isDraggingOverlay={true}
                 />
               ) : null}
@@ -985,7 +980,7 @@ export const TasksListPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-4 py-3 rounded-md bg-zinc-950 border border-zinc-700 shadow-2xl flex items-center gap-3 text-xs font-mono text-white"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-4 py-3 rounded-sm bg-zinc-950 border border-zinc-700 shadow-2xl flex items-center gap-3 text-xs font-mono text-white"
         >
           <div className="flex items-center gap-2 border-r border-zinc-800 pr-3">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />

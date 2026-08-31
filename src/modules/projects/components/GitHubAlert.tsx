@@ -65,7 +65,7 @@ export const GitHubAlert: React.FC<GitHubAlertProps> = ({ type, content }) => {
   const config = getAlertConfig(type);
 
   return (
-    <div className={`p-4 my-4 rounded-xl border backdrop-blur-xl space-y-1 select-none ${config.classes}`}>
+    <div className={`p-4 my-4 rounded-sm border backdrop-blur-xl space-y-1 select-none ${config.classes}`}>
       <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider">
         <HugeiconsIcon icon={config.icon} size={16} className={config.iconColor} />
         <span>{config.title}</span>

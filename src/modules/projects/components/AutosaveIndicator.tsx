@@ -11,7 +11,7 @@ interface AutosaveIndicatorProps {
 
 export const AutosaveIndicator: React.FC<AutosaveIndicatorProps> = ({ status }) => {
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-900/90 border border-zinc-800 text-[11px] font-mono select-none shrink-0">
+    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-zinc-900/90 border border-zinc-800 text-[11px] font-mono select-none shrink-0">
       {status === 'saving' && (
         <>
           <RadialSpinner size={12} className="text-amber-400" />

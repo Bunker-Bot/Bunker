@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Cancel01Icon, Flag01Icon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
+import { Select } from '../../../../packages/ui/src/components/select';
 import type { Milestone } from '../../../types';
 
 interface MilestoneDialogProps {
@@ -156,30 +157,32 @@ export const MilestoneDialog: React.FC<MilestoneDialogProps> = ({
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-[10px] text-zinc-400 font-bold uppercase block">Priority</label>
-                <select
+                <Select
                   value={priority}
-                  onChange={(e) => setPriority(e.target.value as any)}
-                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-sm text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer"
-                >
-                  <option value="low">Low Priority</option>
-                  <option value="medium">Medium Priority</option>
-                  <option value="high">High Priority</option>
-                  <option value="urgent font-bold">Urgent Priority</option>
-                </select>
+                  onChange={(val) => setPriority(val as any)}
+                  options={[
+                    { value: 'low', label: 'Low Priority' },
+                    { value: 'medium', label: 'Medium Priority' },
+                    { value: 'high', label: 'High Priority' },
+                    { value: 'urgent', label: 'Urgent Priority' },
+                  ]}
+                  className="w-full"
+                />
               </div>
 
               <div className="space-y-1">
                 <label className="text-[10px] text-zinc-400 font-bold uppercase block">Status</label>
-                <select
+                <Select
                   value={status}
-                  onChange={(e) => setStatus(e.target.value as any)}
-                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-sm text-xs text-white focus:outline-none focus:border-cyan-500 cursor-pointer"
-                >
-                  <option value="in_progress">In Progress</option>
-                  <option value="pending">Pending</option>
-                  <option value="completed">Completed</option>
-                  <option value="overdue">Overdue</option>
-                </select>
+                  onChange={(val) => setStatus(val as any)}
+                  options={[
+                    { value: 'in_progress', label: 'In Progress' },
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'completed', label: 'Completed' },
+                    { value: 'overdue', label: 'Overdue' },
+                  ]}
+                  className="w-full"
+                />
               </div>
             </div>
 

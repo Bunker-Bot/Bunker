@@ -11,6 +11,9 @@ import {
 } from '@hugeicons/core-free-icons';
 import { Badge } from '../../../components/ui/badge';
 import { AppLogo } from '../../../components/ui/AppLogo';
+import { IdentityAvatar3D, generateAvatarConfig } from '../../../features/identity-avatar';
+import { AvatarIdentityPopover } from '../../../features/identity-avatar/components/AvatarIdentityPopover';
+import { AvatarIdentitySheet } from '../../../features/identity-avatar/components/AvatarIdentitySheet';
 
 interface ClientHeroProps {
   project: any;
@@ -31,6 +34,7 @@ export const ClientHero: React.FC<ClientHeroProps> = ({
   currencySymbol,
   onOpenPaymentModal,
 }) => {
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (completionPct / 100) * circumference;
@@ -47,6 +51,29 @@ export const ClientHero: React.FC<ClientHeroProps> = ({
   const updatedDate = project?.updated_at ? new Date(project.updated_at).toLocaleDateString() : new Date().toLocaleDateString();
   const estimatedDelivery = project?.due_date || project?.target_date || 'Q3 2026';
 
+  const avatarConfig = React.useMemo(() => {
+    if (project?.avatar_config) return project.avatar_config;
+    if (project?.avatarConfig) return project.avatarConfig;
+    if (project?.avatar?.config) return project.avatar.config;
+    return generateAvatarConfig({
+      entityId: project?.id || 'portal-project',
+      entityKind: 'project',
+      name: project?.name || 'Project Review',
+      preferredColor: project?.color,
+      parentEntityId: project?.client_id || project?.clientId || '',
+    });
+  }, [project]);
+
+  const avatarCode =
+    project?.avatar_code ||
+    project?.avatarCode ||
+    project?.avatar?.code ||
+    '4839201746';
+
+  const guardianName =
+    project?.avatar?.name ||
+    `${project?.name || 'Project'} Guardian`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -59,15 +86,71 @@ export const ClientHero: React.FC<ClientHeroProps> = ({
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        
-        {/* Left Info Column */}
+
+        {/* Left Info Column with 3D Guardian Identity */}
         <div className="space-y-4 flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="w-10 h-10 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-cyan-400 shrink-0 shadow-inner">
-              <AppLogo size={24} showText={false} />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
+            {/* Desktop Popover & Mobile Sheet Trigger */}
+            <div className="hidden sm:block">
+              <AvatarIdentityPopover
+                config={avatarConfig}
+                avatarCode={avatarCode}
+                name={guardianName}
+                projectName={project?.name}
+                clientName={clientName}
+                status={status}
+                side="bottom"
+                align="start"
+              >
+                <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-sm bg-zinc-950/90 border border-zinc-800 hover:border-cyan-500/60 shadow-2xl flex items-center justify-center overflow-hidden shrink-0 transition-all cursor-pointer group">
+                  <IdentityAvatar3D
+                    input={{
+                      entityId: project?.id || 'portal-project',
+                      entityKind: 'project',
+                      name: project?.name || 'Project Review',
+                      preferredColor: project?.color,
+                      parentEntityId: project?.client_id || project?.clientId || '',
+                      logoUrl: project?.thumbnail_url || (project?.client as any)?.logo_url || null,
+                    }}
+                    badgeText={project?.name?.charAt(0)?.toUpperCase() || 'B'}
+                    size="100%"
+                  />
+                </div>
+              </AvatarIdentityPopover>
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
+
+            {/* Mobile Tap Trigger */}
+            <div
+              className="sm:hidden w-20 h-20 rounded-sm bg-zinc-950/90 border border-zinc-800 shadow-2xl flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
+              onClick={() => setIsSheetOpen(true)}
+            >
+              <IdentityAvatar3D
+                input={{
+                  entityId: project?.id || 'portal-project',
+                  entityKind: 'project',
+                  name: project?.name || 'Project Review',
+                  preferredColor: project?.color,
+                  parentEntityId: project?.client_id || project?.clientId || '',
+                  logoUrl: project?.thumbnail_url || (project?.client as any)?.logo_url || null,
+                }}
+                badgeText={project?.name?.charAt(0)?.toUpperCase() || 'B'}
+                size="100%"
+              />
+            </div>
+
+            <AvatarIdentitySheet
+              isOpen={isSheetOpen}
+              onClose={() => setIsSheetOpen(false)}
+              config={avatarConfig}
+              avatarCode={avatarCode}
+              name={guardianName}
+              projectName={project?.name}
+              clientName={clientName}
+              status={status}
+            />
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight truncate">
                   {project?.name || 'Client Review Portal'}
                 </h1>
@@ -75,13 +158,16 @@ export const ClientHero: React.FC<ClientHeroProps> = ({
                   {status}
                 </Badge>
               </div>
-              <p className="text-xs text-zinc-400 font-sans flex items-center gap-2 mt-0.5">
+              <p className="text-xs text-zinc-400 font-sans flex items-center gap-2 mt-1">
                 <span className="flex items-center gap-1 text-zinc-300">
                   <HugeiconsIcon icon={UserIcon} size={12} className="text-zinc-500" />
                   {clientName}
                 </span>
                 <span className="text-zinc-600">•</span>
-                <span className="text-zinc-500">Enterprise Workspace</span>
+                <span className="text-cyan-400 flex items-center gap-1">
+                  <AppLogo size={14} showText={false} />
+                  Secure Client Portal
+                </span>
               </p>
             </div>
           </div>

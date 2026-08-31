@@ -16,6 +16,18 @@ export const TimezoneSelect: React.FC<TimezoneSelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
 
   const selectedTimezone = TIMEZONES.find((t) => t.value === value);
 
@@ -33,7 +45,7 @@ export const TimezoneSelect: React.FC<TimezoneSelectProps> = ({
   };
 
   return (
-    <div className="relative font-mono text-xs select-none">
+    <div ref={containerRef} className="relative font-mono text-xs select-none">
       <button
         type="button"
         disabled={disabled}

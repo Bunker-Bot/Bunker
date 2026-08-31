@@ -32,7 +32,7 @@ interface LoginFormProps {
 
 function mapAuthError(error: any): string {
   if (!error) return 'An unexpected error occurred during sign in. Please try again.';
-  
+
   const message = (error.message || '').toLowerCase();
 
   if (message.includes('invalid login credentials') || message.includes('invalid credentials') || message.includes('user not found')) {
@@ -86,7 +86,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       });
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['profile'] });
-      
+
       onSuccess();
     },
   });
@@ -107,7 +107,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             animate={{ opacity: 1, y: 0, height: 'auto' }}
             exit={{ opacity: 0, y: -6, height: 0 }}
             transition={{ duration: 0.15 }}
-            className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-start gap-2.5 text-xs text-rose-300 overflow-hidden"
+            className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-sm flex items-start gap-2.5 text-xs text-rose-300 overflow-hidden"
             role="alert"
           >
             <HugeiconsIcon icon={AlertCircleIcon} size={16} className="shrink-0 mt-0.5 text-rose-400" />
@@ -122,7 +122,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         <label htmlFor="admin-email" className="block text-xs font-medium text-zinc-300">
           Admin Email
         </label>
-        <div className="relative rounded-lg">
+        <div className="relative rounded-sm">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
             <HugeiconsIcon icon={Mail01Icon} size={16} />
           </div>
@@ -132,9 +132,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             disabled={isLoading}
             autoComplete="email"
             placeholder="admin@bunker.studio"
-            className={`w-full pl-10 pr-4 py-3 bg-zinc-900/90 border ${
-              errors.email ? 'border-rose-500/80 focus:ring-rose-500/30 focus:border-rose-500' : 'border-zinc-700/60 focus:ring-zinc-400/30 focus:border-zinc-400'
-            } rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`w-full pl-10 pr-4 py-3 bg-zinc-900/90 border ${errors.email ? 'border-rose-500/80 focus:ring-rose-500/30 focus:border-rose-500' : 'border-zinc-700/60 focus:ring-zinc-400/30 focus:border-zinc-400'
+              } rounded-sm text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
             {...register('email')}
           />
         </div>
@@ -188,7 +187,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-zinc-200 active:scale-[0.99] text-black font-semibold rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-lg mt-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white"
+        className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-zinc-200 active:scale-[0.99] text-black font-semibold rounded-sm text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-lg mt-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white"
       >
         {isLoading ? (
           <>

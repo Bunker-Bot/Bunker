@@ -20,6 +20,11 @@ import { NotesTab } from '../modules/notes/notes-tab';
 import { DeploymentsTab } from '../modules/deployments/deployments-tab';
 import { MilestonesTab } from '../modules/milestones/milestones-tab';
 import { SettingsPage } from '../modules/settings/settings-page';
+import { AvatarStudioPage } from '../features/identity-avatar/studio/AvatarStudioPage';
+import { ProjectIdentitiesPage } from '../features/identity-avatar/studio/ProjectIdentitiesPage';
+import { AvatarVariantsPage } from '../features/identity-avatar/studio/AvatarVariantsPage';
+import { AvatarSettingsPage } from '../features/identity-avatar/studio/AvatarSettingsPage';
+import { GuardianCreatorPage } from '../features/identity-avatar/creator/GuardianCreatorPage';
 import { pageTransitionVariants } from '../../packages/ui/src/theme/motion';
 
 export const DashboardLayout: React.FC = () => {
@@ -44,6 +49,20 @@ export const DashboardLayout: React.FC = () => {
               <Route path="/clients" element={<ClientsListPage />} />
               <Route path="clients/:id" element={<ClientDetailPage />} />
               <Route path="/clients/:id" element={<ClientDetailPage />} />
+              <Route path="avatar-studio" element={<AvatarStudioPage />} />
+              <Route path="/avatar-studio" element={<AvatarStudioPage />} />
+              <Route path="avatar-studio/projects" element={<ProjectIdentitiesPage />} />
+              <Route path="/avatar-studio/projects" element={<ProjectIdentitiesPage />} />
+              <Route path="avatar-studio/create" element={<GuardianCreatorPage />} />
+              <Route path="/avatar-studio/create" element={<GuardianCreatorPage />} />
+              <Route path="avatar-studio/:avatarId/edit" element={<GuardianCreatorPage />} />
+              <Route path="/avatar-studio/:avatarId/edit" element={<GuardianCreatorPage />} />
+              <Route path="avatar-studio/variants" element={<AvatarVariantsPage />} />
+              <Route path="/avatar-studio/variants" element={<AvatarVariantsPage />} />
+              <Route path="avatar-studio/settings" element={<AvatarSettingsPage />} />
+              <Route path="/avatar-studio/settings" element={<AvatarSettingsPage />} />
+              <Route path="avatar-studio/:avatarCode" element={<GuardianCreatorPage />} />
+              <Route path="/avatar-studio/:avatarCode" element={<GuardianCreatorPage />} />
               <Route path="projects" element={<ProjectsListPage />} />
               <Route path="/projects" element={<ProjectsListPage />} />
               <Route path="projects/:slug" element={<ProjectDetailPage />} />

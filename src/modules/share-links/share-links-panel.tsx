@@ -24,7 +24,12 @@ import {
   Copy01Icon,
   Tick01Icon,
   LockKeyIcon,
+  ViewIcon,
+  SparklesIcon,
+  Globe02Icon,
 } from '@hugeicons/core-free-icons';
+import { AvatarPoster } from '../../features/identity-avatar';
+import { generateAvatarConfig } from '../../features/identity-avatar/lib/avatar-generator';
 
 interface ShareLinksPanelProps {
   projectId?: string;
@@ -50,6 +55,7 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
   const [createdPassword, setCreatedPassword] = useState<string | null>(null);
   const [isCopiedCreatedUrl, setIsCopiedCreatedUrl] = useState(false);
   const [isCopiedCreatedPwd, setIsCopiedCreatedPwd] = useState(false);
+  const [showOgPreview, setShowOgPreview] = useState(false);
 
   // Fetch Projects List for Project Selector
   const { data: projectsResult } = useProjects({ limit: 100 });
@@ -190,11 +196,10 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id as any)}
-              className={`px-2.5 py-1 rounded text-xs font-bold transition-colors cursor-pointer border ${
-                statusFilter === tab.id
+              className={`px-2.5 py-1 rounded text-xs font-bold transition-colors cursor-pointer border ${statusFilter === tab.id
                   ? 'bg-zinc-800 border-zinc-700 text-white'
                   : 'bg-zinc-900/60 border-zinc-800/80 text-zinc-400 hover:text-zinc-200'
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -261,25 +266,49 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
       {/* Created Share Link Success Modal */}
       {createdShareUrl && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-lg p-5 space-y-4 font-mono text-xs shadow-2xl">
-            <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-              <HugeiconsIcon icon={Link01Icon} size={18} />
-              <span>Share Link Created Successfully</span>
+          <div className="w-full max-w-lg bg-zinc-950 border border-zinc-800 rounded-sm p-5 space-y-4 font-mono text-xs shadow-2xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                <HugeiconsIcon icon={Link01Icon} size={18} />
+                <span>Share Link & 3D Identity Created</span>
+              </div>
+              <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-800">
+                Zero-Trust Ready
+              </span>
             </div>
 
-            <p className="text-zinc-300 leading-relaxed text-[11.5px]">
-              Your cryptographically secure 32-byte token share link is ready. Provide this link to your client to access permitted project modules.
-            </p>
+            {/* Guardian Identity Summary Banner */}
+            <div className="p-3 rounded bg-zinc-900/80 border border-zinc-800 flex items-center gap-3.5 shadow-inner">
+              <div className="w-14 h-14 rounded-sm bg-zinc-950 border border-zinc-750 shrink-0 overflow-hidden flex items-center justify-center">
+                <AvatarPoster
+                  config={generateAvatarConfig({
+                    entityId: selectedProjectId !== 'all' ? selectedProjectId : 'default',
+                    entityKind: 'project',
+                    name: 'Client Project Deliverables',
+                  })}
+                  size="100%"
+                />
+              </div>
+              <div className="space-y-0.5 min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 text-cyan-400 font-bold text-[11px]">
+                  <HugeiconsIcon icon={SparklesIcon} size={13} />
+                  <span>Deterministic Guardian Active</span>
+                </div>
+                <p className="text-[11px] text-zinc-300 leading-snug">
+                  Dynamic Open Graph previews (1200×630) and interactive 3D hero portal identity are generated.
+                </p>
+              </div>
+            </div>
 
-            {/* Generated Share URL */}
+            {/* Generated Canonical Share URL */}
             <div className="space-y-1">
-              <label className="text-[10px] text-zinc-400 uppercase font-bold">Portal URL</label>
+              <label className="text-[10px] text-zinc-400 uppercase font-bold">Public Share Entry URL</label>
               <div className="flex items-center gap-2 p-2 rounded bg-zinc-900 border border-zinc-800">
                 <input
                   type="text"
                   readOnly
                   value={createdShareUrl}
-                  className="w-full bg-transparent text-cyan-300 font-mono text-xs outline-none"
+                  className="w-full bg-transparent text-cyan-300 font-mono text-xs outline-none truncate"
                 />
                 <button
                   onClick={async () => {
@@ -295,7 +324,7 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
               </div>
             </div>
 
-            {/* Password if generated */}
+            {/* Temporary Password if generated */}
             {createdPassword && (
               <div className="space-y-1 p-3 rounded bg-amber-950/40 border border-amber-800/80">
                 <div className="flex items-center gap-1.5 text-amber-300 font-bold text-[11px]">
@@ -321,13 +350,75 @@ export const ShareLinksPanel: React.FC<ShareLinksPanelProps> = ({
               </div>
             )}
 
-            <div className="pt-2 flex justify-end">
+            {/* Optional Inline Open Graph Card Preview */}
+            {showOgPreview && (
+              <div className="p-3 rounded bg-zinc-900/90 border border-zinc-800 space-y-2">
+                <span className="text-[10px] font-bold uppercase text-zinc-400 tracking-wider flex items-center gap-1.5">
+                  <HugeiconsIcon icon={Globe02Icon} size={12} className="text-cyan-400" />
+                  Social Card Preview (1.91:1 Aspect Ratio)
+                </span>
+                <div className="w-full aspect-[1200/630] rounded bg-zinc-950 border border-zinc-800 p-3 flex flex-col justify-between overflow-hidden shadow-inner">
+                  <div className="flex justify-between items-center text-[9px] text-zinc-400 font-mono">
+                    <span className="font-bold text-white">BUNKER VAULT</span>
+                    <span className="text-emerald-400 uppercase">Secure Client Portal</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <h5 className="font-extrabold text-white text-[12px] truncate">Client Deliverables Review</h5>
+                      <p className="text-[9.5px] text-zinc-400 line-clamp-2">
+                        Zero-trust project access with milestones, timeline, and cryptographic verification.
+                      </p>
+                    </div>
+                    <div className="w-12 h-12 rounded bg-zinc-900 border border-zinc-800 shrink-0 flex items-center justify-center">
+                      <AvatarPoster
+                        config={generateAvatarConfig({
+                          entityId: selectedProjectId !== 'all' ? selectedProjectId : 'default',
+                          entityKind: 'project',
+                          name: 'Client Project Deliverables',
+                        })}
+                        size="100%"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center text-[8.5px] text-zinc-400 font-sans border-t border-zinc-850 pt-1">
+                    <span>React • Supabase • TypeScript</span>
+                    <span className="font-mono text-zinc-300">bunker.sh</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Actions Bar */}
+            <div className="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-850">
               <button
-                onClick={() => setCreatedShareUrl(null)}
-                className="px-4 py-2 rounded bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer"
+                type="button"
+                onClick={() => setShowOgPreview(!showOgPreview)}
+                className="px-3 py-1.5 rounded bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 font-bold text-xs cursor-pointer inline-flex items-center gap-1.5"
               >
-                Done
+                <HugeiconsIcon icon={ViewIcon} size={14} className="text-cyan-400" />
+                <span>{showOgPreview ? 'Hide Social Card' : 'Preview Social Card'}</span>
               </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => window.open(createdShareUrl, '_blank')}
+                  className="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <HugeiconsIcon icon={Link01Icon} size={14} />
+                  <span>Open Portal</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCreatedShareUrl(null);
+                    setShowOgPreview(false);
+                  }}
+                  className="px-4 py-1.5 rounded bg-white text-black font-bold text-xs hover:bg-zinc-200 cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           </div>
         </div>

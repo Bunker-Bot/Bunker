@@ -114,7 +114,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 px-3 rounded-md bg-white text-black font-semibold text-xs font-mono inline-flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors cursor-pointer shadow-md"
+            className="h-8 px-3 rounded-sm bg-white text-black font-semibold text-xs font-mono inline-flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors cursor-pointer shadow-md"
           >
             <HugeiconsIcon icon={Add01Icon} size={14} />
             <span>Add Deliverable</span>
@@ -124,7 +124,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
 
       {/* Assets Grid */}
       {assets.length === 0 ? (
-        <div className="p-8 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
+        <div className="p-8 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
           <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
             <HugeiconsIcon icon={Folder01Icon} size={20} />
           </div>
@@ -144,13 +144,13 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
             return (
               <div
                 key={asset.id}
-                className="p-4 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-3 flex flex-col justify-between"
+                className="p-4 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-3 flex flex-col justify-between"
               >
                 {/* Header */}
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-8 h-8 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 shrink-0">
+                      <div className="w-8 h-8 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 shrink-0">
                         <HugeiconsIcon icon={IconComponent} size={16} />
                       </div>
                       <div className="min-w-0">
@@ -184,7 +184,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
 
                 {/* Verified Resource Preview Banner */}
                 {asset.isUnlocked && asset.assetUrl && (
-                  <div className="p-2.5 rounded-md bg-zinc-950 border border-zinc-850 flex items-center justify-between gap-2.5 text-xs">
+                  <div className="p-2.5 rounded-sm bg-zinc-950 border border-zinc-850 flex items-center justify-between gap-2.5 text-xs">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
                         <HugeiconsIcon icon={driveInfo.isValid ? Folder01Icon : Link01Icon} size={12} />
@@ -216,11 +216,10 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                     href={asset.assetUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className={`h-7 px-2.5 rounded border text-[11px] font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
-                      asset.isUnlocked
-                        ? 'bg-zinc-900 border-zinc-800 hover:border-zinc-700 text-zinc-200 hover:text-white'
-                        : 'bg-zinc-900/40 border-zinc-800/40 text-zinc-600 pointer-events-none'
-                    }`}
+                    className={`h-7 px-2.5 rounded border text-[11px] font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer ${asset.isUnlocked
+                      ? 'bg-zinc-900 border-zinc-800 hover:border-zinc-700 text-zinc-200 hover:text-white'
+                      : 'bg-zinc-900/40 border-zinc-800/40 text-zinc-600 pointer-events-none'
+                      }`}
                   >
                     <HugeiconsIcon icon={Link01Icon} size={11} />
                     <span>{driveInfo.isValid ? 'Open Google Drive' : 'Access Link'}</span>
@@ -231,11 +230,10 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                       <button
                         type="button"
                         onClick={() => onToggleManualUnlock(asset.id, !asset.isManualUnlocked)}
-                        className={`h-7 px-2 rounded border text-[10px] font-mono inline-flex items-center gap-1 transition-colors cursor-pointer ${
-                          asset.isManualUnlocked
-                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                            : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
-                        }`}
+                        className={`h-7 px-2 rounded border text-[10px] font-mono inline-flex items-center gap-1 transition-colors cursor-pointer ${asset.isManualUnlocked
+                          ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+                          }`}
                         title="Toggle Manual Unlock"
                       >
                         <HugeiconsIcon icon={asset.isManualUnlocked ? CheckmarkCircle02Icon : LockKeyIcon} size={11} />
@@ -277,10 +275,10 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
       {/* Add Deliverable Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-          <div className="w-full max-w-lg rounded-lg bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
+          <div className="w-full max-w-lg rounded-sm bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <div className="w-8 h-8 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                   <HugeiconsIcon icon={Add01Icon} size={16} />
                 </div>
                 <div>
@@ -291,7 +289,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white cursor-pointer transition-colors"
+                className="w-7 h-7 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white cursor-pointer transition-colors"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={15} />
               </button>
@@ -307,7 +305,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Production Setup Video & Google Drive Folder"
-                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono transition-colors"
+                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono transition-colors"
                 />
               </div>
 
@@ -315,7 +313,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                 <div className="space-y-1.5 flex flex-col">
                   <label className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider h-4 flex items-center">Asset Type</label>
                   <Select value={assetType} onValueChange={(val: any) => setAssetType(val as AssetType)}>
-                    <SelectTrigger className="h-10 text-xs px-3 bg-zinc-900/80 border-zinc-800 rounded-lg font-mono text-zinc-200 focus:border-zinc-600 w-full">
+                    <SelectTrigger className="h-10 text-xs px-3 bg-zinc-900/80 border-zinc-800 rounded-sm font-mono text-zinc-200 focus:border-zinc-600 w-full">
                       <SelectValue placeholder="Asset Type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -331,7 +329,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                 <div className="space-y-1.5 flex flex-col">
                   <label className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider h-4 flex items-center">Unlock Rule</label>
                   <Select value={unlockType} onValueChange={(val: any) => setUnlockType(val as UnlockType)}>
-                    <SelectTrigger className="h-10 text-xs px-3 bg-zinc-900/80 border-zinc-800 rounded-lg font-mono text-zinc-200 focus:border-zinc-600 w-full">
+                    <SelectTrigger className="h-10 text-xs px-3 bg-zinc-900/80 border-zinc-800 rounded-sm font-mono text-zinc-200 focus:border-zinc-600 w-full">
                       <SelectValue placeholder="Unlock Rule" />
                     </SelectTrigger>
                     <SelectContent>
@@ -353,7 +351,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                   value={assetUrl}
                   onChange={(e) => setAssetUrl(e.target.value)}
                   placeholder="https://drive.google.com/drive/folders/..."
-                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono transition-colors"
+                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono transition-colors"
                 />
               </div>
 
@@ -364,7 +362,7 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="e.g. Contains source code ZIP, env variables, setup video, and database backup."
-                  className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono resize-none transition-colors"
+                  className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono resize-none transition-colors"
                 />
               </div>
 
@@ -372,14 +370,14 @@ export const DeliveryAssetsManager: React.FC<DeliveryAssetsManagerProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="h-10 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+                  className="h-10 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || !title || !assetUrl}
-                  className="h-10 px-5 rounded-lg bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
+                  className="h-10 px-5 rounded-sm bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
                 >
                   {isSubmitting ? 'Saving...' : 'Add Deliverable'}
                 </button>

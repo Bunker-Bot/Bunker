@@ -11,6 +11,8 @@ import {
 import { Badge } from '../../../components/ui/badge';
 import { getTechnologyIcon } from '../../../lib/constants/technology-icons';
 import type { ProjectDTO } from '../../../lib/services/project.service';
+import { AvatarPoster } from '../../../features/identity-avatar';
+import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
 
 interface ProjectDashboardCardProps {
   project: ProjectDTO;
@@ -23,11 +25,15 @@ export const ProjectDashboardCard: React.FC<ProjectDashboardCardProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const getInitials = (name: string) => {
-    const parts = name.trim().split(' ');
-    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-    return name.slice(0, 2).toUpperCase();
-  };
+  const avatarConfig = React.useMemo(() => {
+    return generateAvatarConfig({
+      entityId: project.id,
+      entityKind: 'project',
+      name: project.name,
+      parentEntityId: project.clientId || undefined,
+      preferredColor: project.color || undefined,
+    });
+  }, [project.id, project.name, project.clientId, project.color]);
 
   // Render Colorful Shadcn/UI Status Badge
   const renderStatusBadge = (statusStr: string) => {
@@ -96,12 +102,9 @@ export const ProjectDashboardCard: React.FC<ProjectDashboardCardProps> = ({
         {/* Top Header Row: Project Brand Avatar + Title + Menu */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 min-w-0">
-            {/* Color Avatar */}
-            <div
-              className="w-9 h-9 rounded-sm flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-md ring-1 ring-white/10"
-              style={{ backgroundColor: project.color || '#27272A' }}
-            >
-              {getInitials(project.name)}
+            {/* Bunker Guardian Identity Avatar */}
+            <div className="w-9 h-9 rounded-sm overflow-hidden bg-zinc-950 border border-zinc-800 shrink-0 shadow-md relative group-hover:border-zinc-700 transition-colors flex items-center justify-center">
+              <AvatarPoster config={avatarConfig} size="100%" />
             </div>
 
             <div className="min-w-0 space-y-0.5">

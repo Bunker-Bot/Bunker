@@ -34,6 +34,7 @@ const VIEW_TITLES: Record<ViewMode, string> = {
   dashboard: 'Dashboard Overview',
   projects: 'Client Projects',
   clients: 'Client Management',
+  'avatar-studio': 'Avatar Studio',
   tasks: 'Tasks & Kanban',
   milestones: 'Project Milestones',
   github: 'GitHub Developer Hub',
@@ -86,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={onOpenCommandMenu}
-          className="h-8 w-8 sm:w-auto px-0 sm:px-3 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.15)] text-zinc-400 hover:text-zinc-200 text-xs font-mono flex items-center justify-center sm:justify-start gap-2.5 transition-all cursor-pointer shadow-inner shrink-0"
+          className="h-8 w-8 sm:w-auto px-0 sm:px-3 rounded-sm bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.15)] text-zinc-400 hover:text-zinc-200 text-xs font-mono flex items-center justify-center sm:justify-start gap-2.5 transition-all cursor-pointer shadow-inner shrink-0"
           title="Search or command (Ctrl+K)"
         >
           <HugeiconsIcon icon={Search01Icon} size={15} className="text-zinc-400 shrink-0" />
@@ -100,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={onOpenCreateProject}
-          className="h-8 w-8 sm:w-auto px-0 sm:px-3 rounded-lg bg-[#FAFAFA] text-[#050505] hover:bg-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-[0_4px_16px_rgba(255,255,255,0.15)] border border-white/20 shrink-0"
+          className="h-8 w-8 sm:w-auto px-0 sm:px-3 rounded-sm bg-[#FAFAFA] text-[#050505] hover:bg-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-[0_4px_16px_rgba(255,255,255,0.15)] border border-white/20 shrink-0"
           title="New Project"
         >
           <HugeiconsIcon icon={Add01Icon} size={15} className="shrink-0" />
@@ -114,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
               render={
                 <button
                   type="button"
-                  className="w-8 h-8 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.15)] text-zinc-400 hover:text-white flex items-center justify-center transition-all cursor-pointer relative"
+                  className="w-8 h-8 rounded-sm bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.15)] text-zinc-400 hover:text-white flex items-center justify-center transition-all cursor-pointer relative"
                   title="Notifications"
                 >
                   <HugeiconsIcon icon={Notification01Icon} size={16} />
@@ -124,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <DropdownMenuContent
               align="end"
-              className="w-80 p-0 bg-[rgba(12,12,14,0.96)] backdrop-blur-2xl border border-[rgba(255,255,255,0.1)] rounded-xl shadow-2xl text-xs font-mono overflow-hidden"
+              className="w-80 p-0 bg-[rgba(12,12,14,0.96)] backdrop-blur-2xl border border-[rgba(255,255,255,0.1)] rounded-sm shadow-2xl text-xs font-mono overflow-hidden"
             >
               <div className="flex items-center justify-between p-3 border-b border-zinc-800/80 bg-zinc-950/60">
                 <span className="font-bold text-white font-sans">Notifications</span>

@@ -2,6 +2,7 @@ export type ViewMode =
   | 'dashboard'
   | 'projects'
   | 'clients'
+  | 'avatar-studio'
   | 'tasks'
   | 'milestones'
   | 'github'
@@ -16,6 +17,7 @@ export type ViewMode =
   | 'deployments'
   | 'notifications'
   | 'settings';
+
 
 export type ProjectStatus = 'in_progress' | 'review' | 'completed' | 'on_hold' | 'planning';
 

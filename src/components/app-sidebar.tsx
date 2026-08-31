@@ -14,6 +14,7 @@ import {
   Tag01Icon,
   LockKeyIcon,
   Flag01Icon,
+  SparklesIcon,
 } from "@hugeicons/core-free-icons"
 import { NavMain } from "./nav-main"
 import { NavProjects, type NavProjectItem } from "./nav-projects"
@@ -86,6 +87,12 @@ export function AppSidebar({
       view: "clients" as ViewMode,
       icon: <HugeiconsIcon icon={UserGroupIcon} size={16} />,
       isActive: currentView === "clients",
+    },
+    {
+      title: "Avatar Studio",
+      view: "avatar-studio" as ViewMode,
+      icon: <HugeiconsIcon icon={SparklesIcon} size={16} />,
+      isActive: currentView === "avatar-studio",
     },
     {
       title: "Tasks & Kanban",

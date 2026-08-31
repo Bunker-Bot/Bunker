@@ -69,9 +69,9 @@ export const ShareLinksDashboard: React.FC<ShareLinksDashboardProps> = ({ projec
 
   return (
     <div className="space-y-4 font-mono text-xs select-none">
-      <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800/80 shadow-xl">
+      <div className="flex items-center justify-between p-4 rounded-sm bg-zinc-950 border border-zinc-800/80 shadow-xl">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-rose-950/40 border border-rose-800/60 text-rose-400">
+          <div className="p-2.5 rounded-sm bg-rose-950/40 border border-rose-800/60 text-rose-400">
             <HugeiconsIcon icon={Link01Icon} size={20} />
           </div>
           <div>
@@ -82,7 +82,7 @@ export const ShareLinksDashboard: React.FC<ShareLinksDashboardProps> = ({ projec
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-sm bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-all cursor-pointer"
         >
           <HugeiconsIcon icon={Link01Icon} size={14} />
           <span>New Share Link</span>
@@ -94,11 +94,11 @@ export const ShareLinksDashboard: React.FC<ShareLinksDashboardProps> = ({ projec
           Loading share link records...
         </div>
       ) : links.length === 0 ? (
-        <div className="p-12 text-center text-zinc-500 border border-dashed border-zinc-800 rounded-xl">
+        <div className="p-12 text-center text-zinc-500 border border-dashed border-zinc-800 rounded-sm">
           No share links created yet for this project.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-zinc-800/80 bg-zinc-950/80">
+        <div className="overflow-x-auto rounded-sm border border-zinc-800/80 bg-zinc-950/80">
           <table className="w-full text-left border-collapse text-xs">
             <thead className="bg-zinc-900/90 border-b border-zinc-800 text-[10px] uppercase font-bold text-zinc-400">
               <tr>

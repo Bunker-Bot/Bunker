@@ -104,7 +104,7 @@ export const NotesTab: React.FC = () => {
           setNoteContent(parsed.content || '');
           if (parsed.tags) setNoteTags(parsed.tags);
         }
-      } catch {}
+      } catch { }
     }
   }, []);
 
@@ -210,11 +210,10 @@ export const NotesTab: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsArchivedView(!isArchivedView)}
-              className={`h-8 px-3 rounded-md border text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
-                isArchivedView
-                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
-              }`}
+              className={`h-8 px-3 rounded-sm border text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer ${isArchivedView
+                ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+                }`}
             >
               <HugeiconsIcon icon={ArchiveIcon} size={14} />
               <span>{isArchivedView ? 'Archived Notes' : 'Active Workspace'}</span>
@@ -229,7 +228,7 @@ export const NotesTab: React.FC = () => {
                 setNoteTags(['General']);
                 setIsComposerOpen(true);
               }}
-              className="h-8 px-3 rounded-md bg-white text-black font-semibold text-xs font-mono inline-flex items-center gap-1.5 cursor-pointer shadow hover:bg-zinc-200 transition-colors"
+              className="h-8 px-3 rounded-sm bg-white text-black font-semibold text-xs font-mono inline-flex items-center gap-1.5 cursor-pointer shadow hover:bg-zinc-200 transition-colors"
             >
               <HugeiconsIcon icon={Add01Icon} size={14} />
               <span>Create Note</span>
@@ -245,7 +244,7 @@ export const NotesTab: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800 space-y-4 shadow-xl font-mono text-xs overflow-hidden"
+            className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800 space-y-4 shadow-xl font-mono text-xs overflow-hidden"
           >
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
               <h3 className="text-xs font-bold text-white font-sans uppercase tracking-wider">
@@ -268,12 +267,12 @@ export const NotesTab: React.FC = () => {
                   value={noteTitle}
                   onChange={(e) => setNoteTitle(e.target.value)}
                   placeholder="Note Title (e.g. Client Pricing Agreement & Backend Requirements)"
-                  className="flex-1 h-9 px-3 bg-zinc-900/90 border border-zinc-800 focus:border-zinc-600 rounded-md text-xs text-white outline-none font-mono placeholder:text-zinc-500 min-w-0"
+                  className="flex-1 h-9 px-3 bg-zinc-900/90 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono placeholder:text-zinc-500 min-w-0"
                 />
 
                 <div className="flex items-center gap-2 shrink-0 flex-wrap">
                   <Select value={composerProjectId} onValueChange={(val) => setComposerProjectId(val as string)}>
-                    <SelectTrigger className="h-9 text-xs px-3 bg-zinc-900/90 border-zinc-800 rounded-md font-mono text-zinc-300 hover:text-white flex items-center gap-2 shrink-0">
+                    <SelectTrigger className="h-9 text-xs px-3 bg-zinc-900/90 border-zinc-800 rounded-sm font-mono text-zinc-300 hover:text-white flex items-center gap-2 shrink-0">
                       <HugeiconsIcon icon={Folder01Icon} size={14} className="text-zinc-400 shrink-0" />
                       <span className="truncate max-w-[140px]">
                         {composerProjectId === 'none'
@@ -294,7 +293,7 @@ export const NotesTab: React.FC = () => {
                   </Select>
 
                   <Select value={composerClientId} onValueChange={(val) => setComposerClientId(val as string)}>
-                    <SelectTrigger className="h-9 text-xs px-3 bg-zinc-900/90 border-zinc-800 rounded-md font-mono text-zinc-300 hover:text-white flex items-center gap-2 shrink-0">
+                    <SelectTrigger className="h-9 text-xs px-3 bg-zinc-900/90 border-zinc-800 rounded-sm font-mono text-zinc-300 hover:text-white flex items-center gap-2 shrink-0">
                       <HugeiconsIcon icon={UserGroupIcon} size={14} className="text-zinc-400 shrink-0" />
                       <span className="truncate max-w-[140px]">
                         {composerClientId === 'none'
@@ -326,11 +325,10 @@ export const NotesTab: React.FC = () => {
                       key={tag}
                       type="button"
                       onClick={() => handleToggleTag(tag)}
-                      className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors cursor-pointer ${
-                        active
-                          ? 'bg-zinc-800 text-white border border-zinc-700'
-                          : 'bg-zinc-900/60 text-zinc-500 border border-zinc-800/60 hover:text-zinc-300'
-                      }`}
+                      className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors cursor-pointer ${active
+                        ? 'bg-zinc-800 text-white border border-zinc-700'
+                        : 'bg-zinc-900/60 text-zinc-500 border border-zinc-800/60 hover:text-zinc-300'
+                        }`}
                     >
                       {tag}
                     </button>
@@ -364,16 +362,16 @@ export const NotesTab: React.FC = () => {
                       value={noteContent}
                       onChange={(e) => setNoteContent(e.target.value)}
                       placeholder="Write markdown content here..."
-                      className="w-full h-full min-h-[260px] p-3.5 bg-zinc-900/90 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono resize-y leading-relaxed"
+                      className="w-full h-full min-h-[260px] p-3.5 bg-zinc-900/90 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono resize-y leading-relaxed"
                     />
-                    <div className="min-h-[260px] max-h-[420px] p-4 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto">
+                    <div className="min-h-[260px] max-h-[420px] p-4 rounded-sm bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto">
                       <MarkdownPreview content={noteContent || '*Nothing to preview yet...*'} />
                     </div>
                   </div>
                 )}
 
                 {editorViewMode === 'preview' && (
-                  <div className="min-h-[260px] p-4 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto">
+                  <div className="min-h-[260px] p-4 rounded-sm bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto">
                     <MarkdownPreview content={noteContent || '*Draft is empty...*'} />
                   </div>
                 )}
@@ -383,14 +381,14 @@ export const NotesTab: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsComposerOpen(false)}
-                  className="h-8 px-3 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-mono cursor-pointer"
+                  className="h-8 px-3 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-mono cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!noteContent.trim() || createMutation.isPending || updateMutation.isPending}
-                  className="h-8 px-4 rounded-md bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 transition-colors cursor-pointer disabled:opacity-50"
+                  className="h-8 px-4 rounded-sm bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {editingNote ? 'Save Note' : 'Post Note'}
                 </button>
@@ -401,7 +399,7 @@ export const NotesTab: React.FC = () => {
       </AnimatePresence>
 
       {/* Filter Bar */}
-      <div className="p-3 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 font-mono text-xs space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-3 shadow-sm">
+      <div className="p-3 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 font-mono text-xs space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-3 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 min-w-0 flex-1">
           {/* Search Input */}
           <div className="relative w-full sm:w-56 shrink-0">
@@ -411,7 +409,7 @@ export const NotesTab: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search notes, tags, content..."
-              className="w-full h-8 pl-8 pr-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-700 rounded-md text-[11px] font-mono text-white outline-none placeholder:text-zinc-500"
+              className="w-full h-8 pl-8 pr-3 bg-zinc-900 border border-zinc-800 focus:border-zinc-700 rounded-sm text-[11px] font-mono text-white outline-none placeholder:text-zinc-500"
             />
           </div>
 
@@ -419,7 +417,7 @@ export const NotesTab: React.FC = () => {
           <div className="grid grid-cols-3 sm:flex sm:items-center gap-2 w-full sm:w-auto">
             {/* Project Filter */}
             <Select value={selectedProjectId} onValueChange={(val) => setSelectedProjectId(val as string)}>
-              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-md w-full sm:w-auto shrink-0">
+              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-sm w-full sm:w-auto shrink-0">
                 <div className="flex items-center gap-1.5 truncate">
                   <HugeiconsIcon icon={Folder01Icon} size={12} className="text-zinc-400 shrink-0" />
                   <span className="truncate max-w-[90px] sm:max-w-[130px]">
@@ -441,7 +439,7 @@ export const NotesTab: React.FC = () => {
 
             {/* Client Filter */}
             <Select value={selectedClientId} onValueChange={(val) => setSelectedClientId(val as string)}>
-              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-md w-full sm:w-auto shrink-0">
+              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-sm w-full sm:w-auto shrink-0">
                 <div className="flex items-center gap-1.5 truncate">
                   <HugeiconsIcon icon={UserGroupIcon} size={12} className="text-zinc-400 shrink-0" />
                   <span className="truncate max-w-[90px] sm:max-w-[130px]">
@@ -463,7 +461,7 @@ export const NotesTab: React.FC = () => {
 
             {/* Tag Filter */}
             <Select value={selectedTag} onValueChange={(val) => setSelectedTag(val as string)}>
-              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-md w-full sm:w-auto shrink-0">
+              <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-300 hover:text-white flex items-center justify-between sm:justify-start gap-1.5 rounded-sm w-full sm:w-auto shrink-0">
                 <div className="flex items-center gap-1.5 truncate">
                   <HugeiconsIcon icon={Tag01Icon} size={12} className="text-zinc-400 shrink-0" />
                   <span className="truncate max-w-[80px] sm:max-w-[120px]">
@@ -493,11 +491,11 @@ export const NotesTab: React.FC = () => {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-36 rounded-lg bg-[#0c0c0d] border border-zinc-800/40 animate-pulse" />
+            <div key={i} className="h-36 rounded-sm bg-[#0c0c0d] border border-zinc-800/40 animate-pulse" />
           ))}
         </div>
       ) : notes.length === 0 ? (
-        <div className="p-12 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
+        <div className="p-12 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
           <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
             <HugeiconsIcon icon={LockKeyIcon} size={20} />
           </div>
@@ -613,7 +611,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
   onExport,
 }) => {
   return (
-    <div className="p-4 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 hover:border-zinc-700/80 transition-colors space-y-3 flex flex-col justify-between font-mono text-xs shadow-sm">
+    <div className="p-4 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 hover:border-zinc-700/80 transition-colors space-y-3 flex flex-col justify-between font-mono text-xs shadow-sm">
       <div className="space-y-2">
         {/* Card Top Row */}
         <div className="flex items-start justify-between gap-2">
@@ -631,11 +629,10 @@ const NoteCard: React.FC<NoteCardProps> = ({
             <button
               type="button"
               onClick={() => onTogglePin(note.id, !note.isPinned)}
-              className={`p-1 rounded border transition-colors cursor-pointer ${
-                note.isPinned
-                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                  : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-white'
-              }`}
+              className={`p-1 rounded border transition-colors cursor-pointer ${note.isPinned
+                ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-white'
+                }`}
               title={note.isPinned ? 'Unpin Note' : 'Pin Note'}
             >
               <HugeiconsIcon icon={Flag01Icon} size={12} />
@@ -644,11 +641,10 @@ const NoteCard: React.FC<NoteCardProps> = ({
             <button
               type="button"
               onClick={() => onToggleArchive(note.id, !note.isArchived)}
-              className={`p-1 rounded border transition-colors cursor-pointer ${
-                note.isArchived
-                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                  : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-white'
-              }`}
+              className={`p-1 rounded border transition-colors cursor-pointer ${note.isArchived
+                ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-white'
+                }`}
               title={note.isArchived ? 'Restore Note' : 'Archive Note'}
             >
               <HugeiconsIcon icon={ArchiveIcon} size={12} />

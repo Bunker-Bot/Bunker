@@ -25,14 +25,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <section id="hero" className="scroll-mt-20 relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 sm:py-16 lg:py-24 overflow-hidden bg-[#050505]">
-      
+
       {/* Signature Bunker Architectural Monochrome Background */}
       <HeroSignatureBackground />
 
       {/* Hero Interactive Content Layer */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
+
           {/* Left Column: Headline, Copy & CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -69,7 +69,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="flex flex-row items-center gap-2.5 sm:gap-3 pt-1 w-full max-w-md">
               <button
                 onClick={handlePrimaryClick}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 bg-white hover:bg-zinc-200 text-black font-semibold rounded-lg text-xs sm:text-sm transition-all duration-200 shadow-xl cursor-pointer hover:scale-[1.01] active:scale-[0.99] whitespace-nowrap"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 bg-white hover:bg-zinc-200 text-black font-semibold rounded-sm text-xs sm:text-sm transition-all duration-200 shadow-xl cursor-pointer hover:scale-[1.01] active:scale-[0.99] whitespace-nowrap"
               >
                 <HugeiconsIcon icon={SecurityCheckIcon} size={15} className="shrink-0" />
                 <span>Admin Login</span>
@@ -78,7 +78,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
               <button
                 onClick={onSeeAction}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-xs sm:text-sm font-semibold text-zinc-200 hover:text-white backdrop-blur-xl transition-all duration-200 cursor-pointer hover:scale-[1.01] whitespace-nowrap"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 rounded-sm text-xs sm:text-sm font-semibold text-zinc-200 hover:text-white backdrop-blur-xl transition-all duration-200 cursor-pointer hover:scale-[1.01] whitespace-nowrap"
               >
                 <HugeiconsIcon icon={PlayIcon} size={14} className="text-zinc-300 shrink-0" />
                 <span>See it in Action</span>

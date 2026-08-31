@@ -91,13 +91,13 @@ const SAMPLE_PARTNERS = [
 export const TestimonialsSection: React.FC = () => {
   return (
     <section id="testimonials" className="scroll-mt-20 relative w-full py-24 border-t border-zinc-800/80 bg-[#050505] overflow-hidden">
-      
+
       {/* Signature Bunker Monochrome Architectural Background */}
       <HeroSignatureBackground />
 
       {/* Main Interactive Container */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-12 w-full space-y-16">
-        
+
         {/* Section Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 backdrop-blur-xl text-xs text-zinc-300 shadow-xl">
@@ -118,7 +118,7 @@ export const TestimonialsSection: React.FC = () => {
         </div>
 
         {/* Explicit Glass Transparency Notice Banner */}
-        <div className="max-w-3xl mx-auto p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-lg backdrop-blur-xl flex items-center gap-3 text-xs text-zinc-400 shadow-xl">
+        <div className="max-w-3xl mx-auto p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-sm backdrop-blur-xl flex items-center gap-3 text-xs text-zinc-400 shadow-xl">
           <HugeiconsIcon icon={InformationCircleIcon} size={18} className="text-zinc-300 shrink-0" />
           <p className="leading-normal">
             <span className="font-mono font-bold text-white uppercase tracking-wider mr-2">Sample Content:</span>
@@ -129,7 +129,7 @@ export const TestimonialsSection: React.FC = () => {
         {/* Sample Partner Logo Strip */}
         <div className="space-y-3 text-center">
           <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-widest">Sample Partner Logos</span>
-          <div className="p-6 bg-[rgba(15,15,18,0.7)] border border-zinc-800/60 rounded-lg backdrop-blur-xl flex flex-wrap items-center justify-center sm:justify-between gap-6 opacity-70 hover:opacity-100 transition-opacity">
+          <div className="p-6 bg-[rgba(15,15,18,0.7)] border border-zinc-800/60 rounded-sm backdrop-blur-xl flex flex-wrap items-center justify-center sm:justify-between gap-6 opacity-70 hover:opacity-100 transition-opacity">
             {SAMPLE_PARTNERS.map((partner, index) => (
               <div key={index} className="flex items-center gap-2 text-xs sm:text-sm font-mono font-semibold text-zinc-400 tracking-wider">
                 <HugeiconsIcon icon={Building01Icon} size={16} className="text-zinc-500" />
@@ -145,7 +145,7 @@ export const TestimonialsSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.25 }}
-          className="group relative p-8 sm:p-12 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-lg backdrop-blur-2xl shadow-2xl space-y-6 hover:border-zinc-700 transition-all duration-200"
+          className="group relative p-8 sm:p-12 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-sm backdrop-blur-2xl shadow-2xl space-y-6 hover:border-zinc-700 transition-all duration-200"
         >
           <div className="flex items-center justify-between border-b border-zinc-800/80 pb-4">
             <div className="flex items-center gap-1 text-white">
@@ -153,7 +153,7 @@ export const TestimonialsSection: React.FC = () => {
                 <HugeiconsIcon key={i} icon={StarIcon} size={16} className="fill-white text-white" />
               ))}
             </div>
-            <span className="text-[11px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-lg">
+            <span className="text-[11px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1 rounded-sm">
               Featured Sample Testimonial
             </span>
           </div>
@@ -185,7 +185,7 @@ export const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.2, delay: index * 0.05 }}
-              className="group p-6 bg-[rgba(15,15,18,0.88)] border border-zinc-800/80 rounded-lg backdrop-blur-2xl shadow-xl hover:border-zinc-700 hover:scale-[1.01] transition-all duration-200 flex flex-col justify-between space-y-5"
+              className="group p-6 bg-[rgba(15,15,18,0.88)] border border-zinc-800/80 rounded-sm backdrop-blur-2xl shadow-xl hover:border-zinc-700 hover:scale-[1.01] transition-all duration-200 flex flex-col justify-between space-y-5"
             >
               <div className="space-y-4">
                 {/* Header: 5 Monochrome Stars & Sample Tag */}

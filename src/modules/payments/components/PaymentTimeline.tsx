@@ -38,7 +38,7 @@ export const PaymentTimeline: React.FC<PaymentTimelineProps> = ({
 
   if (payments.length === 0) {
     return (
-      <div className="p-8 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
+      <div className="p-8 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
         <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
           <HugeiconsIcon icon={CreditCardIcon} size={20} />
         </div>
@@ -65,11 +65,11 @@ export const PaymentTimeline: React.FC<PaymentTimelineProps> = ({
         {payments.map((payment) => (
           <div
             key={payment.id}
-            className="p-4 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 hover:border-zinc-700/80 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4"
+            className="p-4 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 hover:border-zinc-700/80 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4"
           >
             {/* Left: Date + Amount + Method + Status */}
             <div className="flex items-start gap-3.5 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
                 <HugeiconsIcon icon={CheckmarkCircle02Icon} size={18} className="text-emerald-400" />
               </div>
 
@@ -116,7 +116,7 @@ export const PaymentTimeline: React.FC<PaymentTimelineProps> = ({
                   href={payment.invoiceUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="h-8 px-2.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="h-8 px-2.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                   title="View / Download Invoice"
                 >
                   <HugeiconsIcon icon={DocumentCodeIcon} size={13} className="text-zinc-400" />
@@ -130,7 +130,7 @@ export const PaymentTimeline: React.FC<PaymentTimelineProps> = ({
                   href={payment.receiptUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="h-8 px-2.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="h-8 px-2.5 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                   title="View / Download Receipt"
                 >
                   <HugeiconsIcon icon={Invoice01Icon} size={13} className="text-emerald-400" />
@@ -143,7 +143,7 @@ export const PaymentTimeline: React.FC<PaymentTimelineProps> = ({
                 <button
                   type="button"
                   onClick={() => setPaymentToDelete(payment)}
-                  className="h-8 w-8 rounded-md bg-zinc-900 border border-zinc-800 hover:border-rose-900/60 text-zinc-500 hover:text-rose-400 flex items-center justify-center transition-colors cursor-pointer"
+                  className="h-8 w-8 rounded-sm bg-zinc-900 border border-zinc-800 hover:border-rose-900/60 text-zinc-500 hover:text-rose-400 flex items-center justify-center transition-colors cursor-pointer"
                   title="Delete Entry"
                 >
                   <HugeiconsIcon icon={Delete02Icon} size={13} />

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './providers/auth-provider';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -44,6 +44,8 @@ export function App() {
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="/share/:token/*" element={<PortalShell />} />
                 <Route path="/portal/:token/*" element={<PortalShell />} />
+                <Route path="/avatar-studio" element={<Navigate to="/app/avatar-studio" replace />} />
+                <Route path="/avatar-studio/*" element={<Navigate to="/app/avatar-studio" replace />} />
                 <Route path="/app/*" element={<DashboardLayout />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

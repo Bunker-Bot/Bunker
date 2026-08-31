@@ -15,20 +15,20 @@ export const CtaSection: React.FC = () => {
 
   return (
     <section id="cta" className="scroll-mt-20 relative w-full py-28 border-t border-zinc-800/80 bg-[#050505] overflow-hidden">
-      
+
       {/* Signature Bunker Monochrome Architectural Background */}
       <HeroSignatureBackground />
 
       {/* Main Interactive Container */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-12 w-full">
-        
+
         {/* Floating Centered Liquid Glass Panel */}
         <motion.div
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
-          className="relative max-w-5xl mx-auto p-10 sm:p-16 lg:p-20 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-lg backdrop-blur-2xl shadow-2xl text-center space-y-8 overflow-hidden"
+          className="relative max-w-5xl mx-auto p-10 sm:p-16 lg:p-20 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-sm backdrop-blur-2xl shadow-2xl text-center space-y-8 overflow-hidden"
         >
           {/* Subtle Inner Top Gradient Highlight Line */}
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-700/60 to-transparent rounded-t-lg pointer-events-none" />
@@ -54,11 +54,11 @@ export const CtaSection: React.FC = () => {
 
           {/* Action Buttons Row */}
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            
+
             {/* Primary Button */}
             <button
               onClick={() => navigate('/login')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white hover:bg-zinc-200 text-black font-bold rounded-lg text-sm transition-all duration-200 shadow-xl cursor-pointer hover:scale-[1.01]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white hover:bg-zinc-200 text-black font-bold rounded-sm text-sm transition-all duration-200 shadow-xl cursor-pointer hover:scale-[1.01]"
             >
               <HugeiconsIcon icon={LockKeyIcon} size={18} />
               <span>Admin Login</span>
@@ -68,7 +68,7 @@ export const CtaSection: React.FC = () => {
             {/* Secondary Button */}
             <button
               onClick={() => navigate('/docs')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 text-white font-medium rounded-lg text-sm transition-all duration-200 backdrop-blur-xl shadow-lg cursor-pointer hover:scale-[1.01]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 text-white font-medium rounded-sm text-sm transition-all duration-200 backdrop-blur-xl shadow-lg cursor-pointer hover:scale-[1.01]"
             >
               <HugeiconsIcon icon={BookOpen01Icon} size={18} />
               <span>Read Documentation</span>

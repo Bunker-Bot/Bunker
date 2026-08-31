@@ -54,42 +54,73 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const menuRef = React.useRef<HTMLDivElement>(null);
 
   const updateCoords = React.useCallback(() => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom + 4,
-        left: rect.left,
-      });
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    
+    // Check if the button is scrolled out of viewport
+    if (rect.bottom < 0 || rect.top > window.innerHeight) {
+      setIsOpen(false);
+      return;
     }
+
+    const spaceBelow = window.innerHeight - rect.bottom - 8;
+    const spaceAbove = rect.top - 8;
+    const pickerHeight = 280;
+    
+    const openAbove = spaceBelow < pickerHeight && spaceAbove > spaceBelow;
+    const left = Math.max(8, Math.min(rect.left, window.innerWidth - 260));
+    const top = openAbove ? Math.max(8, rect.top - pickerHeight - 4) : rect.bottom + 4;
+
+    setCoords({
+      top,
+      left,
+    });
   }, []);
 
   React.useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+
+    updateCoords();
+
+    const handleScroll = (e: Event) => {
+      // If scrolling inside the datepicker itself, DO NOT CLOSE
+      if (menuRef.current && (e.target === menuRef.current || menuRef.current.contains(e.target as Node))) {
+        return;
+      }
+      // Reposition on scroll of parent containers
       updateCoords();
-      const handleScrollOrResize = () => setIsOpen(false);
-      window.addEventListener('scroll', handleScrollOrResize, true);
-      window.addEventListener('resize', handleScrollOrResize);
-      return () => {
-        window.removeEventListener('scroll', handleScrollOrResize, true);
-        window.removeEventListener('resize', handleScrollOrResize);
-      };
-    }
+    };
+
+    const handleResize = () => {
+      updateCoords();
+    };
+
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [isOpen, updateCoords]);
 
   React.useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(target) &&
         menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
+        !menuRef.current.contains(target)
       ) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const firstDayOfWeek = new Date(viewYear, viewMonth, 1).getDay();

@@ -1,6 +1,6 @@
 export const radius = {
   sm: 'rounded-sm',
-  md: 'rounded-md',
+  md: 'rounded-sm',
 } as const;
 
 export default radius;

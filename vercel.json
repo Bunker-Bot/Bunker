@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/s/:token",
+      "destination": "/api/share-entry?token=:token"
+    },
+    {
+      "source": "/api/og/share/:tokenHash",
+      "destination": "/api/og/share?tokenHash=:tokenHash"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

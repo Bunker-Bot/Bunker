@@ -221,7 +221,7 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
             src={src}
             alt={alt || ''}
             onClick={() => setSelectedImage({ src, alt })}
-            className="max-w-full max-h-[500px] rounded-xl border border-zinc-800 object-contain cursor-zoom-in hover:border-zinc-700 transition-all"
+            className="max-w-full max-h-[500px] rounded-sm border border-zinc-800 object-contain cursor-zoom-in hover:border-zinc-700 transition-all"
             loading="lazy"
             {...props}
           />
@@ -357,9 +357,8 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
 
   return (
     <div
-      className={`text-[13px] text-zinc-200 select-text overflow-y-auto overflow-x-auto custom-scrollbar w-full max-w-[960px] mx-auto min-w-0 break-words max-w-full markdown-preview ${
-        compact ? 'p-0 space-y-2' : 'p-4 sm:p-6'
-      } ${className}`}
+      className={`text-[13px] text-zinc-200 select-text overflow-y-auto overflow-x-auto custom-scrollbar w-full max-w-[960px] mx-auto min-w-0 break-words max-w-full markdown-preview ${compact ? 'p-0 space-y-2' : 'p-4 sm:p-6'
+        } ${className}`}
     >
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {processedContent}

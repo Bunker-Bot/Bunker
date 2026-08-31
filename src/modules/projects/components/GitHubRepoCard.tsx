@@ -18,7 +18,7 @@ export const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({ url }) => {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="group my-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-zinc-950/80 border border-zinc-800 hover:border-zinc-700 backdrop-blur-xl shadow-lg transition-all duration-200 cursor-pointer select-none no-underline"
+      className="group my-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-sm bg-zinc-950/80 border border-zinc-800 hover:border-zinc-700 backdrop-blur-xl shadow-lg transition-all duration-200 cursor-pointer select-none no-underline"
     >
       <div className="space-y-1 min-w-0">
         <div className="flex items-center gap-2">

@@ -32,11 +32,11 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-      <div className="w-full max-w-sm rounded-lg bg-[#0c0c0e]/95 border border-rose-500/30 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
+      <div className="w-full max-w-sm rounded-sm bg-[#0c0c0e]/95 border border-rose-500/30 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-zinc-800/80">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shrink-0">
+            <div className="w-8 h-8 rounded-sm bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shrink-0">
               <HugeiconsIcon icon={Delete02Icon} size={16} />
             </div>
             <div>
@@ -47,7 +47,7 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer shrink-0"
+            className="w-7 h-7 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer shrink-0"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={14} />
           </button>
@@ -64,7 +64,7 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="h-9 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+            className="h-9 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
           >
             {cancelText}
           </button>
@@ -72,7 +72,7 @@ export const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
             type="button"
             onClick={handleConfirm}
             disabled={isLoading}
-            className="h-9 px-4 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer shadow-md disabled:opacity-50"
+            className="h-9 px-4 rounded-sm bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer shadow-md disabled:opacity-50"
           >
             <HugeiconsIcon icon={Delete02Icon} size={13} />
             <span>{isLoading ? 'Deleting...' : confirmText}</span>

@@ -92,11 +92,19 @@ export const ShareLinkDetailDrawer: React.FC<ShareLinkDetailDrawerProps> = ({
             </div>
           </div>
 
-          {/* Portal URL */}
-          <div className="space-y-1">
-            <label className="text-[10px] text-zinc-500 font-bold uppercase">Full Share URL</label>
-            <div className="p-2.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono text-xs break-all select-all">
-              {link.portalUrl}
+          {/* Public Share Entry URL & Portal URL */}
+          <div className="space-y-2">
+            <div className="space-y-1">
+              <label className="text-[10px] text-zinc-500 font-bold uppercase">Public Share Entry URL (Open Graph & Previews)</label>
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-cyan-300 font-mono text-xs break-all select-all">
+                {link.shareUrl || (typeof window !== 'undefined' ? `${window.location.origin}/s/${link.token}` : link.portalUrl)}
+              </div>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] text-zinc-500 font-bold uppercase">Direct SPA Portal Route</label>
+              <div className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-mono text-xs break-all select-all">
+                {link.portalUrl}
+              </div>
             </div>
           </div>
 

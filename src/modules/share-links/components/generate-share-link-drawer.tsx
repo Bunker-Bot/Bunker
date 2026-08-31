@@ -17,8 +17,12 @@ import {
   SecurityCheckIcon,
 } from '@hugeicons/core-free-icons';
 
+import { AvatarPoster } from '../../../features/identity-avatar';
+import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
+
 interface GenerateShareLinkDrawerProps {
   projectId: string;
+  projectName?: string;
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: (createdUrl: string, plainPassword?: string) => void;
@@ -38,6 +42,7 @@ const MODULE_OPTIONS = [
 
 export const GenerateShareLinkDrawer: React.FC<GenerateShareLinkDrawerProps> = ({
   projectId,
+  projectName,
   isOpen,
   onClose,
   onSuccess,
@@ -131,7 +136,7 @@ export const GenerateShareLinkDrawer: React.FC<GenerateShareLinkDrawerProps> = (
       });
 
       const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      const shareUrl = `${origin}/share/${result.link.token}`;
+      const shareUrl = `${origin}/s/${result.link.token}`;
 
       onClose();
       if (onSuccess) {
@@ -141,6 +146,14 @@ export const GenerateShareLinkDrawer: React.FC<GenerateShareLinkDrawerProps> = (
       console.error('Failed to generate share link:', err);
     }
   };
+
+  const previewAvatarConfig = React.useMemo(() => {
+    return generateAvatarConfig({
+      entityId: projectId || 'drawer-preview',
+      entityKind: 'project',
+      name: projectName || linkName || 'Project Deliverables',
+    });
+  }, [projectId, projectName, linkName]);
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -156,6 +169,26 @@ export const GenerateShareLinkDrawer: React.FC<GenerateShareLinkDrawerProps> = (
         </SheetHeader>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 space-y-5 text-xs">
+          {/* Identity Preview Reassurance Banner */}
+          <div className="p-3 rounded bg-zinc-900/80 border border-zinc-800/80 flex items-center gap-3.5 shadow-sm">
+            <div className="w-14 h-14 rounded-sm bg-zinc-950 border border-zinc-750 shrink-0 overflow-hidden flex items-center justify-center">
+              <AvatarPoster config={previewAvatarConfig} size="100%" />
+            </div>
+            <div className="space-y-1 min-w-0 flex-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400">
+                  Bunker Guardian Identity
+                </span>
+                <span className="text-[10px] text-zinc-500 font-mono">Dynamic OG Ready</span>
+              </div>
+              <p className="text-[11px] text-zinc-300 truncate font-bold">
+                {linkName || 'Client Review Portal'}
+              </p>
+              <p className="text-[10px] text-zinc-400">
+                A unique, deterministic 3D Guardian bust & social preview card will be generated.
+              </p>
+            </div>
+          </div>
           {/* Link Title / Purpose */}
           <div className="space-y-1.5">
             <label className="text-[11px] font-bold text-zinc-300 uppercase tracking-wider">

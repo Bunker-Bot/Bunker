@@ -41,7 +41,7 @@ export const SidebarHeader: React.FC<SidebarHeaderProps> = ({
       <button
         onClick={onToggleCollapse}
         aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/80 transition-colors cursor-pointer border border-transparent hover:border-zinc-700/60 shrink-0"
+        className="p-1.5 rounded-sm text-zinc-400 hover:text-white hover:bg-zinc-800/80 transition-colors cursor-pointer border border-transparent hover:border-zinc-700/60 shrink-0"
       >
         <HugeiconsIcon
           icon={SidebarLeftIcon}

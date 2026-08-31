@@ -32,10 +32,10 @@ export const EditProjectBudgetModal: React.FC<EditProjectBudgetModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-      <div className="w-full max-w-sm rounded-lg bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
+      <div className="w-full max-w-sm rounded-sm bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
         <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
               <HugeiconsIcon icon={MoneyBagIcon} size={16} />
             </div>
             <div>
@@ -46,7 +46,7 @@ export const EditProjectBudgetModal: React.FC<EditProjectBudgetModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={15} />
           </button>
@@ -65,7 +65,7 @@ export const EditProjectBudgetModal: React.FC<EditProjectBudgetModalProps> = ({
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
               placeholder="e.g. 150000"
-              className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono transition-colors"
+              className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono transition-colors"
             />
             <p className="text-[10px] text-zinc-500 pt-1">
               Automated deliverable releases (25%, 50%, 75%, 100%) calculate unlock status based on this value.
@@ -76,14 +76,14 @@ export const EditProjectBudgetModal: React.FC<EditProjectBudgetModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="h-10 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+              className="h-10 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || !budget}
-              className="h-10 px-5 rounded-lg bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
+              className="h-10 px-5 rounded-sm bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
             >
               <HugeiconsIcon icon={Edit01Icon} size={13} />
               <span>{isSubmitting ? 'Updating...' : 'Save Contract Value'}</span>

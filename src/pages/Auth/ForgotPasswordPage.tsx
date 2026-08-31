@@ -22,7 +22,7 @@ export const ForgotPasswordPage: React.FC = () => {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.18 }}
-        className="relative z-10 w-full max-w-md bg-[rgba(17,17,19,0.88)] border border-zinc-800/80 rounded-lg p-8 backdrop-blur-2xl shadow-2xl space-y-6"
+        className="relative z-10 w-full max-w-md bg-[rgba(17,17,19,0.88)] border border-zinc-800/80 rounded-sm p-8 backdrop-blur-2xl shadow-2xl space-y-6"
       >
         <div className="flex flex-col items-center text-center space-y-3">
           <AppLogo size={48} showText={false} animated />
@@ -33,7 +33,7 @@ export const ForgotPasswordPage: React.FC = () => {
         </div>
 
         {isSubmitted ? (
-          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-center space-y-2">
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-sm text-center space-y-2">
             <p className="text-xs text-emerald-300 font-medium">Reset instructions sent!</p>
             <p className="text-[11px] text-zinc-400">Check {email} for instructions to reset your password.</p>
           </div>
@@ -51,14 +51,14 @@ export const ForgotPasswordPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@bunker.studio"
-                  className="w-full pl-10 pr-4 py-3 bg-zinc-900/90 border border-zinc-700/60 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-rose-500/50"
+                  className="w-full pl-10 pr-4 py-3 bg-zinc-900/90 border border-zinc-700/60 rounded-sm text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-rose-500/50"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-zinc-200 text-black font-semibold rounded-lg text-sm transition-all cursor-pointer shadow-lg mt-2"
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-zinc-200 text-black font-semibold rounded-sm text-sm transition-all cursor-pointer shadow-lg mt-2"
             >
               <span>Send Reset Instructions</span>
               <HugeiconsIcon icon={ArrowRight01Icon} size={16} />

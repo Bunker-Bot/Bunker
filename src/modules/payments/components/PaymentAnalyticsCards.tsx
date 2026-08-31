@@ -33,7 +33,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 select-none">
       {/* Total Project Cost */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono group relative">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono group relative">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Project Value</span>
           <div className="flex items-center gap-1">
@@ -68,7 +68,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
       </div>
 
       {/* Total Paid */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Amount Paid</span>
           <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-emerald-500/80" />
@@ -82,7 +82,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
       </div>
 
       {/* Remaining Balance */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Remaining</span>
           <HugeiconsIcon icon={Time01Icon} size={14} className="text-amber-500/80" />
@@ -94,7 +94,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
       </div>
 
       {/* Payments Received Count */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Entries</span>
           <HugeiconsIcon icon={Tag01Icon} size={14} className="text-zinc-500" />
@@ -106,7 +106,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
       </div>
 
       {/* Average Payment */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Avg Payment</span>
           <HugeiconsIcon icon={AnalyticsUpIcon} size={14} className="text-zinc-500" />
@@ -118,7 +118,7 @@ export const PaymentAnalyticsCards: React.FC<PaymentAnalyticsCardsProps> = ({
       </div>
 
       {/* Largest Payment */}
-      <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
+      <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1.5 font-mono">
         <div className="flex items-center justify-between text-zinc-400 text-[11px]">
           <span>Largest</span>
           <HugeiconsIcon icon={Wallet01Icon} size={14} className="text-zinc-500" />

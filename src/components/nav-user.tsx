@@ -55,7 +55,7 @@ export function NavUser({ user, onSelectView, onLogout }: NavUserProps) {
             render={
               <SidebarMenuButton
                 size="lg"
-                className="w-full flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-zinc-800/60 transition-colors cursor-pointer group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:size-9"
+                className="w-full flex items-center justify-between px-2 py-1.5 rounded-sm hover:bg-zinc-800/60 transition-colors cursor-pointer group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:size-9"
               >
                 <div className="flex items-center gap-2.5 min-w-0 group-data-[collapsible=icon]:justify-center">
                   <div className="w-7 h-7 rounded-full bg-zinc-900 border border-zinc-800/90 flex items-center justify-center font-bold text-xs text-zinc-200 shrink-0 shadow-sm">
@@ -74,7 +74,7 @@ export function NavUser({ user, onSelectView, onLogout }: NavUserProps) {
             }
           />
           <DropdownMenuContent
-            className="w-56 bg-[rgba(15,15,17,0.98)] backdrop-blur-2xl border border-zinc-800/90 rounded-xl text-xs text-zinc-200 shadow-2xl"
+            className="w-56 bg-[rgba(15,15,17,0.98)] backdrop-blur-2xl border border-zinc-800/90 rounded-sm text-xs text-zinc-200 shadow-2xl"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={6}
@@ -100,21 +100,21 @@ export function NavUser({ user, onSelectView, onLogout }: NavUserProps) {
             <DropdownMenuGroup>
               <DropdownMenuItem
                 onClick={() => handleNavigateTab("profile")}
-                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-lg"
+                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-sm"
               >
                 <HugeiconsIcon icon={Settings01Icon} size={14} />
                 <span>Account & Settings</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleNavigateTab("notifications")}
-                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-lg"
+                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-sm"
               >
                 <HugeiconsIcon icon={Notification01Icon} size={14} />
                 <span>Notifications</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleNavigateTab("security")}
-                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-lg"
+                className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-sm"
               >
                 <HugeiconsIcon icon={SecurityCheckIcon} size={14} />
                 <span>Security & Tokens</span>
@@ -123,7 +123,7 @@ export function NavUser({ user, onSelectView, onLogout }: NavUserProps) {
             <DropdownMenuSeparator className="bg-zinc-800" />
             <DropdownMenuItem
               onClick={() => onLogout?.()}
-              className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-lg text-rose-400 hover:text-rose-300"
+              className="cursor-pointer gap-2 p-2 hover:bg-zinc-800/80 rounded-sm text-rose-400 hover:text-rose-300"
             >
               <HugeiconsIcon icon={Logout01Icon} size={14} />
               <span>Log out</span>

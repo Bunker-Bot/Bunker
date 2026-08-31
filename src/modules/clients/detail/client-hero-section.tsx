@@ -17,6 +17,7 @@ import {
 import { type FormattedClient } from '../../../lib/services/client.service';
 import { Badge } from '../../../components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../../../components/ui/dropdown-menu';
+import { IdentityAvatar3D } from '../../../features/identity-avatar';
 
 interface ClientHeroSectionProps {
   client: FormattedClient;
@@ -83,15 +84,23 @@ export const ClientHeroSection: React.FC<ClientHeroSectionProps> = ({
       {/* Background Soft Gradient Glow */}
       <div className="absolute -right-20 -top-20 w-72 h-72 bg-gradient-to-br from-cyan-500/10 via-emerald-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5 min-w-0">
-        {/* Left Side: Avatar + Client Identity */}
-        <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 min-w-0">
-          <div className="relative shrink-0">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 border-2 border-zinc-700/90 flex items-center justify-center text-white font-extrabold text-base sm:text-xl shadow-lg">
-              {client.name.substring(0, 2).toUpperCase()}
-            </div>
-            <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-zinc-950 flex items-center justify-center">
-              <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${client.healthStatus === 'healthy' ? 'bg-emerald-400' : client.healthStatus === 'at_risk' ? 'bg-amber-400' : 'bg-zinc-500'}`} />
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 min-w-0">
+        {/* Left Side: 3D Guardian Identity + Client Metadata */}
+        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+          <div className="relative shrink-0 w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-sm bg-zinc-950/80 border border-zinc-800 shadow-xl flex items-center justify-center overflow-hidden">
+            <IdentityAvatar3D
+              input={{
+                entityId: client.id,
+                entityKind: 'client',
+                name: client.name,
+                logoUrl: (client as any).logo_url || (client as any).logoUrl || null,
+              }}
+              badgeText={client.name.substring(0, 2).toUpperCase()}
+              size="100%"
+            />
+            {/* Ambient Health Dot */}
+            <div className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-zinc-950 flex items-center justify-center z-20">
+              <span className={`w-2 h-2 rounded-full ${client.healthStatus === 'healthy' ? 'bg-emerald-400' : client.healthStatus === 'at_risk' ? 'bg-amber-400' : 'bg-zinc-500'}`} />
             </div>
           </div>
 

@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 export const HeroSignatureBackground: React.FC = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden bg-[#050505] z-0 select-none">
-      
+
       {/* Layer 1: Deep Matte Black Base */}
       <div className="absolute inset-0 bg-[#050505]" />
-      
+
       {/* Layer 2: Soft Zinc Ambient Lighting from Both Top Corners */}
       <div className="absolute -top-32 -right-32 w-[900px] h-[900px] bg-gradient-to-bl from-zinc-700/25 via-zinc-800/15 to-transparent blur-[150px] rounded-full" />
       <div className="absolute -top-32 -left-32 w-[750px] h-[750px] bg-gradient-to-br from-zinc-700/20 via-zinc-800/10 to-transparent blur-[150px] rounded-full" />
@@ -82,7 +82,7 @@ export const HeroSignatureBackground: React.FC = () => {
           <mask id="gridMaskRight">
             <rect width="100%" height="100%" fill="url(#bunkerGridFadeRight)" />
           </mask>
-          
+
           <rect width="100%" height="100%" fill="url(#smallBoxGridRight)" />
 
           {/* Major Intersection Rays Right */}
@@ -95,7 +95,7 @@ export const HeroSignatureBackground: React.FC = () => {
           <mask id="gridMaskLeft">
             <rect width="100%" height="100%" fill="url(#bunkerGridFadeLeft)" />
           </mask>
-          
+
           <rect width="100%" height="100%" fill="url(#smallBoxGridLeft)" />
 
           {/* Major Intersection Rays Left */}
@@ -109,13 +109,13 @@ export const HeroSignatureBackground: React.FC = () => {
         initial={{ opacity: 0.4 }}
         animate={{ opacity: [0.4, 0.65, 0.4] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-8 right-16 w-[550px] h-[350px] bg-gradient-to-br from-white/[0.05] via-zinc-400/[0.02] to-transparent border border-white/[0.08] rounded-lg rotate-[-18deg] backdrop-blur-3xl"
+        className="absolute top-8 right-16 w-[550px] h-[350px] bg-gradient-to-br from-white/[0.05] via-zinc-400/[0.02] to-transparent border border-white/[0.08] rounded-sm rotate-[-18deg] backdrop-blur-3xl"
       />
       <motion.div
         initial={{ opacity: 0.3 }}
         animate={{ opacity: [0.3, 0.55, 0.3] }}
         transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-        className="absolute top-12 left-16 w-[480px] h-[300px] bg-gradient-to-br from-white/[0.04] via-zinc-500/[0.01] to-transparent border border-white/[0.06] rounded-lg rotate-[18deg] backdrop-blur-2xl"
+        className="absolute top-12 left-16 w-[480px] h-[300px] bg-gradient-to-br from-white/[0.04] via-zinc-500/[0.01] to-transparent border border-white/[0.06] rounded-sm rotate-[18deg] backdrop-blur-2xl"
       />
 
       {/* Layer 5: Ultra-Fine Grain Noise Layer */}

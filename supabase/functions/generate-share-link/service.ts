@@ -117,7 +117,7 @@ export async function processGenerateShareLink(
     });
 
     // 8. Assemble Clean Response (Browser receives raw token in URL only once)
-    const publicUrl = `${config.publicAppUrl}/share/${rawToken}`;
+    const publicUrl = `${config.publicAppUrl}/s/${rawToken}`;
 
     const responseSuccess = {
       success: true as const,

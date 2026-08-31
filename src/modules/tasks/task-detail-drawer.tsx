@@ -429,7 +429,7 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({
                       step={5}
                       value={watch('progress')}
                       onChange={(e) => setValue('progress', Number(e.target.value), { shouldDirty: true })}
-                      className="w-full accent-cyan-400 h-1.5 bg-zinc-950 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-cyan-400 h-1.5 bg-zinc-950 rounded-sm appearance-none cursor-pointer"
                     />
                     <input
                       type="number"
@@ -454,9 +454,8 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({
                       <button
                         type="button"
                         onClick={() => setActiveTab('editor')}
-                        className={`px-2.5 py-1 rounded cursor-pointer font-bold flex items-center gap-1.5 transition-colors ${
-                          activeTab === 'editor' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2.5 py-1 rounded cursor-pointer font-bold flex items-center gap-1.5 transition-colors ${activeTab === 'editor' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                          }`}
                       >
                         <HugeiconsIcon icon={Edit01Icon} size={12} />
                         <span>Edit</span>
@@ -464,9 +463,8 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({
                       <button
                         type="button"
                         onClick={() => setActiveTab('preview')}
-                        className={`px-2.5 py-1 rounded cursor-pointer font-bold flex items-center gap-1.5 transition-colors ${
-                          activeTab === 'preview' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2.5 py-1 rounded cursor-pointer font-bold flex items-center gap-1.5 transition-colors ${activeTab === 'preview' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                          }`}
                       >
                         <HugeiconsIcon icon={EyeIcon} size={12} />
                         <span>Preview</span>
@@ -634,11 +632,10 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({
                   type="submit"
                   form="task-drawer-form"
                   disabled={updateTaskMutation.isPending || !isDirty}
-                  className={`inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded font-bold text-xs shadow-sm transition-all cursor-pointer ${
-                    isDirty
+                  className={`inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded font-bold text-xs shadow-sm transition-all cursor-pointer ${isDirty
                       ? 'bg-white text-black hover:bg-zinc-200'
                       : 'bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-700'
-                  }`}
+                    }`}
                 >
                   {updateTaskMutation.isPending ? (
                     <>

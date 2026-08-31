@@ -234,11 +234,10 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
       <div className="flex items-center gap-1.5 sm:gap-2 border-b border-zinc-800 pb-2 text-xs overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-            activeTab === 'overview'
+          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === 'overview'
               ? 'bg-zinc-800 text-white border border-zinc-700'
               : 'text-zinc-400 hover:text-zinc-200'
-          }`}
+            }`}
           title="Overview"
         >
           <HugeiconsIcon icon={GithubIcon} size={14} />
@@ -247,11 +246,10 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
 
         <button
           onClick={() => setActiveTab('commits')}
-          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-            activeTab === 'commits'
+          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === 'commits'
               ? 'bg-zinc-800 text-white border border-zinc-700'
               : 'text-zinc-400 hover:text-zinc-200'
-          }`}
+            }`}
           title="Commits"
         >
           <HugeiconsIcon icon={GitCommitIcon} size={14} />
@@ -260,11 +258,10 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
 
         <button
           onClick={() => setActiveTab('pull_requests')}
-          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-            activeTab === 'pull_requests'
+          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === 'pull_requests'
               ? 'bg-zinc-800 text-white border border-zinc-700'
               : 'text-zinc-400 hover:text-zinc-200'
-          }`}
+            }`}
           title="Pull Requests"
         >
           <HugeiconsIcon icon={GitPullRequestIcon} size={14} />
@@ -273,11 +270,10 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
 
         <button
           onClick={() => setActiveTab('workflows')}
-          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-            activeTab === 'workflows'
+          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === 'workflows'
               ? 'bg-zinc-800 text-white border border-zinc-700'
               : 'text-zinc-400 hover:text-zinc-200'
-          }`}
+            }`}
           title="Workflow Actions"
         >
           <HugeiconsIcon icon={PlayIcon} size={14} />
@@ -286,11 +282,10 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
 
         <button
           onClick={() => setActiveTab('languages')}
-          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-            activeTab === 'languages'
+          className={`px-2.5 py-1.5 sm:px-3 rounded-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${activeTab === 'languages'
               ? 'bg-zinc-800 text-white border border-zinc-700'
               : 'text-zinc-400 hover:text-zinc-200'
-          }`}
+            }`}
           title="Languages"
         >
           <HugeiconsIcon icon={CpuIcon} size={14} />
@@ -382,7 +377,7 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
               </div>
 
               {/* Combined Progress Bar */}
-              <div className="w-full h-3 rounded-md bg-zinc-950 overflow-hidden border border-zinc-800 flex">
+              <div className="w-full h-3 rounded-sm bg-zinc-950 overflow-hidden border border-zinc-800 flex">
                 {Object.entries(languages).map(([lang, bytes]: [string, any]) => {
                   const percent = (bytes / totalBytes) * 100;
                   const color = getLanguageColor(lang);
@@ -550,9 +545,8 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
                     </div>
                   </div>
 
-                  <span className={`px-2 py-0.5 rounded-sm text-[10px] uppercase font-bold border shrink-0 ${
-                    pr.state === 'open' ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-zinc-800 text-zinc-400 border-zinc-700'
-                  }`}>
+                  <span className={`px-2 py-0.5 rounded-sm text-[10px] uppercase font-bold border shrink-0 ${pr.state === 'open' ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-zinc-800 text-zinc-400 border-zinc-700'
+                    }`}>
                     {pr.state}
                   </span>
                 </div>
@@ -600,13 +594,12 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
                       </div>
                     </div>
 
-                    <span className={`px-2 py-0.5 rounded-sm text-[10px] uppercase font-bold border shrink-0 ${
-                      isSuccess
+                    <span className={`px-2 py-0.5 rounded-sm text-[10px] uppercase font-bold border shrink-0 ${isSuccess
                         ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
                         : isFailed
-                        ? 'bg-rose-950 text-rose-300 border-rose-800'
-                        : 'bg-amber-950 text-amber-300 border-amber-800'
-                    }`}>
+                          ? 'bg-rose-950 text-rose-300 border-rose-800'
+                          : 'bg-amber-950 text-amber-300 border-amber-800'
+                      }`}>
                       {wf.conclusion || wf.status}
                     </span>
                   </div>
@@ -629,7 +622,7 @@ export const GitHubPanel: React.FC<GitHubPanelProps> = ({
 
           {/* Combined Color Bar */}
           {totalBytes > 0 && (
-            <div className="w-full h-3 rounded-md bg-zinc-950 overflow-hidden border border-zinc-800 flex">
+            <div className="w-full h-3 rounded-sm bg-zinc-950 overflow-hidden border border-zinc-800 flex">
               {Object.entries(languages).map(([lang, bytes]: [string, any]) => {
                 const percent = (bytes / totalBytes) * 100;
                 const color = getLanguageColor(lang);

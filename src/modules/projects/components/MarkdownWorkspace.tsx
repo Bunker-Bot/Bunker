@@ -131,9 +131,8 @@ export const MarkdownWorkspace: React.FC<MarkdownWorkspaceProps> = ({
 
   return (
     <div
-      className={`flex flex-col rounded-xl bg-[rgba(14,14,16,0.92)] border border-zinc-800/80 shadow-2xl backdrop-blur-2xl overflow-hidden select-none transition-all ${
-        isFullscreen ? 'fixed inset-0 z-[9999] rounded-none border-none h-screen' : 'h-[720px]'
-      }`}
+      className={`flex flex-col rounded-sm bg-[rgba(14,14,16,0.92)] border border-zinc-800/80 shadow-2xl backdrop-blur-2xl overflow-hidden select-none transition-all ${isFullscreen ? 'fixed inset-0 z-[9999] rounded-none border-none h-screen' : 'h-[720px]'
+        }`}
     >
       <MarkdownToolbar
         onInsert={handleInsert}

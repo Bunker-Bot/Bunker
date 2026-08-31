@@ -107,7 +107,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
           try {
             const parsed = JSON.parse(savedDraft);
             reset(parsed);
-          } catch {}
+          } catch { }
         }
       }
     }
@@ -174,7 +174,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-zinc-800/80">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <div className="w-9 h-9 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                   <HugeiconsIcon icon={initialData ? Edit01Icon : Add01Icon} size={18} />
                 </div>
                 <div>
@@ -189,7 +189,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={16} />
               </button>
@@ -207,7 +207,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
                     type="text"
                     {...register('version')}
                     placeholder="e.g. v1.0.0, 1.2.3, 2.0.0-rc1"
-                    className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono transition-colors"
+                    className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono transition-colors"
                   />
                   {errors.version && (
                     <p className="text-[10px] text-rose-400 font-mono">{errors.version.message}</p>
@@ -223,7 +223,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
                     <span>Release Date (*)</span>
                   </label>
                   <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
-                    <PopoverTrigger className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono flex items-center justify-between transition-colors cursor-pointer hover:border-zinc-700">
+                    <PopoverTrigger className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono flex items-center justify-between transition-colors cursor-pointer hover:border-zinc-700">
                       <div className="flex items-center gap-2">
                         <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-emerald-400" />
                         <span>{watchedReleasedAt && !isNaN(new Date(watchedReleasedAt).getTime()) ? format(new Date(watchedReleasedAt), 'MMM d, yyyy') : 'Select Date'}</span>
@@ -259,7 +259,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
                   type="text"
                   {...register('title')}
                   placeholder="e.g. Initial Production Launch & API Gateways"
-                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono transition-colors"
+                  className="w-full h-10 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono transition-colors"
                 />
                 {errors.title && (
                   <p className="text-[10px] text-rose-400 font-mono">{errors.title.message}</p>
@@ -285,7 +285,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
                       rows={10}
                       {...register('description')}
                       placeholder="Write release notes, feature highlights, bug fixes, or breaking API changes using Markdown..."
-                      className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono leading-relaxed transition-colors min-h-[220px] resize-y"
+                      className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono leading-relaxed transition-colors min-h-[220px] resize-y"
                     />
                   )}
 
@@ -295,16 +295,16 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
                         rows={10}
                         {...register('description')}
                         placeholder="Write release notes..."
-                        className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono leading-relaxed transition-colors min-h-[220px] resize-y"
+                        className="w-full p-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono leading-relaxed transition-colors min-h-[220px] resize-y"
                       />
-                      <div className="min-h-[220px] max-h-[400px] p-3 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto custom-scrollbar">
+                      <div className="min-h-[220px] max-h-[400px] p-3 rounded-sm bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto custom-scrollbar">
                         <MarkdownPreview content={watchedDescription || '*No release notes preview...*'} />
                       </div>
                     </div>
                   )}
 
                   {editorViewMode === 'preview' && (
-                    <div className="min-h-[240px] max-h-[450px] p-4 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto custom-scrollbar">
+                    <div className="min-h-[240px] max-h-[450px] p-4 rounded-sm bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 overflow-y-auto custom-scrollbar">
                       <MarkdownPreview content={watchedDescription || '*No release notes preview...*'} />
                     </div>
                   )}
@@ -322,7 +322,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="h-10 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+              className="h-10 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -330,7 +330,7 @@ export const ChangelogFormDrawer: React.FC<ChangelogFormDrawerProps> = ({
               type="submit"
               form="changelog-form"
               disabled={isSubmitting}
-              className="h-10 px-5 rounded-lg bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
+              className="h-10 px-5 rounded-sm bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
             >
               {isSubmitting ? 'Publishing...' : initialData ? 'Save Changes' : 'Publish Release'}
             </button>

@@ -37,7 +37,7 @@ export const ShareLinkCard: React.FC<ShareLinkCardProps> = ({
 
   const handleCopyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onCopy(link.portalUrl);
+    onCopy(link.shareUrl || link.portalUrl);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };

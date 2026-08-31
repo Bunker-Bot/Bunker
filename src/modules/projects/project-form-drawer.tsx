@@ -8,13 +8,13 @@ import { useSyncGithubRepository } from '../../lib/supabase/queries/github';
 import { Select } from '../../../packages/ui/src/components/select';
 import { DatePicker } from '../../../packages/ui/src/components/date-picker';
 import { TechnologyPicker } from './technology-picker';
+import { ColorPicker } from '../../components/ui/color-picker';
 import { RadialSpinner } from '../../components/ui/RadialSpinner';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Cancel01Icon,
   Folder01Icon,
   CheckmarkCircle02Icon,
-  PaintBucketIcon,
   AlertCircleIcon,
   Delete02Icon,
   Tag01Icon,
@@ -26,17 +26,6 @@ interface ProjectFormDrawerProps {
   onClose: () => void;
   projectToEdit?: any | null;
 }
-
-const PRESET_COLORS = [
-  { name: 'Rose', hex: '#E11D48' },
-  { name: 'Blue', hex: '#2563EB' },
-  { name: 'Emerald', hex: '#10B981' },
-  { name: 'Amber', hex: '#F59E0B' },
-  { name: 'Violet', hex: '#7C3AED' },
-  { name: 'Cyan', hex: '#06B6D4' },
-  { name: 'Orange', hex: '#EA580C' },
-  { name: 'Zinc', hex: '#71717A' },
-];
 
 const DRAFT_STORAGE_KEY = 'bunker_project_form_draft';
 
@@ -316,7 +305,7 @@ export const ProjectFormDrawer: React.FC<ProjectFormDrawerProps> = ({
               {/* Basic Information Section */}
               <div className="space-y-3 pb-3 border-b border-zinc-800/80">
                 <h3 className="text-[11px] uppercase font-bold text-zinc-400 tracking-wider">Basic Information</h3>
-                
+
                 <div>
                   <label className="block mb-1 font-bold text-zinc-200">
                     Project Name <span className="text-rose-500">*</span>
@@ -421,7 +410,7 @@ export const ProjectFormDrawer: React.FC<ProjectFormDrawerProps> = ({
                       step={5}
                       value={watchCompletion || 0}
                       onChange={(e) => setValue('completion_percent', Number(e.target.value), { shouldValidate: true, shouldDirty: true })}
-                      className="flex-1 h-2 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-white"
+                      className="flex-1 h-2 bg-zinc-900 rounded-sm appearance-none cursor-pointer accent-white"
                     />
                     <input
                       type="number"
@@ -517,32 +506,13 @@ export const ProjectFormDrawer: React.FC<ProjectFormDrawerProps> = ({
                   />
                 </div>
 
-                {/* Preset Color Picker */}
+                {/* Professional Project Accent Color Picker */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="font-bold text-zinc-200 flex items-center gap-1.5">
-                      <HugeiconsIcon icon={PaintBucketIcon} size={14} className="text-zinc-400" />
-                      <span>Project Accent Color</span>
-                    </label>
-                    <span className="text-[10px] text-zinc-400 font-mono">{watchColor}</span>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {PRESET_COLORS.map((c) => (
-                      <button
-                        key={c.hex}
-                        type="button"
-                        onClick={() => setValue('color', c.hex, { shouldValidate: true, shouldDirty: true })}
-                        className={`w-6 h-6 rounded-full transition-transform cursor-pointer border ${
-                          watchColor === c.hex
-                            ? 'scale-125 border-white ring-2 ring-white/30'
-                            : 'border-zinc-800 opacity-80 hover:opacity-100'
-                        }`}
-                        style={{ backgroundColor: c.hex }}
-                        title={c.name}
-                      />
-                    ))}
-                  </div>
+                  <ColorPicker
+                    value={watchColor || '#E11D48'}
+                    onChange={(hex) => setValue('color', hex, { shouldValidate: true, shouldDirty: true })}
+                    label="Project Accent Color"
+                  />
                 </div>
               </div>
             </form>
@@ -550,7 +520,7 @@ export const ProjectFormDrawer: React.FC<ProjectFormDrawerProps> = ({
             {/* Glass Footer */}
             <div className="p-4 border-t border-zinc-800 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between gap-3 shrink-0">
               <span className="text-[10px] text-zinc-500 hidden sm:inline">Ctrl+S to Save | Esc to Close</span>
-              
+
               <div className="flex items-center gap-3">
                 <button
                   type="button"

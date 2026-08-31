@@ -33,18 +33,17 @@ export const PaymentProgressBar: React.FC<PaymentProgressBarProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 font-mono space-y-4 shadow-sm select-none">
+    <div className="p-4 sm:p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 font-mono space-y-4 shadow-sm select-none">
       {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-800/50">
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-white font-sans">Payment Progression</h3>
             <span
-              className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${
-                isFullyPaid
+              className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${isFullyPaid
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                   : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-              }`}
+                }`}
             >
               {isFullyPaid ? 'Fully Paid' : `${stats.paymentPercentage}% Paid`}
             </span>
@@ -77,11 +76,10 @@ export const PaymentProgressBar: React.FC<PaymentProgressBarProps> = ({
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className={`h-full rounded-full ${
-              isFullyPaid
+            className={`h-full rounded-full ${isFullyPaid
                 ? 'bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400'
                 : 'bg-gradient-to-r from-zinc-500 via-zinc-400 to-emerald-500'
-            }`}
+              }`}
           />
         </div>
 
@@ -92,11 +90,10 @@ export const PaymentProgressBar: React.FC<PaymentProgressBarProps> = ({
             return (
               <div key={m.percent} className="flex flex-col items-center text-center space-y-1">
                 <div
-                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold border transition-colors ${
-                    reached
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold border transition-colors ${reached
                       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
                       : 'bg-zinc-900 text-zinc-600 border-zinc-800'
-                  }`}
+                    }`}
                 >
                   {reached ? (
                     <HugeiconsIcon icon={CheckmarkCircle02Icon} size={11} />
@@ -105,9 +102,8 @@ export const PaymentProgressBar: React.FC<PaymentProgressBarProps> = ({
                   )}
                 </div>
                 <span
-                  className={`text-[10px] hidden sm:block truncate max-w-full ${
-                    reached ? 'text-zinc-300 font-medium' : 'text-zinc-600'
-                  }`}
+                  className={`text-[10px] hidden sm:block truncate max-w-full ${reached ? 'text-zinc-300 font-medium' : 'text-zinc-600'
+                    }`}
                 >
                   {m.label}
                 </span>

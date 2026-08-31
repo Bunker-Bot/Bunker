@@ -34,15 +34,15 @@ const StepCard: React.FC<StepCardProps> = ({
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.25, delay }}
-      className={`group relative p-7 sm:p-8 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-lg backdrop-blur-2xl shadow-2xl hover:border-zinc-700 hover:scale-[1.01] transition-all duration-200 flex flex-col justify-between space-y-6 ${className}`}
+      className={`group relative p-7 sm:p-8 bg-[rgba(15,15,18,0.92)] border border-zinc-800/90 rounded-sm backdrop-blur-2xl shadow-2xl hover:border-zinc-700 hover:scale-[1.01] transition-all duration-200 flex flex-col justify-between space-y-6 ${className}`}
     >
       {/* Header Row: Glass Capsule Badge & 32px HugeIcon Container */}
       <div className="flex items-center justify-between">
         <div className="px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-xl text-xs font-mono font-bold text-white shadow-lg tracking-wider">
           {stepNumber}
         </div>
-        
-        <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white group-hover:-translate-y-1 transition-transform duration-200 shadow-md">
+
+        <div className="w-12 h-12 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white group-hover:-translate-y-1 transition-transform duration-200 shadow-md">
           <HugeiconsIcon icon={icon} size={28} />
         </div>
       </div>
@@ -62,13 +62,13 @@ const StepCard: React.FC<StepCardProps> = ({
 export const HowItWorksSection: React.FC = () => {
   return (
     <section id="how-it-works" className="scroll-mt-20 relative w-full py-24 pb-32 border-t border-zinc-800/80 bg-[#050505] overflow-hidden">
-      
+
       {/* Signature Bunker Monochrome Architectural Background */}
       <HeroSignatureBackground />
 
       {/* Interactive Content Layer */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-10 lg:px-12 w-full space-y-16">
-        
+
         {/* Section Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 backdrop-blur-xl text-xs text-zinc-300 shadow-xl">
@@ -90,7 +90,7 @@ export const HowItWorksSection: React.FC = () => {
 
         {/* Spatial Journey Container with Balanced Padding */}
         <div className="relative pt-4 pb-12">
-          
+
           {/* Desktop Precision Orthogonal Animated Connectors (Hidden on Mobile) */}
           <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
             <svg className="w-full h-full" viewBox="0 0 1200 440" fill="none" preserveAspectRatio="none">
@@ -171,7 +171,7 @@ export const HowItWorksSection: React.FC = () => {
 
           {/* Staggered Spatial 3-Step Cards Grid with Balanced Offsets */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 relative z-10">
-            
+
             {/* STEP 1: Top Left Offset */}
             <div className="lg:translate-y-0">
               <StepCard

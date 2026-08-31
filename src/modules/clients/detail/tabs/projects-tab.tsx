@@ -8,6 +8,8 @@ import { useClientProjects } from '../../../../lib/supabase/queries/clients';
 import { Badge } from '../../../../components/ui/badge';
 import { ProjectSearchInput } from '../../../../components/project/ProjectSearchInput';
 import { ProjectEmptyState } from '../../../../components/project/ProjectEmptyState';
+import { AvatarPoster } from '../../../../features/identity-avatar';
+import { generateAvatarConfig } from '../../../../features/identity-avatar/lib/avatar-generator';
 
 interface ProjectsTabProps {
   client: FormattedClient;
@@ -86,15 +88,27 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({ client, onCreateProjec
             <tbody className="divide-y divide-zinc-800/80 text-zinc-300">
               {filtered.map((proj: any) => {
                 const target = proj.slug || proj.id;
+                const projConfig = generateAvatarConfig({
+                  entityId: proj.id,
+                  entityKind: 'project',
+                  name: proj.name,
+                  parentEntityId: client.id,
+                  preferredColor: proj.color || undefined,
+                });
                 return (
                   <tr key={proj.id} className="hover:bg-zinc-800/40 transition-colors">
                     <td className="px-4 py-3 font-bold text-white">
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() => navigate(`/app/projects/${target}`)}
-                      >
-                        {proj.name}
-                      </span>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-sm overflow-hidden bg-zinc-950 border border-zinc-750 flex items-center justify-center shrink-0">
+                          <AvatarPoster config={projConfig} size="100%" />
+                        </div>
+                        <span
+                          className="hover:underline cursor-pointer truncate"
+                          onClick={() => navigate(`/app/projects/${target}`)}
+                        >
+                          {proj.name}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <Badge variant="outline" className="rounded-sm bg-emerald-950/80 text-emerald-300 border-emerald-800 text-[10px] uppercase font-bold">

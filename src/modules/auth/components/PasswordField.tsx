@@ -20,7 +20,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
           </label>
         )}
 
-        <div className="relative rounded-lg">
+        <div className="relative rounded-sm">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
             <HugeiconsIcon icon={LockKeyIcon} size={16} />
           </div>
@@ -32,9 +32,8 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
             disabled={disabled}
             autoComplete="current-password"
             placeholder="••••••••••••"
-            className={`w-full pl-10 pr-11 py-3 bg-zinc-900/90 border ${
-              error ? 'border-rose-500/80 focus:ring-rose-500/30 focus:border-rose-500' : 'border-zinc-700/60 focus:ring-zinc-400/30 focus:border-zinc-400'
-            } rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+            className={`w-full pl-10 pr-11 py-3 bg-zinc-900/90 border ${error ? 'border-rose-500/80 focus:ring-rose-500/30 focus:border-rose-500' : 'border-zinc-700/60 focus:ring-zinc-400/30 focus:border-zinc-400'
+              } rounded-sm text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
             {...props}
           />
 

@@ -20,11 +20,10 @@ export const SidebarFooter: React.FC<SidebarFooterProps> = ({ isCollapsed }) => 
   return (
     <div className="p-3 border-t border-zinc-800/80 shrink-0">
       <div
-        className={`flex items-center gap-3 p-2 rounded-lg bg-zinc-900/60 border border-zinc-800/60 backdrop-blur-md ${
-          isCollapsed ? 'justify-center p-1.5' : ''
-        }`}
+        className={`flex items-center gap-3 p-2 rounded-sm bg-zinc-900/60 border border-zinc-800/60 backdrop-blur-md ${isCollapsed ? 'justify-center p-1.5' : ''
+          }`}
       >
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-zinc-700 to-zinc-900 border border-zinc-700/80 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 shadow-md">
+        <div className="w-8 h-8 rounded-sm bg-gradient-to-br from-zinc-700 to-zinc-900 border border-zinc-700/80 flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 shadow-md">
           {userInitials}
         </div>
 

@@ -16,6 +16,18 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
 
   const selectedCountry = COUNTRIES.find(
     (c) => c.name.toLowerCase() === (value || '').toLowerCase() || c.code === value
@@ -34,7 +46,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
   };
 
   return (
-    <div className="relative font-mono text-xs select-none">
+    <div ref={containerRef} className="relative font-mono text-xs select-none">
       <button
         type="button"
         disabled={disabled}

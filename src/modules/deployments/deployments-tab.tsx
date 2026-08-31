@@ -177,7 +177,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
           <div className="flex items-center justify-end gap-1.5 sm:gap-2 flex-wrap shrink-0">
             {!readOnly && !propProjectId && (
               <Select value={selectedProjectId} onValueChange={(val) => setSelectedProjectId(val as string)}>
-                <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-200 hover:text-white flex items-center gap-1.5 rounded-md shrink-0 w-36 sm:w-48">
+                <SelectTrigger className="h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 font-mono text-zinc-200 hover:text-white flex items-center gap-1.5 rounded-sm shrink-0 w-36 sm:w-48">
                   <HugeiconsIcon icon={Folder01Icon} size={13} className="text-zinc-400 shrink-0" />
                   <span className="truncate max-w-[110px] sm:max-w-[170px]">{selectedProjectName}</span>
                 </SelectTrigger>
@@ -205,7 +205,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   setNotes('');
                   setIsFormModalOpen(true);
                 }}
-                className="h-8 px-2.5 sm:px-3 rounded-md bg-white text-black font-semibold text-xs font-mono inline-flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors cursor-pointer shadow-md shrink-0"
+                className="h-8 px-2.5 sm:px-3 rounded-sm bg-white text-black font-semibold text-xs font-mono inline-flex items-center justify-center gap-1.5 hover:bg-zinc-200 transition-colors cursor-pointer shadow-md shrink-0"
                 title="Register Deployment"
               >
                 <HugeiconsIcon icon={Add01Icon} size={14} />
@@ -218,25 +218,25 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
 
       {/* Deployment Overview Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-        <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
+        <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
           <div className="text-zinc-400 text-[11px]">Total Deployments</div>
           <div className="text-xl font-bold text-white tracking-tight">{stats.total}</div>
           <div className="text-[10px] text-zinc-500">Registered environments</div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
+        <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
           <div className="text-zinc-400 text-[11px]">Production Live</div>
           <div className="text-xl font-bold text-emerald-400 tracking-tight">{stats.prod}</div>
           <div className="text-[10px] text-emerald-500/70 font-semibold">Active live endpoints</div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
+        <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
           <div className="text-zinc-400 text-[11px]">Staging Builds</div>
           <div className="text-xl font-bold text-purple-400 tracking-tight">{stats.staging}</div>
           <div className="text-[10px] text-purple-500/70">Pre-release verification</div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
+        <div className="p-3.5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-1">
           <div className="text-zinc-400 text-[11px]">Active Envs</div>
           <div className="text-xl font-bold text-zinc-200 tracking-tight">{stats.activeEnvs} / 4</div>
           <div className="text-[10px] text-zinc-500">Prod, Staging, Dev, Local</div>
@@ -252,15 +252,14 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
           </div>
 
           {/* View Toggle */}
-          <div className="inline-flex items-center p-0.5 rounded-lg bg-zinc-900/90 border border-zinc-800/80 self-start sm:self-auto">
+          <div className="inline-flex items-center p-0.5 rounded-sm bg-zinc-900/90 border border-zinc-800/80 self-start sm:self-auto">
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer ${
-                viewMode === 'table'
-                  ? 'bg-zinc-800 text-white font-bold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-mono transition-colors cursor-pointer ${viewMode === 'table'
+                ? 'bg-zinc-800 text-white font-bold shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200'
+                }`}
             >
               <HugeiconsIcon icon={Menu01Icon} size={13} />
               <span>Table</span>
@@ -268,11 +267,10 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
             <button
               type="button"
               onClick={() => setViewMode('cards')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer ${
-                viewMode === 'cards'
-                  ? 'bg-zinc-800 text-white font-bold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[11px] font-mono transition-colors cursor-pointer ${viewMode === 'cards'
+                ? 'bg-zinc-800 text-white font-bold shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200'
+                }`}
             >
               <HugeiconsIcon icon={Grid02Icon} size={13} />
               <span>Cards</span>
@@ -283,11 +281,11 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
         {isLoading ? (
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-16 rounded-lg bg-[#0c0c0d] border border-zinc-800/40 animate-pulse" />
+              <div key={i} className="h-16 rounded-sm bg-[#0c0c0d] border border-zinc-800/40 animate-pulse" />
             ))}
           </div>
         ) : deployments.length === 0 ? (
-          <div className="p-12 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
+          <div className="p-12 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 text-center font-mono space-y-3">
             <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
               <HugeiconsIcon icon={ComputerIcon} size={20} />
             </div>
@@ -300,7 +298,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
           </div>
         ) : viewMode === 'table' ? (
           /* Table View */
-          <div className="overflow-x-auto rounded-lg border border-zinc-800/80 bg-[#0c0c0d] shadow-sm">
+          <div className="overflow-x-auto rounded-sm border border-zinc-800/80 bg-[#0c0c0d] shadow-sm">
             <table className="w-full text-left border-collapse font-mono text-xs">
               <thead>
                 <tr className="border-b border-zinc-800/80 bg-zinc-950/60 text-zinc-400 text-[10px] uppercase tracking-wider">
@@ -536,9 +534,8 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   <div className="absolute -left-3 sm:-left-[18px] top-[28px] -translate-y-1/2 w-3 sm:w-[18px] h-0.5 bg-gradient-to-r from-emerald-500/90 via-emerald-500/40 to-transparent z-0" />
 
                   {/* Glowing Node Icon */}
-                  <div className={`absolute -left-3 sm:-left-[18px] top-[28px] -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#0c0c0d] border ${
-                    dep.environment === 'production' ? 'border-emerald-400 shadow-emerald-500/30 text-emerald-400' : dep.environment === 'staging' ? 'border-amber-500/80 shadow-amber-500/20 text-amber-400' : 'border-purple-500/80 shadow-purple-500/20 text-purple-400'
-                  } flex items-center justify-center shadow-md z-10 transition-transform group-hover:scale-110`}>
+                  <div className={`absolute -left-3 sm:-left-[18px] top-[28px] -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#0c0c0d] border ${dep.environment === 'production' ? 'border-emerald-400 shadow-emerald-500/30 text-emerald-400' : dep.environment === 'staging' ? 'border-amber-500/80 shadow-amber-500/20 text-amber-400' : 'border-purple-500/80 shadow-purple-500/20 text-purple-400'
+                    } flex items-center justify-center shadow-md z-10 transition-transform group-hover:scale-110`}>
                     <HugeiconsIcon icon={envConfig.icon} size={10} />
                   </div>
 
@@ -632,7 +629,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-800/80">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <div className="w-9 h-9 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                       <HugeiconsIcon icon={ComputerIcon} size={18} />
                     </div>
                     <div>
@@ -647,7 +644,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   <button
                     type="button"
                     onClick={() => setSelectedDeployment(null)}
-                    className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                    className="w-8 h-8 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
                   >
                     <HugeiconsIcon icon={Cancel01Icon} size={16} />
                   </button>
@@ -655,7 +652,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
 
                 {/* Details Breakdown */}
                 <div className="space-y-4">
-                  <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-800/80 space-y-3">
+                  <div className="p-4 rounded-sm bg-zinc-900/60 border border-zinc-800/80 space-y-3">
                     <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Registered Endpoint URLs</h4>
                     <div className="space-y-2">
                       {selectedDeployment.frontendUrl && (
@@ -677,7 +674,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   </div>
 
                   {selectedDeployment.notes && (
-                    <div className="p-4 rounded-lg bg-zinc-900/60 border border-zinc-800/80 space-y-1.5">
+                    <div className="p-4 rounded-sm bg-zinc-900/60 border border-zinc-800/80 space-y-1.5">
                       <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Deployment Notes</h4>
                       <p className="text-xs text-zinc-300 font-sans leading-relaxed">{selectedDeployment.notes}</p>
                     </div>
@@ -690,7 +687,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedDeployment(null)}
-                  className="h-9 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+                  className="h-9 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
                 >
                   Close
                 </button>
@@ -703,7 +700,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                         setSelectedDeployment(null);
                         openEditModal(dep);
                       }}
-                      className="h-9 px-4 rounded-lg bg-zinc-800 border border-zinc-700 text-white font-semibold text-xs font-mono hover:bg-zinc-700 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="h-9 px-4 rounded-sm bg-zinc-800 border border-zinc-700 text-white font-semibold text-xs font-mono hover:bg-zinc-700 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <HugeiconsIcon icon={Edit01Icon} size={14} />
                       <span>Edit Deployment</span>
@@ -719,10 +716,10 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
       {/* Modal / Drawer for Deployment Registration Form */}
       {isFormModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-          <div className="w-full max-w-lg rounded-lg bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
+          <div className="w-full max-w-lg rounded-sm bg-[#0c0c0e]/95 border border-zinc-800/80 p-5 font-mono text-xs space-y-4 shadow-2xl backdrop-blur-xl">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <div className="w-8 h-8 rounded-sm bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                   <HugeiconsIcon icon={ComputerIcon} size={16} />
                 </div>
                 <div>
@@ -735,7 +732,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
               <button
                 type="button"
                 onClick={() => setIsFormModalOpen(false)}
-                className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={15} />
               </button>
@@ -766,7 +763,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                     value={version}
                     onChange={(e) => setVersion(e.target.value)}
                     placeholder="e.g. v1.2.0"
-                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono"
+                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono"
                   />
                 </div>
               </div>
@@ -778,7 +775,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   value={frontendUrl}
                   onChange={(e) => setFrontendUrl(e.target.value)}
                   placeholder="https://app.yourdomain.com"
-                  className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono"
+                  className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono"
                 />
               </div>
 
@@ -789,7 +786,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   value={backendUrl}
                   onChange={(e) => setBackendUrl(e.target.value)}
                   placeholder="https://api.yourdomain.com"
-                  className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono"
+                  className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono"
                 />
               </div>
 
@@ -801,7 +798,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                     value={adminUrl}
                     onChange={(e) => setAdminUrl(e.target.value)}
                     placeholder="https://admin.yourdomain.com"
-                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono"
+                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono"
                   />
                 </div>
                 <div className="space-y-1">
@@ -811,7 +808,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                     value={portalUrl}
                     onChange={(e) => setPortalUrl(e.target.value)}
                     placeholder="https://bunker.internal/share/..."
-                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono"
+                    className="w-full h-9 px-3 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono"
                   />
                 </div>
               </div>
@@ -823,7 +820,7 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Vercel deployment with Supabase Postgres migrations"
-                  className="w-full p-2.5 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-lg text-xs text-white outline-none font-mono resize-none"
+                  className="w-full p-2.5 bg-zinc-900/80 border border-zinc-800 focus:border-zinc-600 rounded-sm text-xs text-white outline-none font-mono resize-none"
                 />
               </div>
 
@@ -831,14 +828,14 @@ export const DeploymentsTab: React.FC<DeploymentsTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsFormModalOpen(false)}
-                  className="h-9 px-4 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
+                  className="h-9 px-4 rounded-sm bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-mono font-medium hover:text-white transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={upsertMutation.isPending}
-                  className="h-9 px-5 rounded-lg bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
+                  className="h-9 px-5 rounded-sm bg-white text-black font-semibold text-xs font-mono hover:bg-zinc-200 transition-colors cursor-pointer disabled:opacity-50 shadow-md"
                 >
                   {editingDeployment ? 'Save Deployment' : 'Register Environment'}
                 </button>

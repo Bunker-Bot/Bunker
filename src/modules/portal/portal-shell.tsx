@@ -100,7 +100,7 @@ export const PortalShell: React.FC = () => {
         if (!rpcErr && data) {
           rpcResult = data;
         }
-      } catch (_e) {}
+      } catch (_e) { }
 
       if (rpcResult) {
         if (rpcResult.error) {
@@ -132,7 +132,7 @@ export const PortalShell: React.FC = () => {
               projectObj.client = clientRecord;
               projectObj.client_name = clientRecord.name || clientRecord.company || projectObj.client_name;
             }
-          } catch (_e) {}
+          } catch (_e) { }
         }
 
         const resolvedClientName =
@@ -209,13 +209,13 @@ export const PortalShell: React.FC = () => {
       try {
         const { data: mainDocs } = await supabase.from('documents').select('*').eq('project_id', link.project_id);
         if (mainDocs) docsData = mainDocs;
-      } catch (_e) {}
+      } catch (_e) { }
 
       let changelogData: any[] = [];
       try {
         const { data: updates } = await supabase.from('project_updates').select('*').eq('project_id', link.project_id);
         if (updates) changelogData = updates;
-      } catch (_e) {}
+      } catch (_e) { }
 
       let projectObj = link.project || {};
       if (projectObj.client_id && !projectObj.client) {
@@ -229,7 +229,7 @@ export const PortalShell: React.FC = () => {
             projectObj.client = clientRecord;
             projectObj.client_name = clientRecord.name || clientRecord.company;
           }
-        } catch (_e) {}
+        } catch (_e) { }
       }
 
       const fallbackClientName =
@@ -256,7 +256,7 @@ export const PortalShell: React.FC = () => {
               : techNames,
           };
         }
-      } catch (_e) {}
+      } catch (_e) { }
 
       return {
         link,
@@ -339,7 +339,7 @@ export const PortalShell: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
-        <div className="relative z-10 flex items-center gap-3 bg-zinc-900/90 border border-zinc-800 rounded-lg p-6 backdrop-blur-xl">
+        <div className="relative z-10 flex items-center gap-3 bg-zinc-900/90 border border-zinc-800 rounded-sm p-6 backdrop-blur-xl">
           <RadialSpinner size={20} className="text-white" />
           <span className="text-sm font-mono text-zinc-300">Decrypting Project Portal...</span>
         </div>
@@ -382,9 +382,9 @@ export const PortalShell: React.FC = () => {
       ? project.completion_percent
       : milestones.length > 0
         ? Math.round(
-            milestones.reduce((acc: number, m: any) => acc + (m.progress !== undefined ? m.progress : 0), 0) /
-              milestones.length
-          )
+          milestones.reduce((acc: number, m: any) => acc + (m.progress !== undefined ? m.progress : 0), 0) /
+          milestones.length
+        )
         : 0;
 
   const handleSelectModule = (modId: string) => {
@@ -401,10 +401,10 @@ export const PortalShell: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#FAFAFA] relative font-sans selection:bg-zinc-800 selection:text-white pt-[64px] pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-0">
-      
+
       {/* STICKY RESPONSIVE HEADER (Height: 64px / h-16) */}
       <header className="fixed top-0 left-0 right-0 h-16 border-b border-zinc-800/90 bg-[#09090b]/95 backdrop-blur-2xl z-40 flex items-center justify-between px-3 sm:px-6 font-mono select-none shadow-xl">
-        
+
         {/* Left: Mobile Sheet Trigger + Project Title */}
         <div className="flex items-center gap-2.5 min-w-0">
           {/* Mobile Sheet Trigger (Left Side Drawer) */}
@@ -464,11 +464,10 @@ export const PortalShell: React.FC = () => {
                       <button
                         key={mod.id}
                         onClick={() => handleSelectModule(mod.id)}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-sm text-xs font-bold transition-all cursor-pointer ${
-                          isActive
+                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-sm text-xs font-bold transition-all cursor-pointer ${isActive
                             ? 'bg-zinc-800 text-white border border-zinc-700 shadow-sm'
                             : 'text-zinc-400 hover:text-white hover:bg-zinc-900 border border-transparent'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-2.5">
                           <HugeiconsIcon
@@ -523,11 +522,10 @@ export const PortalShell: React.FC = () => {
               <button
                 key={mod.id}
                 onClick={() => handleSelectModule(mod.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                  isActive
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${isActive
                     ? 'bg-zinc-800 text-white border border-zinc-700/80 shadow'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-                }`}
+                  }`}
               >
                 <HugeiconsIcon icon={mod.icon} size={13} className={isActive ? 'text-cyan-400' : 'text-zinc-500'} />
                 <span>{mod.label}</span>

@@ -25,10 +25,9 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `relative group flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-150 select-none ${
-          isActive
-            ? 'bg-zinc-800/80 border border-zinc-700/80 text-white shadow-lg backdrop-blur-md'
-            : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60 hover:border-zinc-800/60 hover:-translate-y-0.5 border border-transparent'
+        `relative group flex items-center gap-3 px-3 py-2.5 rounded-sm text-xs font-medium transition-all duration-150 select-none ${isActive
+          ? 'bg-zinc-800/80 border border-zinc-700/80 text-white shadow-lg backdrop-blur-md'
+          : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60 hover:border-zinc-800/60 hover:-translate-y-0.5 border border-transparent'
         } ${isCollapsed ? 'justify-center px-0 w-10 h-10 mx-auto' : 'w-full'}`
       }
     >
@@ -45,9 +44,8 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
           <HugeiconsIcon
             icon={icon}
             size={18}
-            className={`shrink-0 transition-transform duration-150 group-hover:scale-105 ${
-              isActive ? 'text-white' : 'text-zinc-400 group-hover:text-white'
-            }`}
+            className={`shrink-0 transition-transform duration-150 group-hover:scale-105 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-white'
+              }`}
           />
 
           {!isCollapsed && (
@@ -63,7 +61,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
           )}
 
           {isCollapsed && (
-            <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-zinc-900 border border-zinc-800 text-white text-xs font-medium rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 whitespace-nowrap z-50">
+            <div className="absolute left-full ml-3 px-2.5 py-1.5 bg-zinc-900 border border-zinc-800 text-white text-xs font-medium rounded-sm shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 whitespace-nowrap z-50">
               {label}
             </div>
           )}

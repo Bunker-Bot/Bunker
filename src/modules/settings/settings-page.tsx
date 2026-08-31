@@ -200,7 +200,7 @@ export const SettingsPage: React.FC = () => {
         {/* Left Column (Profile & Settings) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Section 1: Administrator Profile */}
-          <div className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/60">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon icon={UserIcon} size={16} className="text-zinc-400" />
@@ -218,7 +218,7 @@ export const SettingsPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5 min-w-0">
                     {/* First-letter Initial Badge */}
-                    <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-700/80 flex items-center justify-center font-bold font-mono text-base text-white shadow-inner shrink-0">
+                    <div className="w-12 h-12 rounded-sm bg-zinc-900 border border-zinc-700/80 flex items-center justify-center font-bold font-mono text-base text-white shadow-inner shrink-0">
                       {(profile?.fullName || 'E')[0].toUpperCase()}
                     </div>
 
@@ -259,11 +259,11 @@ export const SettingsPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap shrink-0">
-                    <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 font-mono uppercase inline-flex items-center gap-1">
+                    <span className="px-2.5 py-1 rounded-sm bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-300 font-mono uppercase inline-flex items-center gap-1">
                       <span className="text-zinc-500">Role:</span>
                       <span className="font-bold text-white">{(profile?.role && profile.role.trim()) ? profile.role : 'Administrator'}</span>
                     </span>
-                    <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono uppercase inline-flex items-center gap-1.5 font-bold">
+                    <span className="px-2.5 py-1 rounded-sm bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono uppercase inline-flex items-center gap-1.5 font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse shrink-0" />
                       {(profile?.status && profile.status.trim()) ? profile.status : 'Active'}
                     </span>
@@ -296,7 +296,7 @@ export const SettingsPage: React.FC = () => {
           </div>
 
           {/* Section 2: Share Link Defaults */}
-          <div className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/60">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon icon={Link01Icon} size={16} className="text-zinc-400" />
@@ -316,7 +316,7 @@ export const SettingsPage: React.FC = () => {
                     value={shareDefaults?.defaultExpiration || 'never'}
                     onValueChange={(val) => updateShareDefaultsMutation.mutate({ defaultExpiration: val as any })}
                   >
-                    <SelectTrigger className="w-full h-9 text-xs px-3 bg-zinc-900 border-zinc-800 rounded-md font-mono text-zinc-200 focus:border-zinc-700">
+                    <SelectTrigger className="w-full h-9 text-xs px-3 bg-zinc-900 border-zinc-800 rounded-sm font-mono text-zinc-200 focus:border-zinc-700">
                       <SelectValue placeholder="Select Expiration" />
                     </SelectTrigger>
                     <SelectContent>
@@ -339,7 +339,7 @@ export const SettingsPage: React.FC = () => {
                       })
                     }
                   >
-                    <SelectTrigger className="w-full h-9 text-xs px-3 bg-zinc-900 border-zinc-800 rounded-md font-mono text-zinc-200 focus:border-zinc-700">
+                    <SelectTrigger className="w-full h-9 text-xs px-3 bg-zinc-900 border-zinc-800 rounded-sm font-mono text-zinc-200 focus:border-zinc-700">
                       <SelectValue placeholder="Max Views" />
                     </SelectTrigger>
                     <SelectContent>
@@ -355,7 +355,7 @@ export const SettingsPage: React.FC = () => {
 
               {/* Password Protection & Link Policy Switches */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <label className="p-3.5 rounded-md bg-zinc-900/60 border border-zinc-800/80 flex items-center justify-between cursor-pointer hover:border-zinc-700/80 transition-colors h-full">
+                <label className="p-3.5 rounded-sm bg-zinc-900/60 border border-zinc-800/80 flex items-center justify-between cursor-pointer hover:border-zinc-700/80 transition-colors h-full">
                   <div className="space-y-1">
                     <div className="text-xs font-semibold text-white font-sans">Require Password by Default</div>
                     <div className="text-[10px] text-zinc-500 font-mono">Auto-enable PIN check when generating share links</div>
@@ -368,7 +368,7 @@ export const SettingsPage: React.FC = () => {
                   />
                 </label>
 
-                <div className="p-3.5 rounded-md bg-zinc-900/60 border border-zinc-800/80 space-y-2 flex flex-col justify-between h-full">
+                <div className="p-3.5 rounded-sm bg-zinc-900/60 border border-zinc-800/80 space-y-2 flex flex-col justify-between h-full">
                   <div className="space-y-0.5">
                     <div className="text-xs font-semibold text-white font-sans">Active Link Policy</div>
                     <div className="text-[10px] text-zinc-500 font-mono">Rule for active links per project</div>
@@ -377,7 +377,7 @@ export const SettingsPage: React.FC = () => {
                     value={shareDefaults?.linkPolicy || 'one_active_per_project'}
                     onValueChange={(val) => updateShareDefaultsMutation.mutate({ linkPolicy: val as any })}
                   >
-                    <SelectTrigger className="w-full h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 rounded-md font-mono text-zinc-200">
+                    <SelectTrigger className="w-full h-8 text-[11px] px-2.5 bg-zinc-900 border-zinc-800 rounded-sm font-mono text-zinc-200">
                       <SelectValue placeholder="Policy" />
                     </SelectTrigger>
                     <SelectContent>
@@ -401,11 +401,10 @@ export const SettingsPage: React.FC = () => {
                         key={m.id}
                         type="button"
                         onClick={() => handleModuleToggle(m.id)}
-                        className={`p-2 rounded border text-left transition-colors cursor-pointer ${
-                          checked
-                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                            : 'bg-zinc-900/40 border-zinc-800 text-zinc-500 hover:text-zinc-300'
-                        }`}
+                        className={`p-2 rounded border text-left transition-colors cursor-pointer ${checked
+                          ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                          : 'bg-zinc-900/40 border-zinc-800 text-zinc-500 hover:text-zinc-300'
+                          }`}
                       >
                         <div className="text-[11px] font-mono font-semibold flex items-center justify-between">
                           <span>{m.label}</span>
@@ -435,7 +434,7 @@ export const SettingsPage: React.FC = () => {
           </div>
 
           {/* Section 3: Portal Branding & Preview */}
-          <div className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-5 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/60">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon icon={GlobalIcon} size={16} className="text-zinc-400" />
@@ -481,7 +480,7 @@ export const SettingsPage: React.FC = () => {
               </div>
 
               {/* Live Preview Banner Box */}
-              <div className="p-4 rounded-lg bg-zinc-950 border border-zinc-800 space-y-2">
+              <div className="p-4 rounded-sm bg-zinc-950 border border-zinc-800 space-y-2">
                 <div className="text-[10px] text-zinc-500 uppercase tracking-wider flex items-center justify-between">
                   <span>Client View Live Preview Banner</span>
                   <span className="text-emerald-400 font-bold">Encrypted Session</span>
@@ -503,7 +502,7 @@ export const SettingsPage: React.FC = () => {
         {/* Right Column (Security, Storage, Danger Zone) */}
         <div className="space-y-6">
           {/* Section 4: Security */}
-          <div className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-4 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-4 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/60">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon icon={ShieldKeyIcon} size={16} className="text-emerald-400" />
@@ -549,7 +548,7 @@ export const SettingsPage: React.FC = () => {
           </div>
 
           {/* Section 5: Storage Overview */}
-          <div className="p-5 rounded-lg bg-[#0c0c0d] border border-zinc-800/60 space-y-4 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-[#0c0c0d] border border-zinc-800/60 space-y-4 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/60">
               <div className="flex items-center gap-2">
                 <HugeiconsIcon icon={DatabaseIcon} size={16} className="text-zinc-400" />
@@ -593,7 +592,7 @@ export const SettingsPage: React.FC = () => {
           </div>
 
           {/* Section 6: Danger Zone */}
-          <div className="p-5 rounded-lg bg-rose-950/20 border border-rose-500/30 space-y-4 font-mono text-xs shadow-sm">
+          <div className="p-5 rounded-sm bg-rose-950/20 border border-rose-500/30 space-y-4 font-mono text-xs shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-rose-500/20">
               <div className="flex items-center gap-2 text-rose-400">
                 <HugeiconsIcon icon={Alert02Icon} size={16} />
@@ -624,7 +623,7 @@ export const SettingsPage: React.FC = () => {
       {/* Password Change Dialog */}
       {isPasswordModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-          <div className="w-full max-w-md rounded-lg bg-[#0c0c0e] border border-zinc-800 p-5 font-mono text-xs space-y-4 shadow-2xl">
+          <div className="w-full max-w-md rounded-sm bg-[#0c0c0e] border border-zinc-800 p-5 font-mono text-xs space-y-4 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300">
@@ -688,11 +687,10 @@ export const SettingsPage: React.FC = () => {
 
               {passwordStatus && (
                 <div
-                  className={`p-2.5 rounded border text-[11px] font-mono flex items-center gap-2 ${
-                    passwordStatus.type === 'success'
-                      ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300'
-                      : 'bg-amber-950/40 border-amber-800 text-amber-300'
-                  }`}
+                  className={`p-2.5 rounded border text-[11px] font-mono flex items-center gap-2 ${passwordStatus.type === 'success'
+                    ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300'
+                    : 'bg-amber-950/40 border-amber-800 text-amber-300'
+                    }`}
                 >
                   <HugeiconsIcon
                     icon={passwordStatus.type === 'success' ? CheckmarkCircle02Icon : Alert02Icon}

@@ -27,7 +27,12 @@ export const Select: React.FC<SelectProps> = ({
   className = '',
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [coords, setCoords] = React.useState<{ top: number; left: number; width: number } | null>(null);
+  const [coords, setCoords] = React.useState<{
+    top: number;
+    left: number;
+    width: number;
+    maxHeight: number;
+  } | null>(null);
   
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const menuRef = React.useRef<HTMLDivElement>(null);
@@ -35,43 +40,81 @@ export const Select: React.FC<SelectProps> = ({
   const selectedOption = options.find((opt) => opt.value === value);
 
   const updateCoords = React.useCallback(() => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: Math.max(rect.width, 140),
-      });
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    
+    // Check if the button is scrolled out of viewport
+    if (rect.bottom < 0 || rect.top > window.innerHeight) {
+      setIsOpen(false);
+      return;
     }
+
+    const spaceBelow = window.innerHeight - rect.bottom - 8;
+    const spaceAbove = rect.top - 8;
+    const idealMaxHeight = 240;
+    
+    // If not enough space below (<160px) and more space above, open above
+    const openAbove = spaceBelow < 160 && spaceAbove > spaceBelow;
+    const availableHeight = openAbove ? spaceAbove : spaceBelow;
+    const actualMaxHeight = Math.max(100, Math.min(idealMaxHeight, availableHeight));
+
+    const width = Math.max(rect.width, 140);
+    const left = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8));
+    const top = openAbove ? Math.max(8, rect.top - actualMaxHeight - 4) : rect.bottom + 4;
+
+    setCoords({
+      top,
+      left,
+      width,
+      maxHeight: actualMaxHeight,
+    });
   }, []);
 
   React.useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+
+    updateCoords();
+
+    const handleScroll = (e: Event) => {
+      // If scrolling inside the dropdown menu itself (e.g. scrolling/sliding down to select clients), DO NOT CLOSE!
+      if (menuRef.current && (e.target === menuRef.current || menuRef.current.contains(e.target as Node))) {
+        return;
+      }
+      // If an outside container or window scrolls, update coords so dropdown stays pinned to button
       updateCoords();
-      const handleScrollOrResize = () => setIsOpen(false);
-      window.addEventListener('scroll', handleScrollOrResize, true);
-      window.addEventListener('resize', handleScrollOrResize);
-      return () => {
-        window.removeEventListener('scroll', handleScrollOrResize, true);
-        window.removeEventListener('resize', handleScrollOrResize);
-      };
-    }
+    };
+
+    const handleResize = () => {
+      updateCoords();
+    };
+
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [isOpen, updateCoords]);
 
   React.useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(target) &&
         menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
+        !menuRef.current.contains(target)
       ) {
         setIsOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   return (
     <div className={`relative inline-block text-left font-mono select-none ${className}`}>
@@ -107,8 +150,14 @@ export const Select: React.FC<SelectProps> = ({
               top: coords.top,
               left: coords.left,
               width: coords.width,
+              maxHeight: coords.maxHeight,
+              overscrollBehavior: 'contain',
             }}
-            className="z-[99999] py-1 rounded-sm bg-zinc-950 border border-zinc-800 shadow-2xl space-y-0.5 max-h-60 overflow-y-auto font-mono text-xs"
+            className="z-[99999] py-1 rounded-sm bg-zinc-950 border border-zinc-800 shadow-2xl space-y-0.5 overflow-y-auto font-mono text-xs custom-scrollbar"
+            onWheel={(e) => {
+              // Stop scroll propagation so sliding/scrolling dropdown doesn't scroll modal behind it
+              e.stopPropagation();
+            }}
           >
             {options.map((opt, idx) => {
               const isSelected = opt.value === value;

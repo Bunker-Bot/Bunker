@@ -36,11 +36,10 @@ function NavMainItem({
       <SidebarMenuButton
         tooltip={item.title}
         onClick={() => onSelectView(item.view)}
-        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:size-9 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:mx-auto cursor-pointer ${
-          item.isActive
+        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-sm text-xs font-medium transition-all group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:size-9 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:mx-auto cursor-pointer ${item.isActive
             ? "bg-zinc-800/90 text-white font-semibold border border-white/10 shadow-sm"
             : "text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04]"
-        }`}
+          }`}
       >
         <div className="flex items-center gap-3 min-w-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0 group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:h-full">
           <span className="shrink-0 flex items-center justify-center group-data-[collapsible=icon]:mx-auto">{item.icon}</span>

@@ -10,7 +10,7 @@ export const LoginHeader: React.FC = () => {
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className="flex flex-col items-center text-center space-y-3"
     >
-      <div className="p-2 rounded-xl bg-zinc-900/60 border border-zinc-800/80 shadow-md">
+      <div className="p-2 rounded-sm bg-zinc-900/60 border border-zinc-800/80 shadow-md">
         <AppLogo size={44} showText={false} animated />
       </div>
 
