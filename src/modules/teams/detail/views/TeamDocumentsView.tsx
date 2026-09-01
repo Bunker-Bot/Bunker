@@ -28,13 +28,13 @@ export const TeamDocumentsView: React.FC<TeamDocumentsViewProps> = ({ team }) =>
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search team documents..."
-            className="w-full pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-sm text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors"
           />
         </div>
 
         <button
           onClick={() => navigate('/app/docs')}
-          className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-xl transition-all shadow-lg shadow-cyan-500/20"
+          className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-sm transition-all shadow-lg shadow-cyan-500/20"
         >
           <HugeiconsIcon icon={PlusSignIcon} size={16} />
           New Document
@@ -42,7 +42,7 @@ export const TeamDocumentsView: React.FC<TeamDocumentsViewProps> = ({ team }) =>
       </div>
 
       {/* Documents Panel */}
-      <div className="p-12 text-center bg-zinc-900/40 border border-dashed border-zinc-800 rounded-2xl space-y-3">
+      <div className="p-12 text-center bg-zinc-900/40 border border-dashed border-zinc-800 rounded-sm space-y-3">
         <HugeiconsIcon icon={FileCodeIcon} size={40} className="text-zinc-600 mx-auto" />
         <h3 className="text-sm font-semibold text-zinc-300">Team Document Hub</h3>
         <p className="text-xs text-zinc-500 max-w-md mx-auto">
@@ -50,7 +50,7 @@ export const TeamDocumentsView: React.FC<TeamDocumentsViewProps> = ({ team }) =>
         </p>
         <button
           onClick={() => navigate('/app/docs')}
-          className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 rounded-xl transition-colors inline-flex items-center gap-1.5"
+          className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 rounded-sm transition-colors inline-flex items-center gap-1.5"
         >
           Open Documentation System <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
         </button>

@@ -35,7 +35,7 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
   return (
     <div className="space-y-8 font-mono">
       {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-zinc-950 border border-zinc-800 rounded-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-zinc-950 border border-zinc-800 rounded-sm">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
             <HugeiconsIcon icon={Shield02Icon} size={16} />
@@ -49,7 +49,7 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
 
         <button
           onClick={() => navigate(`/app/avatar-studio/team/${team.id}`)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-cyan-400 hover:bg-cyan-300 active:scale-95 text-black text-xs font-semibold rounded-xl transition-all shadow-lg shadow-cyan-500/20"
+          className="flex items-center gap-2 px-5 py-2.5 bg-cyan-400 hover:bg-cyan-300 active:scale-95 text-black text-xs font-semibold rounded-sm transition-all shadow-lg shadow-cyan-500/20"
         >
           <HugeiconsIcon icon={SparklesIcon} size={16} />
           Customize in Avatar Studio
@@ -58,9 +58,9 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: 3D Stage */}
-        <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 bg-zinc-900/60 border border-zinc-800 rounded-2xl relative overflow-hidden min-h-[420px]">
+        <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 bg-zinc-900/60 border border-zinc-800 rounded-sm relative overflow-hidden min-h-[420px]">
           <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-            <span className="px-2.5 py-1 text-[11px] font-bold bg-zinc-950/80 border border-zinc-800 text-cyan-400 rounded-lg backdrop-blur-md">
+            <span className="px-2.5 py-1 text-[11px] font-bold bg-zinc-950/80 border border-zinc-800 text-cyan-400 rounded-sm backdrop-blur-md">
               Guardian ID #{guardianCode}
             </span>
           </div>
@@ -78,34 +78,34 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
         {/* Right Column: Identity Specifications */}
         <div className="lg:col-span-5 space-y-6">
           {/* Brand Colors */}
-          <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-2xl space-y-4">
+          <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-sm space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-zinc-300 uppercase tracking-wider">
               <HugeiconsIcon icon={ColorsIcon} size={16} className="text-purple-400" />
               Team Brand Palette
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl space-y-2">
+              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm space-y-2">
                 <div
-                  className="w-full h-8 rounded-lg shadow-sm"
+                  className="w-full h-8 rounded-sm shadow-sm"
                   style={{ backgroundColor: team.primaryColor || '#06B6D4' }}
                 />
                 <div className="text-[10px] text-zinc-400">Primary</div>
                 <div className="text-xs font-bold text-zinc-200">{team.primaryColor || '#06B6D4'}</div>
               </div>
 
-              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl space-y-2">
+              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm space-y-2">
                 <div
-                  className="w-full h-8 rounded-lg shadow-sm"
+                  className="w-full h-8 rounded-sm shadow-sm"
                   style={{ backgroundColor: team.secondaryColor || '#8B5CF6' }}
                 />
                 <div className="text-[10px] text-zinc-400">Secondary</div>
                 <div className="text-xs font-bold text-zinc-200">{team.secondaryColor || '#8B5CF6'}</div>
               </div>
 
-              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl space-y-2">
+              <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm space-y-2">
                 <div
-                  className="w-full h-8 rounded-lg shadow-sm"
+                  className="w-full h-8 rounded-sm shadow-sm"
                   style={{ backgroundColor: team.accentColor || '#10B981' }}
                 />
                 <div className="text-[10px] text-zinc-400">Accent</div>
@@ -115,7 +115,7 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
           </div>
 
           {/* Project Style Inheritance Note */}
-          <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-2xl space-y-3">
+          <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-sm space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-zinc-300 uppercase tracking-wider">
               <HugeiconsIcon icon={FolderCheckIcon} size={16} className="text-cyan-400" />
               Project Style Inheritance

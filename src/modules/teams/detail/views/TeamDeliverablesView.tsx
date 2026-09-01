@@ -8,6 +8,13 @@ import {
   LockKeyIcon,
 } from '@hugeicons/core-free-icons';
 import { useTeamProjects } from '../../../../lib/supabase/queries/teams';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../../../../components/ui/select';
 import type { Team } from '../../types/team.types';
 
 interface TeamDeliverablesViewProps {
@@ -53,27 +60,32 @@ export const TeamDeliverablesView: React.FC<TeamDeliverablesViewProps> = ({ team
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search deliverables..."
-              className="w-full pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors"
+              className="w-full pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-sm text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-colors"
             />
           </div>
 
-          <select
-            value={selectedProjectId}
-            onChange={(e) => setSelectedProjectId(e.target.value)}
-            className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
-          >
-            <option value="all">All Projects</option>
-            {teamProjects.map((p: any) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
+          <Select value={selectedProjectId} onValueChange={(val: any) => setSelectedProjectId(val)}>
+            <SelectTrigger size="sm" className="w-48 bg-zinc-900 border-zinc-800 rounded-sm text-xs text-zinc-100">
+              <SelectValue>
+                {selectedProjectId === 'all'
+                  ? 'All Projects'
+                  : teamProjects.find((p: any) => p.id === selectedProjectId)?.name || selectedProjectId}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+              <SelectItem value="all">All Projects</SelectItem>
+              {teamProjects.map((p: any) => (
+                <SelectItem key={p.id} value={p.id}>
+                  {p.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       {/* Deliverables List */}
-      <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden shadow-lg">
+      <div className="bg-zinc-900/60 border border-zinc-800 rounded-sm overflow-hidden shadow-lg">
         {isLoading ? (
           <div className="p-8 text-center text-xs text-zinc-500">Loading deliverables...</div>
         ) : filteredDeliverables.length === 0 ? (
@@ -90,7 +102,7 @@ export const TeamDeliverablesView: React.FC<TeamDeliverablesViewProps> = ({ team
                 className="flex items-center justify-between p-4 hover:bg-zinc-800/30 cursor-pointer transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400">
+                  <div className="w-8 h-8 rounded-sm bg-zinc-800 flex items-center justify-center text-zinc-400">
                     <HugeiconsIcon icon={Task01Icon} size={16} />
                   </div>
                   <div>
@@ -107,11 +119,11 @@ export const TeamDeliverablesView: React.FC<TeamDeliverablesViewProps> = ({ team
 
                 <div className="flex items-center gap-3">
                   {deliv.is_manual_unlocked ? (
-                    <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md">
+                    <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-sm">
                       <HugeiconsIcon icon={CheckmarkCircle02Icon} size={12} /> Unlocked
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md">
+                    <span className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-sm">
                       <HugeiconsIcon icon={LockKeyIcon} size={12} /> Locked on Settlement
                     </span>
                   )}

@@ -11,6 +11,13 @@ import {
 import { useCreateTeam } from '../../../lib/supabase/queries/teams';
 import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
 import { IdentityAvatarCanvas } from '../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../../../components/ui/select';
 import type { TeamType } from '../types/team.types';
 
 interface CreateTeamModalProps {
@@ -100,12 +107,12 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden font-mono"
+          className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-sm shadow-2xl overflow-hidden font-mono"
         >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800/80 bg-zinc-950/40">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+              <div className="w-9 h-9 rounded-sm bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
                 <HugeiconsIcon icon={UserGroupIcon} size={20} />
               </div>
               <div>
@@ -115,7 +122,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 rounded-lg transition-colors"
+              className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 rounded-sm transition-colors"
             >
               <HugeiconsIcon icon={Cancel01Icon} size={20} />
             </button>
@@ -123,7 +130,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {error && (
-              <div className="p-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+              <div className="p-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-sm">
                 {error}
               </div>
             )}
@@ -140,7 +147,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Platform Engineering"
-                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-sm text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors"
                     required
                   />
                 </div>
@@ -154,7 +161,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Brief description of the team's operational scope..."
                     rows={2}
-                    className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                    className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-sm text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors resize-none"
                   />
                 </div>
 
@@ -163,34 +170,36 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
                     <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-medium">
                       Team Type
                     </label>
-                    <select
-                      value={teamType}
-                      onChange={(e) => setTeamType(e.target.value as TeamType)}
-                      className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 transition-colors"
-                    >
-                      {TEAM_TYPES.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
+                    <Select value={teamType} onValueChange={(val: any) => setTeamType(val)}>
+                      <SelectTrigger size="sm" className="w-full bg-zinc-950 border-zinc-800 rounded-sm text-xs text-zinc-100">
+                        <SelectValue>{teamType}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+                        {TEAM_TYPES.map((t) => (
+                          <SelectItem key={t} value={t}>
+                            {t}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div>
                     <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-medium">
                       Default Currency
                     </label>
-                    <select
-                      value={currency}
-                      onChange={(e) => setCurrency(e.target.value)}
-                      className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 transition-colors"
-                    >
-                      {CURRENCIES.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
+                    <Select value={currency} onValueChange={(val: any) => setCurrency(val)}>
+                      <SelectTrigger size="sm" className="w-full bg-zinc-950 border-zinc-800 rounded-sm text-xs text-zinc-100">
+                        <SelectValue>{currency}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+                        {CURRENCIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -204,7 +213,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
                         key={color}
                         type="button"
                         onClick={() => setPrimaryColor(color)}
-                        className={`w-7 h-7 rounded-lg transition-transform ${
+                        className={`w-7 h-7 rounded-sm transition-transform ${
                           primaryColor === color
                             ? 'ring-2 ring-white scale-110'
                             : 'opacity-70 hover:opacity-100'
@@ -217,7 +226,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
               </div>
 
               {/* Right Column: Instant Team Guardian Preview */}
-              <div className="md:col-span-5 flex flex-col items-center justify-center p-4 bg-zinc-950/60 border border-zinc-800/80 rounded-2xl text-center">
+              <div className="md:col-span-5 flex flex-col items-center justify-center p-4 bg-zinc-950/60 border border-zinc-800/80 rounded-sm text-center">
                 <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-zinc-400 mb-2 font-medium">
                   <HugeiconsIcon icon={Shield02Icon} size={14} className="text-cyan-400" />
                   Team Guardian
@@ -241,14 +250,14 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors"
+                className="px-4 py-2 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-sm transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={createTeamMutation.isPending}
-                className="flex items-center gap-2 px-5 py-2 text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 active:scale-[0.98] rounded-xl transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-50"
+                className="flex items-center gap-2 px-5 py-2 text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 active:scale-[0.98] rounded-sm transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-50"
               >
                 {createTeamMutation.isPending ? (
                   <>

@@ -8,6 +8,13 @@ import {
   Loading03Icon,
 } from '@hugeicons/core-free-icons';
 import { useUpdateTeam, useArchiveTeam } from '../../../../lib/supabase/queries/teams';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../../../../components/ui/select';
 import type { Team, TeamRole, TeamType } from '../../types/team.types';
 
 interface TeamSettingsViewProps {
@@ -75,7 +82,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
       {/* General Settings */}
       <form
         onSubmit={handleSaveGeneral}
-        className="p-6 bg-zinc-900/60 border border-zinc-800 rounded-2xl space-y-5"
+        className="p-6 bg-zinc-900/60 border border-zinc-800 rounded-sm space-y-5"
       >
         <div className="flex items-center gap-2 text-xs font-bold text-zinc-300 uppercase tracking-wider">
           <HugeiconsIcon icon={Settings01Icon} size={16} className="text-cyan-400" />
@@ -84,7 +91,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
 
         {message && (
           <div
-            className={`p-3 text-xs rounded-xl border ${
+            className={`p-3 text-xs rounded-sm border ${
               message.type === 'success'
                 ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
                 : 'text-rose-400 bg-rose-500/10 border-rose-500/20'
@@ -104,7 +111,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
+              className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
             />
           </div>
 
@@ -117,7 +124,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               required
-              className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
+              className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
             />
           </div>
         </div>
@@ -130,7 +137,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 resize-none"
+            className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 resize-none"
           />
         </div>
 
@@ -139,17 +146,18 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
             <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-medium">
               Team Type
             </label>
-            <select
-              value={teamType}
-              onChange={(e) => setTeamType(e.target.value as TeamType)}
-              className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
-            >
-              {TEAM_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            <Select value={teamType} onValueChange={(val: any) => setTeamType(val)}>
+              <SelectTrigger size="sm" className="w-full bg-zinc-950 border-zinc-800 rounded-sm text-xs text-zinc-100">
+                <SelectValue>{teamType}</SelectValue>
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+                {TEAM_TYPES.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -160,7 +168,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
               type="text"
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
+              className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
             />
           </div>
 
@@ -172,7 +180,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
               type="text"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
+              className="w-full px-3.5 py-2 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
             />
           </div>
         </div>
@@ -181,7 +189,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
           <button
             type="submit"
             disabled={updateTeamMutation.isPending}
-            className="flex items-center gap-2 px-5 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-xl transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-sm transition-all disabled:opacity-50"
           >
             {updateTeamMutation.isPending ? (
               <HugeiconsIcon icon={Loading03Icon} size={16} className="animate-spin" />
@@ -193,7 +201,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
       </form>
 
       {/* Danger Zone */}
-      <div className="p-6 bg-rose-500/5 border border-rose-500/20 rounded-2xl space-y-4">
+      <div className="p-6 bg-rose-500/5 border border-rose-500/20 rounded-sm space-y-4">
         <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase tracking-wider">
           <HugeiconsIcon icon={Delete02Icon} size={16} />
           Danger Zone
@@ -205,7 +213,7 @@ export const TeamSettingsView: React.FC<TeamSettingsViewProps> = ({ team }) => {
         <button
           type="button"
           onClick={handleArchive}
-          className="flex items-center gap-2 px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-semibold rounded-xl transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-semibold rounded-sm transition-colors"
         >
           <HugeiconsIcon icon={Archive02Icon} size={16} />
           Archive Team Workspace

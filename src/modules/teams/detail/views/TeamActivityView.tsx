@@ -31,7 +31,7 @@ export const TeamActivityView: React.FC<TeamActivityViewProps> = ({ team }) => {
         </div>
       </div>
 
-      <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden shadow-lg">
+      <div className="bg-zinc-900/60 border border-zinc-800 rounded-sm overflow-hidden shadow-lg">
         {isLoading ? (
           <div className="p-8 text-center text-xs text-zinc-500">Loading activity feed...</div>
         ) : activities.length === 0 ? (
@@ -43,7 +43,7 @@ export const TeamActivityView: React.FC<TeamActivityViewProps> = ({ team }) => {
           <div className="divide-y divide-zinc-800/80">
             {activities.map((item) => (
               <div key={item.id} className="flex items-start gap-4 p-4 hover:bg-zinc-800/30 transition-colors">
-                <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-cyan-400 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-sm bg-zinc-800 flex items-center justify-center text-cyan-400 flex-shrink-0 mt-0.5">
                   {item.targetType === 'member' ? (
                     <HugeiconsIcon icon={UserGroupIcon} size={16} />
                   ) : item.targetType === 'finance' ? (

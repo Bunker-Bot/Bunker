@@ -13,6 +13,13 @@ import {
   useUpdateMemberRole,
   useRemoveTeamMember,
 } from '../../../../lib/supabase/queries/teams';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../../../../components/ui/select';
 import { canManageMembers } from '../../permissions/team.permissions';
 import type { Team, TeamRole } from '../../types/team.types';
 
@@ -93,7 +100,7 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
         {canEdit && (
           <button
             onClick={() => setIsInviteModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 active:scale-95 text-black text-xs font-semibold rounded-xl transition-all shadow-lg shadow-cyan-500/20"
+            className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 active:scale-95 text-black text-xs font-semibold rounded-sm transition-all shadow-lg shadow-cyan-500/20"
           >
             <HugeiconsIcon icon={PlusSignIcon} size={16} />
             Invite Member
@@ -102,7 +109,7 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
       </div>
 
       {/* Members Table */}
-      <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden shadow-lg">
+      <div className="bg-zinc-900/60 border border-zinc-800 rounded-sm overflow-hidden shadow-lg">
         {isLoading ? (
           <div className="p-8 text-center text-xs text-zinc-500">Loading roster...</div>
         ) : members.length === 0 ? (
@@ -120,14 +127,14 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-4 hover:bg-zinc-800/30 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700/60 flex items-center justify-center text-zinc-300 font-bold text-sm">
+                    <div className="w-10 h-10 rounded-sm bg-zinc-800 border border-zinc-700/60 flex items-center justify-center text-zinc-300 font-bold text-sm">
                       {displayName.charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-zinc-200">{displayName}</span>
                         {isOwner && (
-                          <span className="px-2 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md">
+                          <span className="px-2 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-sm">
                             Owner
                           </span>
                         )}
@@ -139,19 +146,25 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
                   <div className="flex items-center gap-3">
                     {/* Role Dropdown */}
                     {canEdit && !isOwner ? (
-                      <select
+                      <Select
                         value={member.role}
-                        onChange={(e) => handleRoleChange(member.id, e.target.value as TeamRole)}
-                        className="px-3 py-1.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-200 focus:outline-none focus:border-cyan-500"
+                        onValueChange={(val: any) => handleRoleChange(member.id, val as TeamRole)}
                       >
-                        {ROLES.map((r) => (
-                          <option key={r.value} value={r.value}>
-                            {r.label}
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger size="sm" className="w-40 bg-zinc-950 border-zinc-800 rounded-sm text-xs text-zinc-200">
+                          <SelectValue>
+                            {ROLES.find((r) => r.value === member.role)?.label || member.role}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+                          {ROLES.map((r) => (
+                            <SelectItem key={r.value} value={r.value}>
+                              {r.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     ) : (
-                      <span className="px-3 py-1 text-xs bg-zinc-800 text-zinc-300 rounded-lg capitalize">
+                      <span className="px-3 py-1 text-xs bg-zinc-800 text-zinc-300 rounded-sm capitalize">
                         {member.role.replace('_', ' ')}
                       </span>
                     )}
@@ -161,7 +174,7 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
                       <button
                         onClick={() => handleRemove(member.id, displayName)}
                         title="Remove member"
-                        className="p-1.5 text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                        className="p-1.5 text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-sm transition-colors"
                       >
                         <HugeiconsIcon icon={Delete02Icon} size={16} />
                       </button>
@@ -179,10 +192,10 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
           <form
             onSubmit={handleInvite}
-            className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-5"
+            className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-sm p-6 space-y-5"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+              <div className="w-9 h-9 rounded-sm bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
                 <HugeiconsIcon icon={Mail01Icon} size={20} />
               </div>
               <div>
@@ -192,7 +205,7 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
             </div>
 
             {error && (
-              <div className="p-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+              <div className="p-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-sm">
                 {error}
               </div>
             )}
@@ -207,7 +220,7 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
                 onChange={(e) => setInviteEmail(e.target.value)}
                 placeholder="colleague@company.com"
                 required
-                className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500"
+                className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-sm text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-cyan-500"
               />
             </div>
 
@@ -215,31 +228,34 @@ export const TeamMembersView: React.FC<TeamMembersViewProps> = ({ team, userRole
               <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5 font-medium">
                 Role Capability
               </label>
-              <select
-                value={inviteRole}
-                onChange={(e) => setInviteRole(e.target.value as TeamRole)}
-                className="w-full px-3 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-cyan-500"
-              >
-                {ROLES.map((r) => (
-                  <option key={r.value} value={r.value}>
-                    {r.label} — {r.desc}
-                  </option>
-                ))}
-              </select>
+              <Select value={inviteRole} onValueChange={(val: any) => setInviteRole(val)}>
+                <SelectTrigger size="sm" className="w-full bg-zinc-950 border-zinc-800 rounded-sm text-xs text-zinc-100">
+                  <SelectValue>
+                    {ROLES.find((r) => r.value === inviteRole)?.label || inviteRole}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-950 border-zinc-800 rounded-sm text-zinc-200">
+                  {ROLES.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>
+                      {r.label} — {r.desc}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setIsInviteModalOpen(false)}
-                className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 rounded-lg"
+                className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 rounded-sm"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={inviteMutation.isPending}
-                className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-xl disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold rounded-sm disabled:opacity-50"
               >
                 {inviteMutation.isPending ? <HugeiconsIcon icon={Loading03Icon} size={16} className="animate-spin" /> : 'Send Invite'}
               </button>

@@ -118,7 +118,7 @@ export const TeamDetailPage: React.FC = () => {
         <p className="text-xs text-zinc-500">The requested team does not exist or you do not have permission.</p>
         <button
           onClick={() => navigate('/app/teams')}
-          className="px-4 py-2 bg-zinc-800 text-xs text-zinc-200 rounded-xl hover:bg-zinc-700"
+          className="px-4 py-2 bg-zinc-800 text-xs text-zinc-200 rounded-sm hover:bg-zinc-700"
         >
           Return to Teams Directory
         </button>
@@ -131,14 +131,14 @@ export const TeamDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-100 font-mono p-4 sm:p-6 lg:p-10 space-y-6">
       {/* 1. Header Banner & Team Hero */}
-      <div className="p-6 bg-zinc-900/60 border border-zinc-800 rounded-2xl space-y-6">
+      <div className="p-6 bg-zinc-900/60 border border-zinc-800 rounded-sm space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             {/* Team Guardian Preview */}
             <div
               onClick={() => setActiveTab('identity')}
               title="View Team Guardian Identity"
-              className="w-16 h-16 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-cyan-500/50 cursor-pointer overflow-hidden flex items-center justify-center relative flex-shrink-0 transition-colors shadow-lg"
+              className="w-16 h-16 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-cyan-500/50 cursor-pointer overflow-hidden flex items-center justify-center relative flex-shrink-0 transition-colors shadow-lg"
             >
               {avatarConfig && (
                 <IdentityAvatarCanvas config={avatarConfig} />
@@ -158,7 +158,7 @@ export const TeamDetailPage: React.FC = () => {
 
                 {/* Team Switcher Menu */}
                 {isSwitcherOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-zinc-900 border border-zinc-800 rounded-xl p-2 shadow-2xl z-30 space-y-1">
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-zinc-900 border border-zinc-800 rounded-sm p-2 shadow-2xl z-30 space-y-1">
                     <div className="text-[10px] text-zinc-500 px-2 py-1 uppercase tracking-wider">
                       Switch Team
                     </div>
@@ -169,7 +169,7 @@ export const TeamDetailPage: React.FC = () => {
                           setIsSwitcherOpen(false);
                           navigate(`/app/teams/${t.id}`);
                         }}
-                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
+                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-sm text-xs transition-colors ${
                           t.id === team.id
                             ? 'bg-zinc-800 text-cyan-400 font-semibold'
                             : 'text-zinc-300 hover:bg-zinc-800/60'
@@ -184,7 +184,7 @@ export const TeamDetailPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2 text-xs text-zinc-400">
-                <span className="px-2 py-0.5 text-[10px] font-semibold bg-zinc-800 text-zinc-300 rounded-md">
+                <span className="px-2 py-0.5 text-[10px] font-semibold bg-zinc-800 text-zinc-300 rounded-sm">
                   {team.teamType}
                 </span>
                 {team.avatarCode && (
@@ -202,7 +202,7 @@ export const TeamDetailPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate(`/app/avatar-studio/team/${team.id}`)}
-              className="flex items-center gap-2 px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold rounded-xl transition-colors"
+              className="flex items-center gap-2 px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold rounded-sm transition-colors"
             >
               <HugeiconsIcon icon={SparklesIcon} size={16} className="text-cyan-400" />
               Customize Guardian
@@ -220,7 +220,7 @@ export const TeamDetailPage: React.FC = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs whitespace-nowrap transition-colors ${
                       isActive
                         ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'

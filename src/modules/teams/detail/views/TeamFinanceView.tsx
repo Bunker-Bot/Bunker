@@ -23,8 +23,8 @@ export const TeamFinanceView: React.FC<TeamFinanceViewProps> = ({ team, userRole
 
   if (!hasFinanceAccess) {
     return (
-      <div className="p-16 text-center border border-dashed border-zinc-800 rounded-2xl bg-zinc-950/40 font-mono space-y-3">
-        <div className="w-12 h-12 rounded-2xl bg-zinc-900 flex items-center justify-center text-zinc-500 mx-auto">
+      <div className="p-16 text-center border border-dashed border-zinc-800 rounded-sm bg-zinc-950/40 font-mono space-y-3">
+        <div className="w-12 h-12 rounded-sm bg-zinc-900 flex items-center justify-center text-zinc-500 mx-auto">
           <HugeiconsIcon icon={LockKeyIcon} size={24} />
         </div>
         <h3 className="text-sm font-semibold text-zinc-200">Restricted Financial Module</h3>
@@ -48,30 +48,30 @@ export const TeamFinanceView: React.FC<TeamFinanceViewProps> = ({ team, userRole
         </div>
 
         {isLoading ? (
-          <div className="h-28 bg-zinc-900/40 border border-zinc-800/60 rounded-2xl animate-pulse" />
+          <div className="h-28 bg-zinc-900/40 border border-zinc-800/60 rounded-sm animate-pulse" />
         ) : currencies.length === 0 ? (
-          <div className="p-8 text-center bg-zinc-900/30 border border-zinc-800 rounded-2xl text-xs text-zinc-500">
+          <div className="p-8 text-center bg-zinc-900/30 border border-zinc-800 rounded-sm text-xs text-zinc-500">
             No financial contract value recorded for assigned projects.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {currencies.map((f) => (
               <React.Fragment key={f.currency}>
-                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase tracking-wider">Total Contract Value</div>
                   <div className="text-2xl font-bold text-white mt-1">
                     {f.currency} {f.totalValue.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase tracking-wider">Verified Received</div>
                   <div className="text-2xl font-bold text-emerald-400 mt-1">
                     {f.currency} {f.received.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+                <div className="p-5 bg-zinc-900/60 border border-zinc-800 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase tracking-wider">Remaining Exposure</div>
                   <div className="text-2xl font-bold text-amber-400 mt-1">
                     {f.currency} {f.remaining.toLocaleString()}
@@ -98,7 +98,7 @@ export const TeamFinanceView: React.FC<TeamFinanceViewProps> = ({ team, userRole
           </button>
         </div>
 
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden shadow-lg">
+        <div className="bg-zinc-900/60 border border-zinc-800 rounded-sm overflow-hidden shadow-lg">
           <div className="divide-y divide-zinc-800/80">
             {projects.map((p: any) => (
               <div

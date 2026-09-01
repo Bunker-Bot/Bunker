@@ -31,7 +31,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
     <div className="space-y-8 font-mono">
       {/* 1. Operational Score Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-sm">
           <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
             <HugeiconsIcon icon={FolderCheckIcon} size={16} className="text-cyan-400" />
             <span>Active Projects</span>
@@ -42,7 +42,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
           </div>
         </div>
 
-        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-sm">
           <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
             <HugeiconsIcon icon={UserGroupIcon} size={16} className="text-purple-400" />
             <span>Team Members</span>
@@ -50,7 +50,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
           <div className="text-xl font-bold text-white mt-1">{counts.members}</div>
         </div>
 
-        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-sm">
           <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
             <HugeiconsIcon icon={Task01Icon} size={16} className="text-amber-400" />
             <span>Pending Deliverables</span>
@@ -58,7 +58,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
           <div className="text-xl font-bold text-white mt-1">{counts.pendingDeliverables}</div>
         </div>
 
-        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl">
+        <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-sm">
           <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
             <HugeiconsIcon icon={Clock01Icon} size={16} className="text-emerald-400" />
             <span>Time Tracked (Week)</span>
@@ -69,7 +69,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
         </div>
 
         {showFinance && (
-          <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl col-span-2 sm:col-span-1">
+          <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-sm col-span-2 sm:col-span-1">
             <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
               <HugeiconsIcon icon={Coins01Icon} size={16} className="text-emerald-400" />
               <span>Remaining Exposure</span>
@@ -83,7 +83,7 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
 
       {/* 2. Financial Position Strip (If Authorized) */}
       {showFinance && (
-        <div className="p-6 bg-gradient-to-r from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 rounded-2xl space-y-4">
+        <div className="p-6 bg-gradient-to-r from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 rounded-sm space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
               <HugeiconsIcon icon={Coins01Icon} size={16} className="text-emerald-400" />
@@ -100,19 +100,19 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             {finance.map((f: TeamFinanceSummary) => (
               <React.Fragment key={f.currency}>
-                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl">
+                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase">Portfolio Value</div>
                   <div className="text-base font-bold text-zinc-200 mt-0.5">
                     {f.currency} {f.totalValue.toLocaleString()}
                   </div>
                 </div>
-                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl">
+                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase">Settled / Received</div>
                   <div className="text-base font-bold text-emerald-400 mt-0.5">
                     {f.currency} {f.received.toLocaleString()}
                   </div>
                 </div>
-                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-xl">
+                <div className="p-3 bg-zinc-950/60 border border-zinc-850 rounded-sm">
                   <div className="text-[11px] text-zinc-500 uppercase">Pending Remaining</div>
                   <div className="text-base font-bold text-amber-400 mt-0.5">
                     {f.currency} {f.remaining.toLocaleString()}
@@ -140,11 +140,11 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
         </div>
 
         {recentProjects.length === 0 ? (
-          <div className="p-8 text-center bg-zinc-900/30 border border-dashed border-zinc-800 rounded-2xl">
+          <div className="p-8 text-center bg-zinc-900/30 border border-dashed border-zinc-800 rounded-sm">
             <p className="text-xs text-zinc-500">No projects currently assigned to this team workspace.</p>
             <button
               onClick={() => onNavigateTab('projects')}
-              className="mt-3 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 rounded-lg transition-colors"
+              className="mt-3 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 rounded-sm transition-colors"
             >
               Assign or Create Project
             </button>
@@ -155,19 +155,19 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
               <div
                 key={p.id}
                 onClick={() => navigate(`/app/projects/${p.slug}`)}
-                className="p-4 bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl cursor-pointer transition-all space-y-3"
+                className="p-4 bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-sm cursor-pointer transition-all space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <div
-                      className="w-3 h-3 rounded-full"
+                      className="w-3 h-3 rounded-sm"
                       style={{ backgroundColor: p.color || '#06B6D4' }}
                     />
                     <h3 className="text-xs font-bold text-zinc-200 hover:text-cyan-400 transition-colors">
                       {p.name}
                     </h3>
                   </div>
-                  <span className="px-2 py-0.5 text-[10px] uppercase font-semibold bg-zinc-800 text-zinc-400 rounded-md">
+                  <span className="px-2 py-0.5 text-[10px] uppercase font-semibold bg-zinc-800 text-zinc-400 rounded-sm">
                     {p.status}
                   </span>
                 </div>
@@ -178,9 +178,9 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
                     <span>Completion</span>
                     <span>{p.completionPercent}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-zinc-800 rounded-sm overflow-hidden">
                     <div
-                      className="h-full bg-cyan-400 rounded-full transition-all"
+                      className="h-full bg-cyan-400 rounded-sm transition-all"
                       style={{ width: `${p.completionPercent}%` }}
                     />
                   </div>
