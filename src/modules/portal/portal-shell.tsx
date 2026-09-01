@@ -338,11 +338,57 @@ export const PortalShell: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
-        <div className="relative z-10 flex items-center gap-3 bg-zinc-900/90 border border-zinc-800 rounded-sm p-6 backdrop-blur-xl">
-          <RadialSpinner size={20} className="text-white" />
-          <span className="text-sm font-mono text-zinc-300">Decrypting Project Portal...</span>
-        </div>
+      <div className="min-h-screen bg-[#050505] text-[#FAFAFA] relative font-sans pt-[64px] pb-16 lg:pb-0 select-none">
+        {/* Sticky Header Skeleton */}
+        <header className="fixed top-0 left-0 right-0 h-16 border-b border-zinc-800/90 bg-[#09090b]/95 backdrop-blur-2xl z-40 flex items-center justify-between px-4 sm:px-6 font-mono">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-sm bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+              <AppLogo className="w-4 h-4 text-cyan-400" />
+            </div>
+            <div className="h-4 w-32 bg-zinc-800/80 rounded animate-pulse" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-24 bg-zinc-900 border border-zinc-800 rounded-sm animate-pulse" />
+          </div>
+        </header>
+
+        {/* Main Content Skeleton */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+          {/* Hero Banner Skeleton */}
+          <div className="p-6 sm:p-8 rounded-sm bg-gradient-to-br from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 animate-pulse relative overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-sm bg-zinc-950 border border-zinc-800 flex items-center justify-center shrink-0">
+                <RadialSpinner size={24} className="text-cyan-400" />
+              </div>
+              <div className="space-y-3 flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-48 sm:w-64 bg-zinc-800 rounded" />
+                  <div className="h-5 w-20 bg-cyan-950/80 border border-cyan-800/60 rounded" />
+                </div>
+                <div className="h-4 w-36 bg-zinc-800/60 rounded" />
+                <div className="h-2 w-full max-w-md bg-zinc-800 rounded-full" />
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Navigation Skeleton */}
+          <div className="flex items-center gap-2 border-b border-zinc-800/80 pb-3 overflow-hidden">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="h-8 w-24 bg-zinc-900/80 border border-zinc-800/60 rounded-sm animate-pulse shrink-0" />
+            ))}
+          </div>
+
+          {/* Cards Grid Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-40 rounded-sm bg-zinc-900/50 border border-zinc-800/80 animate-pulse p-4 space-y-3">
+                <div className="h-4 w-28 bg-zinc-800 rounded" />
+                <div className="h-3 w-full bg-zinc-800/60 rounded" />
+                <div className="h-3 w-3/4 bg-zinc-800/40 rounded" />
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     );
   }

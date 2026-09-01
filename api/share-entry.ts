@@ -40,12 +40,12 @@ export function renderShareEntryHtml(input: { metadata: SharePreviewMetadata; or
   const imageUrl = `${origin}/api/og/share?id=${encodeURIComponent(previewId)}&v=${version}`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(copy.title)}</title><meta name="description" content="${esc(copy.description)}"><link rel="canonical" href="${esc(canonicalUrl)}">
+<meta http-equiv="refresh" content="0;url=${esc(destinationUrl)}">
 <meta property="og:title" content="${esc(copy.title)}"><meta property="og:type" content="website"><meta property="og:url" content="${esc(canonicalUrl)}"><meta property="og:description" content="${esc(copy.description)}">
 <meta property="og:image" content="${esc(imageUrl)}"><meta property="og:image:secure_url" content="${esc(imageUrl)}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(copy.alt)}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(copy.title)}"><meta name="twitter:description" content="${esc(copy.description)}"><meta name="twitter:image" content="${esc(imageUrl)}">
-<style>html{color-scheme:dark}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#09090b;color:#fafafa;font:16px system-ui}.card{max-width:30rem;padding:2rem;text-align:center;border:1px solid #27272a;border-radius:12px;background:#121318}.eyebrow{color:#67e8f9;font-size:.75rem;letter-spacing:.16em}.button{display:inline-block;margin-top:1rem;padding:.75rem 1rem;border-radius:6px;background:#fafafa;color:#09090b;text-decoration:none;font-weight:700}</style></head>
-<body><main class="card"><div class="eyebrow">BUNKER · SECURE PORTAL</div><h1>Opening secure portal…</h1><p>${esc(copy.description)}</p><a class="button" href="${esc(destinationUrl)}">Open secure portal</a></main>
-<script>window.setTimeout(function(){window.location.replace(${JSON.stringify(destinationUrl)})},150)</script></body></html>`;
+<style>html{color-scheme:dark}body{margin:0;min-height:100vh;background:#050505;color:#fafafa;font:16px system-ui}</style></head>
+<body><script>window.location.replace(${JSON.stringify(destinationUrl)});</script></body></html>`;
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
