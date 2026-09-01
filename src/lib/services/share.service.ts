@@ -115,7 +115,7 @@ export const ShareService = {
         token: link.token,
         maskedToken: this.maskToken(link.token),
         portalUrl: `${origin}/share/${link.token}`,
-        shareUrl: `${origin}/s/${link.token}`,
+        shareUrl: `${origin}/share/${link.token}`,
         status: this.calculateStatus(link),
         viewCount: link.view_count || 0,
         maxViews: link.max_views || undefined,

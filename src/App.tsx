@@ -44,6 +44,7 @@ export function App() {
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="/share/:token/*" element={<PortalShell />} />
                 <Route path="/portal/:token/*" element={<PortalShell />} />
+                <Route path="/s/:token/*" element={<PortalShell />} />
                 <Route path="/avatar-studio" element={<Navigate to="/app/avatar-studio" replace />} />
                 <Route path="/avatar-studio/*" element={<Navigate to="/app/avatar-studio" replace />} />
                 <Route path="/app/*" element={<DashboardLayout />} />

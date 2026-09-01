@@ -136,7 +136,7 @@ export const GenerateShareLinkDrawer: React.FC<GenerateShareLinkDrawerProps> = (
       });
 
       const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      const shareUrl = `${origin}/s/${result.link.token}`;
+      const shareUrl = `${origin}/share/${result.link.token}`;
 
       onClose();
       if (onSuccess) {

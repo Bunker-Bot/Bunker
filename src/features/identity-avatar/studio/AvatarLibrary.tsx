@@ -37,12 +37,12 @@ export const AvatarLibrary: React.FC<AvatarLibraryProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-4 font-mono select-none">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 font-mono select-none">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-64 rounded-sm bg-zinc-900/60 border border-zinc-800 animate-pulse p-4 space-y-3">
-            <div className="h-4 w-24 bg-zinc-800 rounded" />
+          <div key={i} className="h-56 sm:h-64 rounded-sm bg-zinc-900/60 border border-zinc-800 animate-pulse p-3 sm:p-4 space-y-3">
+            <div className="h-4 w-20 bg-zinc-800 rounded" />
             <div className="w-full aspect-square bg-zinc-800/80 rounded-sm" />
-            <div className="h-4 w-32 bg-zinc-800 rounded" />
+            <div className="h-4 w-24 bg-zinc-800 rounded" />
           </div>
         ))}
       </div>
@@ -95,35 +95,44 @@ export const AvatarLibrary: React.FC<AvatarLibraryProps> = ({
                   <tr
                     key={avatar.id}
                     onClick={() => onSelect(avatar)}
-                    className={`hover:bg-zinc-900/60 transition-colors cursor-pointer ${isSelected ? 'bg-cyan-950/20 text-white font-bold' : ''
-                      }`}
+                    className={`hover:bg-zinc-900/60 transition-colors cursor-pointer ${
+                      isSelected ? 'bg-cyan-950/20 text-white font-bold' : ''
+                    }`}
                   >
-                    <td className="px-4 py-3 font-bold text-white flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0 flex items-center justify-center">
-                        <AvatarPoster config={avatar.config} size="100%" />
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-sm bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0">
+                          <AvatarPoster config={avatar.config} size="100%" />
+                        </div>
+                        <span className="font-bold text-white text-xs truncate max-w-[140px]">
+                          {avatar.name}
+                        </span>
                       </div>
-                      <span className="truncate max-w-[140px]">{avatar.name}</span>
                     </td>
                     <td className="px-4 py-3">
                       <AvatarCode code={avatar.avatarCode} size="xs" />
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
                       {avatar.isAssigned ? (
-                        <span className="text-cyan-300 font-bold truncate max-w-[140px] block">
+                        <span className="text-zinc-200 font-sans font-medium truncate max-w-[150px] inline-block">
                           {avatar.projectName}
                         </span>
                       ) : (
-                        <span className="text-zinc-500 font-sans">Unassigned</span>
+                        <span className="text-zinc-500 font-sans italic">Unassigned</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 capitalize text-zinc-400">
+                    <td className="px-4 py-3 text-xs capitalize text-zinc-300">
                       {avatar.config.material} • {avatar.config.archetype}
                     </td>
                     <td className="px-4 py-3">
                       {avatar.isAssigned ? (
-                        <span className="text-emerald-400 font-bold text-[10.5px]">Assigned</span>
+                        <span className="px-2 py-0.5 rounded text-[9.5px] uppercase font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800">
+                          Assigned
+                        </span>
                       ) : (
-                        <span className="text-zinc-500 text-[10.5px]">Available</span>
+                        <span className="px-2 py-0.5 rounded text-[9.5px] uppercase font-bold bg-zinc-900 text-zinc-400 border border-zinc-800">
+                          Available
+                        </span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -149,7 +158,7 @@ export const AvatarLibrary: React.FC<AvatarLibraryProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-4 font-mono select-none">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 font-mono select-none">
       {avatars.map((avatar) => (
         <AvatarLibraryCard
           key={avatar.id}

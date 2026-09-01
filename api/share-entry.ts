@@ -69,7 +69,7 @@ export default async function handler(req: any, res: any) {
   <meta property="og:site_name" content="Bunker" />
   <meta property="og:title" content="${escapeHtml(title)}" />
   <meta property="og:description" content="${escapeHtml(description)}" />
-  <meta property="og:url" content="${escapeHtml(`${origin}/s/${rawToken}`)}" />
+  <meta property="og:url" content="${escapeHtml(`${origin}/share/${rawToken}`)}" />
   <meta property="og:image" content="${escapeHtml(ogImageUrl)}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />

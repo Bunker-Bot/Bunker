@@ -44,10 +44,11 @@ export const AvatarLibraryCard: React.FC<AvatarLibraryCardProps> = ({
   return (
     <div
       onClick={() => onSelect(avatar)}
-      className={`group relative flex flex-col justify-between p-4 rounded-sm border transition-all duration-200 cursor-pointer select-none font-mono text-xs overflow-hidden ${isSelected
-        ? 'bg-zinc-900/95 border-cyan-500/80 ring-1 ring-cyan-500/60 shadow-xl shadow-cyan-950/20 -translate-y-0.5'
-        : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/60 shadow-md'
-        }`}
+      className={`group relative flex flex-col justify-between p-2.5 sm:p-4 rounded-sm border transition-all duration-200 cursor-pointer select-none font-mono text-xs overflow-hidden ${
+        isSelected
+          ? 'bg-zinc-900/95 border-cyan-500/80 ring-1 ring-cyan-500/60 shadow-xl shadow-cyan-950/20 -translate-y-0.5'
+          : 'bg-zinc-950/80 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/60 shadow-md'
+      }`}
     >
       {/* Subtle Glow */}
       <div
@@ -55,20 +56,20 @@ export const AvatarLibraryCard: React.FC<AvatarLibraryCardProps> = ({
         style={{ backgroundColor: avatar.config.glowColor }}
       />
 
-      <div className="space-y-3 relative z-10">
+      <div className="space-y-2 sm:space-y-3 relative z-10">
         {/* Top Header: 10-digit Code + Overflow Menu */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-1 sm:gap-2">
           <AvatarCode code={avatar.avatarCode} size="xs" />
 
           <div className="flex items-center gap-1">
             {avatar.isAssigned ? (
-              <span className="px-2 py-0.5 rounded text-[9.5px] uppercase font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Assigned</span>
+              <span className="px-1.5 sm:px-2 py-0.2 sm:py-0.5 rounded text-[8px] sm:text-[9.5px] uppercase font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1 shadow-sm">
+                <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="hidden xs:inline">Assigned</span>
               </span>
             ) : (
-              <span className="px-2 py-0.5 rounded text-[9.5px] uppercase font-bold bg-zinc-900 text-zinc-400 border border-zinc-800">
-                Unassigned
+              <span className="px-1.5 sm:px-2 py-0.2 sm:py-0.5 rounded text-[8px] sm:text-[9.5px] uppercase font-bold bg-zinc-900 text-zinc-400 border border-zinc-800 hidden xs:inline">
+                Available
               </span>
             )}
 
@@ -80,7 +81,7 @@ export const AvatarLibraryCard: React.FC<AvatarLibraryCardProps> = ({
                 <HugeiconsIcon icon={MoreVerticalIcon} size={14} />
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-48 bg-zinc-950/95 backdrop-blur-xl border border-zinc-800 text-xs font-mono text-zinc-200"
+                className="w-48 bg-zinc-950/95 backdrop-blur-xl border border-zinc-800 text-xs font-mono text-zinc-200 z-50"
                 align="end"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -114,32 +115,34 @@ export const AvatarLibraryCard: React.FC<AvatarLibraryCardProps> = ({
         </div>
 
         {/* 2D Vector Avatar Poster Showcase */}
-        <div className="w-full aspect-square rounded-sm bg-zinc-900/90 border border-zinc-800/80 overflow-hidden flex items-center justify-center shadow-inner group-hover:border-zinc-700 transition-colors relative">
+        <div className="w-full aspect-square rounded-sm bg-zinc-900/90 border border-zinc-800/80 overflow-hidden flex items-center justify-center shadow-inner group-hover:border-zinc-700 transition-colors relative p-1">
           <AvatarPoster config={avatar.config} size="100%" />
         </div>
 
         {/* Title & Assignment Details */}
-        <div className="space-y-1">
-          <h4 className="font-bold text-white text-xs truncate group-hover:text-cyan-300 transition-colors">
+        <div className="space-y-0.5 sm:space-y-1">
+          <h4 className="font-bold text-white text-[11px] sm:text-xs truncate group-hover:text-cyan-300 transition-colors">
             {avatar.name}
           </h4>
 
           {avatar.isAssigned ? (
-            <div className="flex items-center gap-1 text-[11px] text-zinc-300 font-sans truncate">
-              <HugeiconsIcon icon={Folder01Icon} size={12} className="text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-zinc-300 font-sans truncate">
+              <HugeiconsIcon icon={Folder01Icon} size={11} className="text-cyan-400 shrink-0" />
               <span className="truncate">{avatar.projectName}</span>
             </div>
           ) : (
-            <p className="text-[10px] text-zinc-500 font-sans truncate">Available for assignment</p>
+            <p className="text-[9.5px] sm:text-[10px] text-zinc-500 font-sans truncate">Available</p>
           )}
         </div>
       </div>
 
       {/* Footer Tags */}
-      <div className="pt-2 border-t border-zinc-850/80 flex items-center justify-between text-[10px] text-zinc-400 mt-2 font-mono">
-        <span className="capitalize">{avatar.config.material}</span>
-        <span className="capitalize text-zinc-500">{avatar.config.archetype}</span>
+      <div className="pt-1.5 sm:pt-2 border-t border-zinc-850/80 flex items-center justify-between text-[8.5px] sm:text-[10px] text-zinc-400 mt-1.5 sm:mt-2 font-mono">
+        <span className="capitalize truncate">{avatar.config.material}</span>
+        <span className="capitalize text-zinc-500 truncate">{avatar.config.archetype}</span>
       </div>
     </div>
   );
 };
+
+export default AvatarLibraryCard;
