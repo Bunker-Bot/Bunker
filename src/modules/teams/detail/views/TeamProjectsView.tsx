@@ -188,19 +188,33 @@ export const TeamProjectsView: React.FC<TeamProjectsViewProps> = ({ team }) => {
                     </div>
                   )}
 
-                  {/* Progress Bar */}
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-[10px] text-zinc-500">
-                      <span>Progress</span>
-                      <span>{project.completionPercent}%</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-zinc-800 rounded-sm overflow-hidden">
-                      <div
-                        className="h-full bg-cyan-400 rounded-sm"
-                        style={{ width: `${project.completionPercent}%` }}
-                      />
-                    </div>
-                  </div>
+                  {/* Progress Bar accurately calculated */}
+                  {(() => {
+                    const progressPercent = project.budget > 0
+                      ? Math.min(100, Math.round((Number(project.received || 0) / Number(project.budget)) * 100))
+                      : Number(project.completionPercent || 0);
+
+                    return (
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-[10px] text-zinc-500">
+                          <span>{project.budget > 0 ? 'Settlement Progress' : 'Completion'}</span>
+                          <span className={progressPercent === 100 ? 'text-emerald-400 font-bold' : 'text-cyan-400 font-bold'}>
+                            {progressPercent}%
+                          </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-zinc-950 border border-zinc-800 rounded-sm overflow-hidden">
+                          <div
+                            className={`h-full rounded-sm transition-all duration-300 ${
+                              progressPercent === 100
+                                ? 'bg-emerald-400'
+                                : 'bg-gradient-to-r from-cyan-500 to-emerald-400'
+                            }`}
+                            style={{ width: `${progressPercent}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </motion.div>
             );

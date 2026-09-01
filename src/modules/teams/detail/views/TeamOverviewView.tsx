@@ -176,9 +176,9 @@ export const TeamOverviewView: React.FC<TeamOverviewViewProps> = ({
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px] text-zinc-500">
                     <span>Completion</span>
-                    <span>{p.completionPercent}%</span>
+                    <span className="text-cyan-400 font-bold">{p.completionPercent}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-zinc-800 rounded-sm overflow-hidden">
+                  <div className="w-full h-1.5 bg-zinc-950 border border-zinc-800 rounded-sm overflow-hidden">
                     <div
                       className="h-full bg-cyan-400 rounded-sm transition-all"
                       style={{ width: `${p.completionPercent}%` }}
