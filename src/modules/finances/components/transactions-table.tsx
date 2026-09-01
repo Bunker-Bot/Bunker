@@ -181,7 +181,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                               target="_blank"
                               rel="noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-cyan-400 hover:underline flex items-center gap-0.5"
+                              className="px-2 py-0.5 rounded-sm bg-cyan-950/70 border border-cyan-800/80 text-cyan-400 hover:bg-cyan-900/80 hover:text-cyan-200 flex items-center gap-1 transition-colors"
                             >
                               <span>Invoice</span>
                               <HugeiconsIcon icon={Link01Icon} size={10} />
@@ -193,16 +193,19 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                               target="_blank"
                               rel="noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-purple-400 hover:underline flex items-center gap-0.5"
+                              className="px-2 py-0.5 rounded-sm bg-purple-950/70 border border-purple-800/80 text-purple-400 hover:bg-purple-900/80 hover:text-purple-200 flex items-center gap-1 transition-colors"
                             >
                               <span>Receipt</span>
                               <HugeiconsIcon icon={Link01Icon} size={10} />
                             </a>
                           )}
+                          {!p.invoiceUrl && !p.receiptUrl && (
+                            <span className="text-zinc-600 text-[11px] font-mono">—</span>
+                          )}
                         </div>
                       </td>
                       <td className="px-3 sm:px-4 py-3 text-right">
-                        {!readOnly && onDeletePayment && (
+                        {!readOnly && onDeletePayment ? (
                           <button
                             type="button"
                             onClick={(e) => {
@@ -211,11 +214,14 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                                 onDeletePayment(p.id);
                               }
                             }}
-                            className="p-1 rounded text-zinc-500 hover:text-rose-400 hover:bg-rose-950/40 transition-colors cursor-pointer"
+                            className="px-2 py-1 rounded-sm bg-rose-950/40 border border-rose-900/60 text-rose-400 hover:bg-rose-900/80 hover:text-white transition-all cursor-pointer inline-flex items-center gap-1 text-[10.5px] font-medium"
                             title="Delete Payment"
                           >
-                            <HugeiconsIcon icon={Delete02Icon} size={14} />
+                            <HugeiconsIcon icon={Delete02Icon} size={13} />
+                            <span>Delete</span>
                           </button>
+                        ) : (
+                          <span className="text-zinc-600 text-[11px] font-mono">—</span>
                         )}
                       </td>
                     </tr>

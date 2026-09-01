@@ -250,6 +250,7 @@ export function useDeletePayment() {
       queryClient.invalidateQueries({ queryKey: ['project-payments'] });
       queryClient.invalidateQueries({ queryKey: ['payment-summary'] });
       queryClient.invalidateQueries({ queryKey: ['delivery-assets'] });
+      queryClient.invalidateQueries({ queryKey: ['finances'] });
     },
   });
 }

@@ -9,6 +9,7 @@ import {
   useRecordPayment,
   useReleaseDeliverable,
   useExportFinancialReport,
+  useDeletePayment,
 } from '../../lib/supabase/queries/finances';
 import {
   useCreateDeliveryAsset,
@@ -54,8 +55,8 @@ export const FinancesDashboard: React.FC<FinancesDashboardProps> = ({
   const { data: timeline = [] } = usePaymentTimeline(activeProjectId);
   const { data: deliverables = [] } = useDeliverables(activeProjectId, readOnly);
 
-  // Mutations
   const recordPaymentMutation = useRecordPayment();
+  const deletePaymentMutation = useDeletePayment();
   const releaseDeliverableMutation = useReleaseDeliverable();
   const exportReportMutation = useExportFinancialReport();
   const createAssetMutation = useCreateDeliveryAsset();
@@ -150,6 +151,9 @@ export const FinancesDashboard: React.FC<FinancesDashboardProps> = ({
       <TransactionsTable
         payments={payments}
         readOnly={readOnly}
+        onDeletePayment={!readOnly ? async (id) => {
+          await deletePaymentMutation.mutateAsync(id);
+        } : undefined}
       />
 
       {/* 8. Deliverables & Asset Releases */}

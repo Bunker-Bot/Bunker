@@ -7,6 +7,8 @@ import {
   fetchDeliveryAssets,
 } from './payments';
 
+export { useDeletePayment } from './payments';
+
 export const financesKeys = {
   all: ['finances'] as const,
   overview: (projectId?: string | null) => [...financesKeys.all, 'overview', projectId] as const,
