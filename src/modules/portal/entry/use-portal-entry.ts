@@ -35,6 +35,13 @@ export function usePortalEntry(token: string | undefined) {
   const [avatarCode, setAvatarCode] = useState<string>('4839201746');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [accessStatus, setAccessStatus] = useState<'confirmed' | 'pending' | 'restricted' | 'checking'>('checking');
+  const [paymentMetrics, setPaymentMetrics] = useState<{
+    totalPaid: number;
+    totalBudget: number;
+    percent: number;
+    isFullyPaid: boolean;
+    currencySymbol: string;
+  } | null>(null);
   const [portalRawData, setPortalRawData] = useState<any>(null);
 
   // Numeric smooth interpolation
@@ -220,10 +227,24 @@ export function usePortalEntry(token: string | undefined) {
       setStage('checking-portal-state');
       const payments = rpcResult.payments || [];
       const totalBudget = Number(safeProj.budget || 0);
-      const verifiedPayments = payments.filter((p: any) => p.is_verified !== false);
+      const verifiedPayments = payments.filter((p: any) => p.is_verified !== false && p.status !== 'Failed' && p.status !== 'Cancelled');
       const totalPaid = verifiedPayments.reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0);
       const isPendingPayment = totalBudget > 0 && totalPaid < totalBudget;
       setAccessStatus(isPendingPayment ? 'pending' : 'confirmed');
+
+      const paymentPercent = totalBudget > 0
+        ? Math.min(100, Math.round((totalPaid / totalBudget) * 100))
+        : (totalPaid > 0 ? 100 : (safeProj.completionPercent ?? 100));
+
+      const symbol = safeProj.currency === 'EUR' ? '€' : safeProj.currency === 'GBP' ? '£' : safeProj.currency === 'INR' ? '₹' : '$';
+
+      setPaymentMetrics({
+        totalPaid,
+        totalBudget,
+        percent: paymentPercent,
+        isFullyPaid: !isPendingPayment,
+        currencySymbol: symbol,
+      });
       await new Promise((r) => setTimeout(r, 140));
 
       // Stage 7: Preparing Interface Assets & TanStack Cache Pre-seeding
@@ -291,7 +312,8 @@ export function usePortalEntry(token: string | undefined) {
     isPasswordRequired: stage === 'password-required',
     errorMessage,
     accessStatus,
-  }), [stage, displayProgress, def, project, client, avatarConfig, avatarCode, errorMessage, accessStatus]);
+    paymentProgress: paymentMetrics,
+  }), [stage, displayProgress, def, project, client, avatarConfig, avatarCode, errorMessage, accessStatus, paymentMetrics]);
 
   return {
     state,

@@ -127,15 +127,52 @@ export const PortalEntryExperience: React.FC<PortalEntryExperienceProps> = ({
                   initial={{ opacity: 0, y: 8, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="pt-2 flex flex-col items-center gap-2"
+                  className="pt-2 flex flex-col items-center gap-3 w-full"
                 >
+                  {/* Payment Progress Line Above Enter Portal Button */}
+                  {state.paymentProgress && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="w-full max-w-xs mx-auto space-y-1.5 font-mono select-none"
+                    >
+                      <div className="flex items-center justify-between text-[11px] text-zinc-400">
+                        <span className="flex items-center gap-1.5">
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${
+                              state.paymentProgress.isFullyPaid
+                                ? 'bg-emerald-400'
+                                : 'bg-amber-400 animate-pulse'
+                            }`}
+                          />
+                          <span className="text-zinc-300">Payment Progress</span>
+                        </span>
+                        <span className="font-bold text-zinc-200 tabular-nums">
+                          {state.paymentProgress.percent}% Settled
+                        </span>
+                      </div>
+                      <div className="w-full h-[3px] bg-zinc-900 rounded-full overflow-hidden border border-zinc-800/80">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${Math.min(100, state.paymentProgress.percent)}%` }}
+                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          className={`h-full rounded-full ${
+                            state.paymentProgress.isFullyPaid
+                              ? 'bg-gradient-to-r from-emerald-500 to-cyan-400'
+                              : 'bg-gradient-to-r from-amber-500 to-cyan-400'
+                          }`}
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+
                   <button
                     type="button"
                     autoFocus
                     onClick={handleEnterClick}
                     onMouseEnter={() => setIsHoveringCTA(true)}
                     onMouseLeave={() => setIsHoveringCTA(false)}
-                    className="w-full sm:w-auto min-w-[200px] px-8 py-3.5 rounded-sm bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-zinc-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xl hover:shadow-cyan-500/20 group font-mono"
+                    className="w-full sm:w-auto min-w-[200px] px-8 py-3.5 rounded-sm bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-zinc-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xl hover:shadow-cyan-500/20 group font-mono mt-1"
                   >
                     <span>Enter Portal</span>
                     <HugeiconsIcon

@@ -88,21 +88,6 @@ export const PortalShell: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isMobileSheetOpen, setIsMobileSheetOpen] = useState(false);
 
-  // If user has not yet passed entry in this session, render cinematic Guardian entry
-  if (!hasEntered) {
-    return (
-      <PortalEntryExperience
-        token={token}
-        onEnterPortal={() => {
-          if (token) {
-            sessionStorage.setItem(`bunker_portal_entered_${token}`, 'true');
-          }
-          setHasEntered(true);
-        }}
-      />
-    );
-  }
-
   // Active module route resolution
   const rawPath = (subPath || '').replace(/^\//, '').split('/')[0];
   const activeModule = rawPath ? rawPath.toLowerCase().trim() : 'overview';
@@ -358,6 +343,21 @@ export const PortalShell: React.FC = () => {
     const storageKey = `bunker_dismissed_payment_reminder_${project?.id || token}`;
     sessionStorage.setItem(storageKey, 'true');
   };
+
+  // If user has not yet entered in this session, render cinematic Guardian entry
+  if (!hasEntered) {
+    return (
+      <PortalEntryExperience
+        token={token}
+        onEnterPortal={() => {
+          if (token) {
+            sessionStorage.setItem(`bunker_portal_entered_${token}`, 'true');
+          }
+          setHasEntered(true);
+        }}
+      />
+    );
+  }
 
   if (isLoading) {
     return (

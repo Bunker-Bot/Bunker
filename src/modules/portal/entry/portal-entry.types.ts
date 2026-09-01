@@ -59,6 +59,13 @@ export interface PortalEntryState {
   isPasswordRequired: boolean;
   errorMessage: string | null;
   accessStatus: 'confirmed' | 'pending' | 'restricted' | 'checking';
+  paymentProgress?: {
+    totalPaid: number;
+    totalBudget: number;
+    percent: number;
+    isFullyPaid: boolean;
+    currencySymbol: string;
+  } | null;
 }
 
 export interface StageWeightDef {
