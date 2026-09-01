@@ -30,6 +30,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     { to: '/app/dashboard', label: 'Dashboard', icon: DashboardSquare01Icon },
     { to: '/app/projects', label: 'Projects', icon: FolderCheckIcon },
     { to: '/app/clients', label: 'Clients', icon: UserGroupIcon },
+    { to: '/app/teams', label: 'Teams', icon: UserGroupIcon },
     { to: '/app/timeline', label: 'Timeline', icon: Clock01Icon },
     { to: '/app/tasks', label: 'Tasks', icon: Task01Icon },
     { to: '/app/github', label: 'Repositories', icon: GitBranchIcon },

@@ -1,4 +1,4 @@
-export type EntityAvatarKind = 'client' | 'project' | 'generic';
+export type EntityAvatarKind = 'client' | 'project' | 'team' | 'generic';
 
 export type AvatarArchetype = 'guardian' | 'architect' | 'sentinel' | 'operator';
 export type GuardianArchetype = AvatarArchetype;

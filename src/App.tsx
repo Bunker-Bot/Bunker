@@ -47,6 +47,8 @@ export function App() {
                 <Route path="/s/:token/*" element={<PortalShell />} />
                 <Route path="/avatar-studio" element={<Navigate to="/app/avatar-studio" replace />} />
                 <Route path="/avatar-studio/*" element={<Navigate to="/app/avatar-studio" replace />} />
+                <Route path="/teams" element={<Navigate to="/app/teams" replace />} />
+                <Route path="/teams/*" element={<Navigate to="/app/teams" replace />} />
                 <Route path="/app/*" element={<DashboardLayout />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

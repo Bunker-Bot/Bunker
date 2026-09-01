@@ -25,6 +25,8 @@ import { ProjectIdentitiesPage } from '../features/identity-avatar/studio/Projec
 import { AvatarVariantsPage } from '../features/identity-avatar/studio/AvatarVariantsPage';
 import { AvatarSettingsPage } from '../features/identity-avatar/studio/AvatarSettingsPage';
 import { GuardianCreatorPage } from '../features/identity-avatar/creator/GuardianCreatorPage';
+import { TeamsListPage } from '../modules/teams/team-directory/TeamsListPage';
+import { TeamDetailPage } from '../modules/teams/detail/TeamDetailPage';
 import { pageTransitionVariants } from '../../packages/ui/src/theme/motion';
 
 export const DashboardLayout: React.FC = () => {
@@ -45,12 +47,18 @@ export const DashboardLayout: React.FC = () => {
               <Route path="/" element={<DashboardPage />} />
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="teams" element={<TeamsListPage />} />
+              <Route path="/teams" element={<TeamsListPage />} />
+              <Route path="teams/:teamId/*" element={<TeamDetailPage />} />
+              <Route path="/teams/:teamId/*" element={<TeamDetailPage />} />
               <Route path="clients" element={<ClientsListPage />} />
               <Route path="/clients" element={<ClientsListPage />} />
               <Route path="clients/:id" element={<ClientDetailPage />} />
               <Route path="/clients/:id" element={<ClientDetailPage />} />
               <Route path="avatar-studio" element={<AvatarStudioPage />} />
               <Route path="/avatar-studio" element={<AvatarStudioPage />} />
+              <Route path="avatar-studio/team/:teamId" element={<GuardianCreatorPage />} />
+              <Route path="/avatar-studio/team/:teamId" element={<GuardianCreatorPage />} />
               <Route path="avatar-studio/projects" element={<ProjectIdentitiesPage />} />
               <Route path="/avatar-studio/projects" element={<ProjectIdentitiesPage />} />
               <Route path="avatar-studio/create" element={<GuardianCreatorPage />} />

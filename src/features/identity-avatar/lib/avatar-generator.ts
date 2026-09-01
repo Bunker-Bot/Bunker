@@ -39,7 +39,10 @@ export function generateAvatarConfig(input: AvatarIdentityInput): BunkerAvatarCo
 
   // 2. Select Archetype
   let archetype = prng.pick(ARCHETYPES);
-  if (entityKind === 'client') {
+  if (entityKind === 'team') {
+    // Team Guardians communicate coordination, stability and leadership
+    archetype = prng.nextFloat() > 0.4 ? 'guardian' : 'architect';
+  } else if (entityKind === 'client') {
     // Clients lean towards stately guardian & architect archetypes
     archetype = prng.nextFloat() > 0.5 ? 'guardian' : 'architect';
   } else if (entityKind === 'project') {

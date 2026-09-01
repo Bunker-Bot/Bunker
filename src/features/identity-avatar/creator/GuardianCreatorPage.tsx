@@ -14,7 +14,11 @@ import { GuardianViewport } from './GuardianViewport';
 import { GuardianInspector } from './GuardianInspector';
 
 export const GuardianCreatorPage: React.FC = () => {
-  const { avatarId, avatarCode: routeCode } = useParams<{ avatarId?: string; avatarCode?: string }>();
+  const { avatarId, avatarCode: routeCode, teamId: routeTeamId } = useParams<{
+    avatarId?: string;
+    avatarCode?: string;
+    teamId?: string;
+  }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -39,6 +43,7 @@ export const GuardianCreatorPage: React.FC = () => {
   } = useGuardianEditorStore();
 
   const queryProject = searchParams.get('project');
+  const teamId = routeTeamId || searchParams.get('team');
 
   // Fetch target project if queryProject is present
   const { data: defaultProject } = useQuery({
@@ -56,6 +61,22 @@ export const GuardianCreatorPage: React.FC = () => {
     enabled: !!queryProject,
   });
 
+  // Fetch target team if teamId is present
+  const { data: defaultTeam } = useQuery({
+    queryKey: ['creator-default-team', teamId],
+    queryFn: async () => {
+      if (!teamId) return null;
+      const { data, error } = await supabase
+        .from('teams')
+        .select('*')
+        .eq('id', teamId)
+        .maybeSingle();
+      if (error) return null;
+      return data;
+    },
+    enabled: !!teamId,
+  });
+
   // Initialize Store on mount / route change
   useEffect(() => {
     if (isAvatarsLoading) return;
@@ -70,13 +91,35 @@ export const GuardianCreatorPage: React.FC = () => {
       }
     }
 
+    if (defaultTeam) {
+      if (defaultTeam.avatar_config) {
+        initialize({
+          avatar: {
+            id: defaultTeam.guardian_avatar_id || defaultTeam.id,
+            avatarCode: defaultTeam.avatar_code || '0000000000',
+            name: `${defaultTeam.name} Guardian`,
+            config: defaultTeam.avatar_config,
+            generatorVersion: defaultTeam.avatar_version || 1,
+            projectId: null,
+            isAssigned: true,
+            createdAt: defaultTeam.created_at,
+            updatedAt: defaultTeam.updated_at,
+          },
+          mode: 'edit',
+        });
+      } else {
+        initialize({ mode: 'create' });
+      }
+      return;
+    }
+
     if (defaultProject) {
       initialize({ defaultProject, mode: 'create' });
       return;
     }
 
     initialize({ mode: 'create' });
-  }, [avatarId, routeCode, avatars, defaultProject, isAvatarsLoading]);
+  }, [avatarId, routeCode, avatars, defaultProject, defaultTeam, isAvatarsLoading]);
 
   // Global Keyboard Shortcuts (Cmd/Ctrl + S, Cmd/Ctrl + Z, Cmd/Ctrl + Y)
   useEffect(() => {
@@ -108,6 +151,24 @@ export const GuardianCreatorPage: React.FC = () => {
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      if (teamId) {
+        // Save directly to Team entity
+        await supabase
+          .from('teams')
+          .update({
+            avatar_config: draftConfig,
+            primary_color: draftConfig.primaryColor,
+            secondary_color: draftConfig.secondaryColor,
+            accent_color: draftConfig.accentColor,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', teamId);
+
+        markSaved(draftConfig);
+        navigate(`/app/teams/${teamId}/identity`);
+        return;
+      }
+
       if (mode === 'edit' && avatarId) {
         const updated = await updateMutation.mutateAsync({
           id: avatarId,

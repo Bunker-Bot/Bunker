@@ -136,6 +136,16 @@ export const GlobalCommandPalette: React.FC<GlobalCommandPaletteProps> = ({
             </CommandItem>
 
             <CommandItem
+              onSelect={() => handleSelect(() => navigate('/app/teams'))}
+              className="cursor-pointer hover:bg-zinc-900 rounded-sm p-2 flex items-center justify-between text-zinc-200"
+            >
+              <div className="flex items-center gap-2">
+                <HugeiconsIcon icon={UserGroupIcon} size={16} className="text-cyan-400 shrink-0" />
+                <span>Teams & Collaborative Workspaces</span>
+              </div>
+            </CommandItem>
+
+            <CommandItem
               onSelect={() => handleSelect(() => navigate('/app/tasks'))}
               className="cursor-pointer hover:bg-zinc-900 rounded-sm p-2 flex items-center justify-between text-zinc-200"
             >
