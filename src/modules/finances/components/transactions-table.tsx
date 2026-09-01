@@ -11,11 +11,12 @@ import {
   ArrowDown01Icon
 } from '@hugeicons/core-free-icons';
 import { Badge } from '../../../components/ui/badge';
+import { ConfirmDeleteDialog } from '../../../components/ui/confirm-delete-dialog';
 
 interface TransactionsTableProps {
   payments: any[];
   currency?: string;
-  onDeletePayment?: (id: string) => void;
+  onDeletePayment?: (id: string) => Promise<void> | void;
   readOnly?: boolean;
 }
 
@@ -27,6 +28,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
 }) => {
   const [search, setSearch] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [deletingPaymentId, setDeletingPaymentId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [sortField, setSortField] = useState<'date' | 'amount'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
@@ -210,11 +213,9 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              if (confirm('Delete this payment entry permanently?')) {
-                                onDeletePayment(p.id);
-                              }
+                              setDeletingPaymentId(p.id);
                             }}
-                            className="px-2 py-1 rounded-sm bg-rose-950/40 border border-rose-900/60 text-rose-400 hover:bg-rose-900/80 hover:text-white transition-all cursor-pointer inline-flex items-center gap-1 text-[10.5px] font-medium"
+                            className="px-2 py-1 rounded-sm bg-rose-950/40 border border-rose-900/60 text-rose-400 hover:bg-rose-900/80 hover:text-white transition-all cursor-pointer inline-flex items-center gap-1 text-[10.5px] font-medium shadow-xs"
                             title="Delete Payment"
                           >
                             <HugeiconsIcon icon={Delete02Icon} size={13} />
@@ -244,6 +245,26 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           </table>
         </div>
       )}
+
+      {/* Confirm Delete Payment Alert Dialog */}
+      <ConfirmDeleteDialog
+        isOpen={Boolean(deletingPaymentId)}
+        title="Delete Payment Transaction"
+        description="Are you sure you want to permanently remove this payment entry from the ledger? Project totals and financial progression metrics will be recalculated."
+        confirmText="Delete Payment"
+        isLoading={isDeleting}
+        onClose={() => setDeletingPaymentId(null)}
+        onConfirm={async () => {
+          if (!deletingPaymentId || !onDeletePayment) return;
+          try {
+            setIsDeleting(true);
+            await onDeletePayment(deletingPaymentId);
+          } finally {
+            setIsDeleting(false);
+            setDeletingPaymentId(null);
+          }
+        }}
+      />
     </div>
   );
 };
