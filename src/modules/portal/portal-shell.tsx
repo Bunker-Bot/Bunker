@@ -47,6 +47,8 @@ import { PortalDeliverablesView } from '../../components/portal/views/PortalDeli
 import { PortalDownloadsView } from '../../components/portal/views/PortalDownloadsView';
 import { MobileBottomNav } from './components/MobileBottomNav';
 
+import { PortalEntryExperience } from './entry/PortalEntryExperience';
+
 async function hashSHA256(str: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(str);
@@ -75,10 +77,31 @@ export const PortalShell: React.FC = () => {
   const { token, '*': subPath } = useParams<{ token: string; '*': string }>();
   const navigate = useNavigate();
 
+  // Session-based entry state
+  const [hasEntered, setHasEntered] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(sessionStorage.getItem(`bunker_portal_entered_${token}`));
+  });
+
   // React State & Sheet Open State
   const [password, setPassword] = useState('');
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isMobileSheetOpen, setIsMobileSheetOpen] = useState(false);
+
+  // If user has not yet passed entry in this session, render cinematic Guardian entry
+  if (!hasEntered) {
+    return (
+      <PortalEntryExperience
+        token={token}
+        onEnterPortal={() => {
+          if (token) {
+            sessionStorage.setItem(`bunker_portal_entered_${token}`, 'true');
+          }
+          setHasEntered(true);
+        }}
+      />
+    );
+  }
 
   // Active module route resolution
   const rawPath = (subPath || '').replace(/^\//, '').split('/')[0];
