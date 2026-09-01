@@ -7,7 +7,7 @@ import {
   ColorsIcon,
   FolderCheckIcon,
 } from '@hugeicons/core-free-icons';
-import { IdentityAvatarCanvas } from '../../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import { AvatarPoster } from '../../../../features/identity-avatar';
 import { generateAvatarConfig } from '../../../../features/identity-avatar/lib/avatar-generator';
 import type { Team } from '../../types/team.types';
 
@@ -57,7 +57,7 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: 3D Stage */}
+        {/* Left Column: Avatar Showcase */}
         <div className="lg:col-span-7 flex flex-col items-center justify-center p-6 bg-zinc-900/60 border border-zinc-800 rounded-sm relative overflow-hidden min-h-[420px]">
           <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
             <span className="px-2.5 py-1 text-[11px] font-bold bg-zinc-950/80 border border-zinc-800 text-cyan-400 rounded-sm backdrop-blur-md">
@@ -65,13 +65,13 @@ export const TeamIdentityView: React.FC<TeamIdentityViewProps> = ({ team }) => {
             </span>
           </div>
 
-          <div className="w-full h-80 relative">
-            <IdentityAvatarCanvas config={avatarConfig} />
+          <div className="w-64 h-64 relative flex items-center justify-center bg-zinc-950 rounded-sm border border-zinc-800 shadow-2xl p-4">
+            <AvatarPoster config={avatarConfig} size="100%" />
           </div>
 
-          <div className="text-center mt-2 z-10">
-            <div className="text-xs text-zinc-400 font-semibold">{avatarConfig.archetype.toUpperCase()} ARCHETYPE</div>
-            <div className="text-[10px] text-zinc-500 mt-0.5">Spatial Guardian preview with custom materials</div>
+          <div className="text-center mt-4 z-10">
+            <div className="text-xs text-zinc-300 font-semibold">{avatarConfig.archetype.toUpperCase()} ARCHETYPE</div>
+            <div className="text-[10px] text-zinc-500 mt-0.5">Deterministic Team Guardian Vector Architecture</div>
           </div>
         </div>
 

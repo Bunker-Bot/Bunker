@@ -10,7 +10,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCreateTeam } from '../../../lib/supabase/queries/teams';
 import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
-import { IdentityAvatarCanvas } from '../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import { AvatarPoster } from '../../../features/identity-avatar';
 import {
   Select,
   SelectTrigger,
@@ -231,9 +231,10 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({
                   <HugeiconsIcon icon={Shield02Icon} size={14} className="text-cyan-400" />
                   Team Guardian
                 </div>
-                <div className="w-36 h-36 relative mb-3">
-                  <IdentityAvatarCanvas
+                <div className="w-32 h-32 rounded-sm overflow-hidden bg-zinc-950 border border-zinc-800 relative mb-3 flex items-center justify-center shadow-lg">
+                  <AvatarPoster
                     config={previewAvatarConfig}
+                    size="100%"
                   />
                 </div>
                 <div className="text-xs font-semibold text-zinc-200">

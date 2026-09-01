@@ -9,7 +9,7 @@ import {
   ArrowRight01Icon,
 } from '@hugeicons/core-free-icons';
 import { useTeams } from '../../../lib/supabase/queries/teams';
-import { IdentityAvatarCanvas } from '../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import { AvatarPoster } from '../../../features/identity-avatar';
 import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
 import { CreateTeamModal } from '../components/CreateTeamModal';
 import type { Team } from '../types/team.types';
@@ -172,10 +172,11 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onSelect }) => {
       <div>
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
-            {/* Team Guardian Canvas */}
-            <div className="w-12 h-12 rounded-sm bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center relative flex-shrink-0 group-hover:border-cyan-500/50 transition-colors">
-              <IdentityAvatarCanvas
+            {/* Team Guardian Poster */}
+            <div className="w-12 h-12 rounded-sm bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center relative flex-shrink-0 group-hover:border-cyan-500/50 transition-colors shadow-md">
+              <AvatarPoster
                 config={avatarConfig}
+                size="100%"
               />
             </div>
             <div>

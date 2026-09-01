@@ -17,7 +17,7 @@ import {
   Loading03Icon,
 } from '@hugeicons/core-free-icons';
 import { useTeam, useTeamOverview, useTeams } from '../../../lib/supabase/queries/teams';
-import { IdentityAvatarCanvas } from '../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import { AvatarPoster } from '../../../features/identity-avatar';
 import { generateAvatarConfig } from '../../../features/identity-avatar/lib/avatar-generator';
 import { TeamOverviewView } from './views/TeamOverviewView';
 import { TeamProjectsView } from './views/TeamProjectsView';
@@ -141,7 +141,7 @@ export const TeamDetailPage: React.FC = () => {
               className="w-16 h-16 rounded-sm bg-zinc-950 border border-zinc-800 hover:border-cyan-500/50 cursor-pointer overflow-hidden flex items-center justify-center relative flex-shrink-0 transition-colors shadow-lg"
             >
               {avatarConfig && (
-                <IdentityAvatarCanvas config={avatarConfig} />
+                <AvatarPoster config={avatarConfig} size="100%" />
               )}
             </div>
 

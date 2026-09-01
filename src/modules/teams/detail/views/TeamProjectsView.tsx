@@ -10,7 +10,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useTeamProjects, useAssignProjectToTeam } from '../../../../lib/supabase/queries/teams';
 import { useProjects } from '../../../../lib/supabase/queries/projects';
-import { IdentityAvatarCanvas } from '../../../../features/identity-avatar/components/IdentityAvatarCanvas';
+import { AvatarPoster } from '../../../../features/identity-avatar';
 import { generateAvatarConfig } from '../../../../features/identity-avatar/lib/avatar-generator';
 import {
   Select,
@@ -146,8 +146,8 @@ export const TeamProjectsView: React.FC<TeamProjectsViewProps> = ({ team }) => {
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-sm bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center relative flex-shrink-0">
-                        <IdentityAvatarCanvas config={avatarConfig} />
+                      <div className="w-10 h-10 rounded-sm bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center relative flex-shrink-0 shadow-md">
+                        <AvatarPoster config={avatarConfig} size="100%" />
                       </div>
                       <div>
                         <h3 className="text-sm font-bold text-zinc-200 group-hover:text-cyan-400 transition-colors">
@@ -174,12 +174,16 @@ export const TeamProjectsView: React.FC<TeamProjectsViewProps> = ({ team }) => {
                 </div>
 
                 <div className="pt-3 border-t border-zinc-800/80 space-y-3">
-                  {/* Financial Mini Badge */}
+                  {/* Financial Mini Badge - Correctly labeled PAID / BUDGET */}
                   {project.budget > 0 && (
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-zinc-500 text-[10px] uppercase">Budget / Paid</span>
-                      <span className="text-zinc-300 font-semibold">
-                        {project.currency} {project.received.toLocaleString()} / {project.budget.toLocaleString()}
+                      <span className="text-zinc-500 text-[10px] uppercase font-medium tracking-wider">
+                        Paid / Budget
+                      </span>
+                      <span className="font-bold text-xs">
+                        <span className="text-emerald-400">{project.currency} {Number(project.received || 0).toLocaleString()}</span>
+                        <span className="text-zinc-600 mx-1">/</span>
+                        <span className="text-zinc-300">{Number(project.budget || 0).toLocaleString()}</span>
                       </span>
                     </div>
                   )}
