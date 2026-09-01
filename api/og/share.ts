@@ -1,5 +1,5 @@
-import { fetchSharePreviewMetadata } from '../_lib/share-preview';
-import { createFallbackPng } from '../_lib/fallback-png';
+import { fetchSharePreviewMetadata } from '../_lib/share-preview.js';
+import { createFallbackPng } from '../_lib/fallback-png.js';
 
 interface ApiRequest { url?: string; method?: string; headers?: Record<string, string | string[] | undefined> }
 interface ApiResponse { setHeader(name: string, value: string): void; status(code: number): ApiResponse; send(body: Buffer): void; end(): void }
@@ -20,7 +20,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.status(200);
     if (req.method === 'HEAD') return res.end();
-    const pngBuffer = await import('../_lib/og-renderer')
+    const pngBuffer = await import('../_lib/og-renderer.js')
       .then(({ renderOgImageBuffer }) => renderOgImageBuffer(metadata))
       .catch(() => createFallbackPng());
     return res.send(pngBuffer);

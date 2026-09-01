@@ -2,9 +2,31 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import type { SharePreviewMetadata } from './share-preview';
-import { generateAvatarConfig } from '../../src/features/identity-avatar/lib/avatar-generator';
-import type { BunkerAvatarConfig } from '../../src/features/identity-avatar/types/avatar.types';
+import type { SharePreviewMetadata } from './share-preview.js';
+
+interface ServerAvatarConfig {
+  headVariant: number;
+  visorVariant: number;
+  shoulderVariant: number;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  glowColor: string;
+}
+
+function fallbackAvatarConfig(seed: string, preferredColor: string): ServerAvatarConfig {
+  let hash = 2166136261;
+  for (const char of seed) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
+  return {
+    headVariant: hash % 10,
+    visorVariant: (hash >>> 4) % 8,
+    shoulderVariant: (hash >>> 8) % 6,
+    primaryColor: preferredColor,
+    secondaryColor: '#27272A',
+    accentColor: '#67E8F9',
+    glowColor: '#22D3EE',
+  };
+}
 
 let fontPromise: Promise<Buffer> | undefined;
 const getBundledFont = () => fontPromise ||= readFile(resolve(process.cwd(), 'node_modules/harfbuzzjs/test/fonts/noto/NotoSans-Regular.ttf'));
@@ -49,17 +71,14 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
     : ['React', 'Supabase', 'TypeScript'];
 
   // Generate deterministic avatar config
-  const fallbackAvatarConfig = generateAvatarConfig({
-    entityId: metadata.project?.id || metadata.shareLinkId || 'default-og',
-    entityKind: 'project',
-    name: projectName,
-    preferredColor: projectColor,
-    parentEntityId: metadata.client?.id || '',
-  });
+  const generatedConfig = fallbackAvatarConfig(
+    metadata.project?.id || metadata.shareLinkId || projectName,
+    projectColor
+  );
   const storedConfig = metadata.avatar?.config || metadata.project?.avatarConfig;
   const avatarConfig = storedConfig && typeof storedConfig === 'object'
-    ? { ...fallbackAvatarConfig, ...storedConfig } as BunkerAvatarConfig
-    : fallbackAvatarConfig;
+    ? { ...generatedConfig, ...storedConfig } as ServerAvatarConfig
+    : generatedConfig;
   const guardianCode = metadata.avatar?.code || metadata.project?.avatarCode;
 
   // Render SVG via Satori

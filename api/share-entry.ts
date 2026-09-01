@@ -1,5 +1,5 @@
-import { fetchSharePreviewMetadata, hashTokenSha256, type SharePreviewMetadata } from './_lib/share-preview';
-import { getPublicAppOrigin } from './_lib/public-origin';
+import { fetchSharePreviewMetadata, hashTokenSha256, type SharePreviewMetadata } from './_lib/share-preview.js';
+import { getPublicAppOrigin } from './_lib/public-origin.js';
 
 interface ApiRequest { url?: string; method?: string; headers?: Record<string, string | string[] | undefined> }
 interface ApiResponse { setHeader(name: string, value: string): void; status(code: number): ApiResponse; send(body: string): void; end(): void }

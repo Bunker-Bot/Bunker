@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { getSupabaseServer } from './supabase-server';
+import { getSupabaseServer } from './supabase-server.js';
 
 export interface SharePreviewMetadata {
   state: 'available' | 'protected' | 'expired' | 'revoked' | 'exhausted' | 'invalid';
