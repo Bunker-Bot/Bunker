@@ -329,14 +329,17 @@ export const PortalShell: React.FC = () => {
   }, [link?.id]);
 
   useEffect(() => {
-    if (project) {
+    if (hasEntered && project && remainingAmount > 0) {
       const storageKey = `bunker_dismissed_payment_reminder_${project.id || token}`;
       const isDismissed = sessionStorage.getItem(storageKey);
-      if (remainingAmount > 0 && !isDismissed) {
-        setIsPaymentModalOpen(true);
+      if (!isDismissed) {
+        const timer = setTimeout(() => {
+          setIsPaymentModalOpen(true);
+        }, 500);
+        return () => clearTimeout(timer);
       }
     }
-  }, [project, remainingAmount, token]);
+  }, [hasEntered, project, remainingAmount, token]);
 
   const handleClosePaymentModal = () => {
     setIsPaymentModalOpen(false);
