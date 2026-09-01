@@ -116,7 +116,7 @@ export const ShareLinksDashboard: React.FC<ShareLinksDashboardProps> = ({ projec
                   <td className="px-4 py-3 font-semibold text-white">
                     <div>{link.name}</div>
                     <div className="text-[10px] text-zinc-500 font-mono truncate max-w-[200px]">
-                      /share/{link.token.slice(0, 8)}...
+                      /s/{link.token.slice(0, 8)}...
                     </div>
                   </td>
                   <td className="px-4 py-3">{getStatusBadge(link.status)}</td>

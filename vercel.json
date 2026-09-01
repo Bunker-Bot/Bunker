@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/s/:token",
-      "destination": "/index.html"
+      "destination": "/api/share-entry?token=:token"
     },
     {
       "source": "/share/:token",
@@ -11,10 +11,6 @@
     {
       "source": "/portal/:token",
       "destination": "/index.html"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
     },
     {
       "source": "/(.*)",

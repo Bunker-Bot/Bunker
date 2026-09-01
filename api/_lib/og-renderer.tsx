@@ -1,7 +1,14 @@
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import type { SharePreviewMetadata } from './share-preview';
 import { generateAvatarConfig } from '../../src/features/identity-avatar/lib/avatar-generator';
+import type { BunkerAvatarConfig } from '../../src/features/identity-avatar/types/avatar.types';
+
+let fontPromise: Promise<Buffer> | undefined;
+const getBundledFont = () => fontPromise ||= readFile(resolve(process.cwd(), 'node_modules/harfbuzzjs/test/fonts/noto/NotoSans-Regular.ttf'));
+const truncate = (value: string, max: number) => value.length <= max ? value : `${value.slice(0, max - 1).trimEnd()}…`;
 
 export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promise<Buffer> {
   const isAvailable = metadata.state === 'available';
@@ -10,7 +17,7 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
   const isRevoked = metadata.state === 'revoked';
 
   const projectName = isAvailable
-    ? metadata.project?.name || 'Project Deliverables'
+    ? truncate(metadata.project?.name || 'Project Deliverables', 70)
     : isProtected
     ? 'Protected Project Vault'
     : isExpired
@@ -20,13 +27,13 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
     : 'Bunker Project Portal';
 
   const clientName = isAvailable
-    ? metadata.client?.displayName || 'Valued Client'
+    ? truncate(metadata.client?.displayName || 'Valued Client', 48)
     : isProtected
     ? 'Client Authentication Required'
     : 'Bunker Client Access';
 
   const description = isAvailable
-    ? metadata.project?.description || 'Secure client deliverables, timeline, milestones, and project vault.'
+    ? metadata.project?.safeDescription || 'Secure project workspace shared through Bunker.'
     : isProtected
     ? 'Passcode authentication is required to access this client project vault.'
     : isExpired
@@ -36,20 +43,24 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
     : 'Access client deliverables and project tracking.';
 
   const status = isAvailable ? metadata.project?.status || 'Active' : 'Secure';
-  const completionPercent = isAvailable ? metadata.project?.completionPercent ?? 75 : 0;
   const projectColor = isAvailable ? metadata.project?.color || '#06B6D4' : '#6366F1';
   const techs = isAvailable && metadata.technologies && metadata.technologies.length > 0
     ? metadata.technologies.slice(0, 3)
     : ['React', 'Supabase', 'TypeScript'];
 
   // Generate deterministic avatar config
-  const avatarConfig = generateAvatarConfig({
+  const fallbackAvatarConfig = generateAvatarConfig({
     entityId: metadata.project?.id || metadata.shareLinkId || 'default-og',
     entityKind: 'project',
     name: projectName,
     preferredColor: projectColor,
     parentEntityId: metadata.client?.id || '',
   });
+  const storedConfig = metadata.avatar?.config || metadata.project?.avatarConfig;
+  const avatarConfig = storedConfig && typeof storedConfig === 'object'
+    ? { ...fallbackAvatarConfig, ...storedConfig } as BunkerAvatarConfig
+    : fallbackAvatarConfig;
+  const guardianCode = metadata.avatar?.code || metadata.project?.avatarCode;
 
   // Render SVG via Satori
   const svg = await satori(
@@ -172,20 +183,6 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
                 {status}
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  padding: '6px 14px',
-                  borderRadius: '6px',
-                  backgroundColor: '#1E293B',
-                  border: '1px solid #334155',
-                  color: '#38BDF8',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                }}
-              >
-                {`${completionPercent}% Complete`}
-              </div>
             </div>
           )}
         </div>
@@ -221,9 +218,9 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
             {/* Head Shell */}
             <div
               style={{
-                width: '90px',
-                height: '100px',
-                borderRadius: '45px 45px 20px 20px',
+                width: avatarConfig.headVariant % 3 === 1 ? '104px' : '90px',
+                height: avatarConfig.headVariant % 3 === 2 ? '112px' : '100px',
+                borderRadius: avatarConfig.headVariant % 3 === 0 ? '45px 45px 20px 20px' : avatarConfig.headVariant % 3 === 1 ? '12px 12px 24px 24px' : '28px 28px 10px 10px',
                 backgroundColor: avatarConfig.secondaryColor,
                 border: '3px solid #3F3F46',
                 display: 'flex',
@@ -235,9 +232,9 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
               {/* Visor Bar */}
               <div
                 style={{
-                  width: '68px',
-                  height: '16px',
-                  borderRadius: '8px',
+                  width: avatarConfig.visorVariant % 3 === 1 ? '54px' : '68px',
+                  height: avatarConfig.visorVariant % 3 === 2 ? '8px' : '16px',
+                  borderRadius: avatarConfig.visorVariant % 3 === 0 ? '8px' : '3px',
                   backgroundColor: avatarConfig.glowColor,
                 }}
               />
@@ -246,9 +243,9 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
             {/* Shoulder Collar */}
             <div
               style={{
-                width: '130px',
-                height: '40px',
-                borderRadius: '12px 12px 0 0',
+                width: avatarConfig.shoulderVariant % 3 === 2 ? '170px' : avatarConfig.shoulderVariant % 3 === 1 ? '145px' : '130px',
+                height: avatarConfig.shoulderVariant % 3 === 2 ? '48px' : '40px',
+                borderRadius: avatarConfig.shoulderVariant % 2 === 0 ? '12px 12px 0 0' : '28px 28px 0 0',
                 backgroundColor: avatarConfig.primaryColor,
                 border: '2px solid #27272A',
                 marginTop: '-8px',
@@ -289,8 +286,8 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
           ))}
         </div>
 
-        <div style={{ display: 'flex', fontSize: '12px', color: '#52525B', letterSpacing: '0.04em' }}>
-          End-to-End Cryptographic Portal • Bunker Vault
+        <div style={{ display: 'flex', fontSize: '12px', color: '#71717A', letterSpacing: '0.04em' }}>
+          {guardianCode ? `Guardian #${guardianCode} • ` : ''}Secure Project Portal • Bunker
         </div>
       </div>
     </div>,
@@ -300,9 +297,7 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
       fonts: [
         {
           name: 'Inter',
-          data: await fetch(
-            'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff'
-          ).then((res) => res.arrayBuffer()).catch(() => new ArrayBuffer(0)),
+          data: await getBundledFont(),
           weight: 400,
           style: 'normal',
         },
@@ -320,4 +315,10 @@ export async function renderOgImageBuffer(metadata: SharePreviewMetadata): Promi
 
   const pngData = resvg.render();
   return pngData.asPng();
+}
+
+/** Dependency-light last-resort card; always produces a real 1200×630 PNG. */
+export function renderFallbackOgImageBuffer(): Buffer {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#09090b"/><rect x="48" y="48" width="1104" height="534" rx="18" fill="#121318" stroke="#27272a" stroke-width="2"/><text x="90" y="145" fill="#67e8f9" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="5">BUNKER</text><text x="90" y="310" fill="#fafafa" font-family="Arial,sans-serif" font-size="52" font-weight="700">Shared Project</text><text x="90" y="365" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="25">Secure project access through Bunker.</text><text x="90" y="525" fill="#71717a" font-family="Arial,sans-serif" font-size="20">SECURE PORTAL</text></svg>`;
+  return new Resvg(svg, { fitTo: { mode: 'width', value: 1200 } }).render().asPng();
 }

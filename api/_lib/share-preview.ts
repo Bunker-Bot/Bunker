@@ -13,6 +13,9 @@ export interface SharePreviewMetadata {
     completionPercent?: number | null;
     color?: string | null;
     thumbnailUrl?: string | null;
+    safeDescription?: string | null;
+    avatarCode?: string | null;
+    avatarConfig?: Record<string, unknown> | null;
   };
   client?: {
     id?: string | null;
@@ -21,9 +24,12 @@ export interface SharePreviewMetadata {
   };
   technologies?: string[];
   avatar?: {
-    seed: string;
+    id?: string;
+    code?: string;
+    name?: string;
+    seed?: string;
     version: number;
-    config?: any;
+    config?: Record<string, unknown> | null;
   };
 }
 
@@ -31,27 +37,18 @@ export function hashTokenSha256(token: string): string {
   return crypto.createHash('sha256').update(token.trim()).digest('hex');
 }
 
-export async function fetchSharePreviewMetadata(
-  tokenHashOrRaw: string
-): Promise<SharePreviewMetadata> {
-  if (!tokenHashOrRaw) {
+export async function fetchSharePreviewMetadata(tokenHash: string): Promise<SharePreviewMetadata> {
+  if (!/^[0-9a-f]{64}$/.test(tokenHash)) {
     return { state: 'invalid' };
   }
 
-  // If input length is 64 hex characters, it might already be a hash, but we also check raw token
-  const tokenHash =
-    tokenHashOrRaw.length === 64 && /^[0-9a-fA-F]+$/.test(tokenHashOrRaw)
-      ? tokenHashOrRaw.toLowerCase()
-      : hashTokenSha256(tokenHashOrRaw);
-
   try {
     const { data, error } = await supabaseServer.rpc('get_share_preview_metadata', {
-      p_token_hash: tokenHash,
-      p_raw_token: tokenHashOrRaw,
+      p_token_hash: tokenHash.toLowerCase(),
     });
 
     if (error) {
-      console.error('[SharePreview] RPC error:', error.message);
+      console.error('[SharePreview] RPC error category:', error.code || 'rpc_failure');
       return { state: 'invalid' };
     }
 
@@ -60,8 +57,8 @@ export async function fetchSharePreviewMetadata(
     }
 
     return data as SharePreviewMetadata;
-  } catch (err: any) {
-    console.error('[SharePreview] Unexpected error:', err);
+  } catch {
+    console.error('[SharePreview] Unexpected error category: metadata_lookup_failure');
     return { state: 'invalid' };
   }
 }

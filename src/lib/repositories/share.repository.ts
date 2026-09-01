@@ -126,7 +126,12 @@ export const ShareRepository = {
 
           if (!edgeErr && edgeData?.id) {
             const fetched = await this.getShareLinkById(edgeData.id);
-            if (fetched) return fetched;
+            if (fetched) {
+              const rawToken = typeof edgeData.url === 'string'
+                ? edgeData.url.split('/s/')[1]?.split(/[?#]/)[0]
+                : undefined;
+              return rawToken ? { ...fetched, token: decodeURIComponent(rawToken) } : fetched;
+            }
           }
         } catch (_edgeFailed) {
           // Fallback to direct DB insert
@@ -135,10 +140,12 @@ export const ShareRepository = {
 
       // 2. Direct Repository Fallback
       const token = this.generateSecureToken();
+      const tokenHashBytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token));
+      const tokenHash = Array.from(new Uint8Array(tokenHashBytes)).map((b) => b.toString(16).padStart(2, '0')).join('');
       const insertPayload: Record<string, any> = {
         project_id: payload.projectId,
         name: payload.name || 'Client Review',
-        token,
+        token: tokenHash,
         expires_at: payload.expiresAt || null,
         password_hash: payload.passwordHash || null,
         max_views: payload.maxViews || null,
@@ -179,7 +186,7 @@ export const ShareRepository = {
       }
 
       if (error) throw error;
-      return (data as unknown) as ShareLinkItem;
+      return { ...((data as unknown) as ShareLinkItem), token };
     }, 'critical');
   },
 
@@ -189,16 +196,18 @@ export const ShareRepository = {
   async regenerateShareLinkToken(id: string): Promise<ShareLinkItem> {
     return requestQueue.enqueue(async () => {
       const newToken = this.generateSecureToken();
+      const hashBytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(newToken));
+      const newTokenHash = Array.from(new Uint8Array(hashBytes)).map((b) => b.toString(16).padStart(2, '0')).join('');
 
       const { data, error } = await supabase
         .from('share_links')
-        .update({ token: newToken })
+        .update({ token: newTokenHash })
         .eq('id', id)
         .select('*, project:projects(id, name, slug, color)')
         .single();
 
       if (error) throw error;
-      return (data as unknown) as ShareLinkItem;
+      return { ...((data as unknown) as ShareLinkItem), token: newToken };
     }, 'critical');
   },
 

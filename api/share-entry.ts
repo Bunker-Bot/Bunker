@@ -1,187 +1,64 @@
-import { fetchSharePreviewMetadata, hashTokenSha256 } from './_lib/share-preview';
+import { fetchSharePreviewMetadata, hashTokenSha256, type SharePreviewMetadata } from './_lib/share-preview';
+import { getPublicAppOrigin } from './_lib/public-origin';
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+interface ApiRequest { url?: string; method?: string; headers?: Record<string, string | string[] | undefined> }
+interface ApiResponse { setHeader(name: string, value: string): void; status(code: number): ApiResponse; send(body: string): void; end(): void }
+
+const esc = (value: string) => value.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
+const clamp = (value: string, max: number) => {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  return normalized.length <= max ? normalized : `${normalized.slice(0, max - 1).trimEnd()}…`;
+};
+
+export function getPreviewCopy(metadata: SharePreviewMetadata) {
+  if (metadata.state === 'available') {
+    const name = clamp(metadata.project?.name || 'Shared Project', 70);
+    return {
+      title: clamp(`${name} — Bunker`, 90),
+      description: clamp(metadata.project?.safeDescription || 'Secure project workspace shared through Bunker.', 160),
+      alt: clamp(`Secure Bunker project preview for ${name}`, 120),
+    };
+  }
+  if (metadata.state === 'protected') return {
+    title: 'Secure Project Access — Bunker',
+    description: 'Authentication is required to access this shared project.',
+    alt: 'Bunker protected project access preview',
+  };
+  return {
+    title: 'Shared Project Unavailable — Bunker',
+    description: 'This shared access link is no longer available.',
+    alt: 'Bunker shared project unavailable preview',
+  };
 }
 
-export default async function handler(req: any, res: any) {
-  try {
-    const host = req.headers?.host || 'localhost';
-    const proto = req.headers?.['x-forwarded-proto'] || 'https';
-    const origin = `${proto}://${host}`;
+export function renderShareEntryHtml(input: { metadata: SharePreviewMetadata; origin: string; rawToken: string; previewId: string }) {
+  const { metadata, origin, rawToken, previewId } = input;
+  const copy = getPreviewCopy(metadata);
+  const canonicalUrl = `${origin}/s/${encodeURIComponent(rawToken)}`;
+  const destinationUrl = `/share/${encodeURIComponent(rawToken)}`;
+  const version = Math.max(1, Number(metadata.previewVersion) || 1);
+  const imageUrl = `${origin}/api/og/share?id=${encodeURIComponent(previewId)}&v=${version}`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(copy.title)}</title><meta name="description" content="${esc(copy.description)}"><link rel="canonical" href="${esc(canonicalUrl)}">
+<meta property="og:title" content="${esc(copy.title)}"><meta property="og:type" content="website"><meta property="og:url" content="${esc(canonicalUrl)}"><meta property="og:description" content="${esc(copy.description)}">
+<meta property="og:image" content="${esc(imageUrl)}"><meta property="og:image:secure_url" content="${esc(imageUrl)}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(copy.alt)}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(copy.title)}"><meta name="twitter:description" content="${esc(copy.description)}"><meta name="twitter:image" content="${esc(imageUrl)}">
+<style>html{color-scheme:dark}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#09090b;color:#fafafa;font:16px system-ui}.card{max-width:30rem;padding:2rem;text-align:center;border:1px solid #27272a;border-radius:12px;background:#121318}.eyebrow{color:#67e8f9;font-size:.75rem;letter-spacing:.16em}.button{display:inline-block;margin-top:1rem;padding:.75rem 1rem;border-radius:6px;background:#fafafa;color:#09090b;text-decoration:none;font-weight:700}</style></head>
+<body><main class="card"><div class="eyebrow">BUNKER · SECURE PORTAL</div><h1>Opening secure portal…</h1><p>${esc(copy.description)}</p><a class="button" href="${esc(destinationUrl)}">Open secure portal</a></main>
+<script>window.setTimeout(function(){window.location.replace(${JSON.stringify(destinationUrl)})},150)</script></body></html>`;
+}
 
-    const url = new URL(req.url || '', origin);
-    const rawToken =
-      url.searchParams.get('token') ||
-      url.pathname.replace(/^\/s\//, '').replace(/^\/api\/share-entry\/?/, '') ||
-      '';
-
-    const tokenHash = hashTokenSha256(rawToken);
-    const metadata = await fetchSharePreviewMetadata(rawToken || tokenHash);
-
-    const isAvailable = metadata.state === 'available';
-    const isProtected = metadata.state === 'protected';
-    const isExpired = metadata.state === 'expired';
-    const isRevoked = metadata.state === 'revoked';
-
-    const title = isAvailable
-      ? `${metadata.project?.name || 'Project Review'} — Bunker Vault`
-      : isProtected
-      ? 'Protected Project Vault — Bunker'
-      : isExpired
-      ? 'Link Expired — Bunker'
-      : isRevoked
-      ? 'Access Revoked — Bunker'
-      : 'Bunker Project Portal';
-
-    const clientDisplay = isAvailable
-      ? metadata.client?.displayName || 'Valued Client'
-      : 'Client Access';
-
-    const description = isAvailable
-      ? `${clientDisplay} Deliverables • ${metadata.project?.description || 'Access milestones, timeline, deliverables, and documents on Bunker.'}`
-      : isProtected
-      ? 'Passcode authentication required to view this project.'
-      : isExpired
-      ? 'This project share link is no longer available because it has expired.'
-      : isRevoked
-      ? 'This share link has been revoked by the project administrator.'
-      : 'Secure Client Project Portal on Bunker.';
-
-    const ogImageUrl = `${origin}/api/og/share?tokenHash=${tokenHash}`;
-    const destinationUrl = `/share/${encodeURIComponent(rawToken)}`;
-
-    const html = `<!doctype html>
-<html lang="en" class="dark" style="color-scheme: dark; background: #09090B;">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapeHtml(title)}</title>
-  <meta name="description" content="${escapeHtml(description)}" />
-
-  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Bunker" />
-  <meta property="og:title" content="${escapeHtml(title)}" />
-  <meta property="og:description" content="${escapeHtml(description)}" />
-  <meta property="og:url" content="${escapeHtml(`${origin}/share/${rawToken}`)}" />
-  <meta property="og:image" content="${escapeHtml(ogImageUrl)}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:type" content="image/png" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="${escapeHtml(title)}" />
-  <meta name="twitter:description" content="${escapeHtml(description)}" />
-  <meta name="twitter:image" content="${escapeHtml(ogImageUrl)}" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta http-equiv="refresh" content="0;url=${escapeHtml(destinationUrl)}" />
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #09090B;
-      color: #FAFAFA;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-    .card {
-      background: #121318;
-      border: 1px solid #27272A;
-      border-radius: 8px;
-      padding: 32px;
-      max-width: 440px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
-    }
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      background: #064E3B;
-      border: 1px solid #059669;
-      color: #6EE7B7;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      color: #FFFFFF;
-    }
-    .desc {
-      font-size: 12px;
-      color: #A1A1AA;
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #FFFFFF;
-      color: #000000;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 12px;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background: #E4E4E7;
-    }
-    .spinner {
-      width: 24px;
-      height: 24px;
-      border: 2px solid #27272A;
-      border-top-color: #06B6D4;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="spinner"></div>
-    <div class="badge">Zero-Trust Exchange</div>
-    <div class="title">Opening Secure Portal…</div>
-    <div class="desc">${escapeHtml(description)}</div>
-    <a href="${escapeHtml(destinationUrl)}" class="btn">Open Client Portal</a>
-  </div>
-  <script>
-    try {
-      window.location.replace("${escapeHtml(destinationUrl)}");
-    } catch(e) {
-      window.location.href = "${escapeHtml(destinationUrl)}";
-    }
-  </script>
-</body>
-</html>`;
-
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60');
-    res.status(200).send(html);
-  } catch (err: any) {
-    console.error('[api/share-entry] Error rendering share entry:', err);
-    res.status(500).send('Internal Server Error');
-  }
+export default async function handler(req: ApiRequest, res: ApiResponse) {
+  const origin = getPublicAppOrigin(req);
+  const url = new URL(req.url || '/', origin);
+  const rawToken = String(url.searchParams.get('token') || '').trim();
+  const previewId = hashTokenSha256(rawToken);
+  const metadata = await fetchSharePreviewMetadata(previewId);
+  const html = renderShareEntryHtml({ metadata, origin, rawToken, previewId });
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=30');
+  res.setHeader('X-Robots-Tag', 'index, follow');
+  res.status(200);
+  if (req.method === 'HEAD') return res.end();
+  return res.send(html);
 }

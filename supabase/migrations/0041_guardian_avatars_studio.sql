@@ -337,7 +337,7 @@ BEGIN
   WHERE c.id = v_project.client_id;
 
   -- Fetch tech stack
-  SELECT array_agg(pt.technology ORDER BY pt.technology)
+  SELECT array_agg(pt.name ORDER BY pt.name)
   INTO v_techs
   FROM public.project_technologies pt
   WHERE pt.project_id = v_project.id;
