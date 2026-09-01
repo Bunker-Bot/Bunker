@@ -14,6 +14,10 @@ export function getPublicAppOrigin(req?: { headers?: Record<string, string | str
   const configured = process.env.PUBLIC_APP_URL || process.env.VITE_PUBLIC_APP_URL;
   const configuredOrigin = configured ? normalizeOrigin(configured) : null;
   if (configuredOrigin) return configuredOrigin;
+  const vercelProductionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProductionHost && /^[a-z0-9.-]+$/i.test(vercelProductionHost)) {
+    return `https://${vercelProductionHost}`;
+  }
   const forwardedHost = req?.headers?.['x-forwarded-host'];
   const hostHeader = Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost;
   const host = (hostHeader || req?.headers?.host || '').toString().split(',')[0].trim();
@@ -23,6 +27,9 @@ export function getPublicAppOrigin(req?: { headers?: Record<string, string | str
   const requestedProto = (Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto || '').toString().split(',')[0].trim();
   const protocol = LOCAL_HOSTS.has(hostname) && process.env.NODE_ENV !== 'production' && requestedProto !== 'https' ? 'http' : 'https';
   if (safeHost) return `${protocol}://${safeHost}`;
-  if (process.env.NODE_ENV !== 'production') return 'http://localhost:5173';
-  throw new Error('PUBLIC_APP_URL must be configured with the production HTTPS origin');
+  const vercelDeploymentHost = process.env.VERCEL_URL;
+  if (vercelDeploymentHost && /^[a-z0-9.-]+$/i.test(vercelDeploymentHost)) {
+    return `https://${vercelDeploymentHost}`;
+  }
+  return 'http://localhost:5173';
 }

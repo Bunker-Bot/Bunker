@@ -35,7 +35,7 @@ export function renderShareEntryHtml(input: { metadata: SharePreviewMetadata; or
   const { metadata, origin, rawToken, previewId } = input;
   const copy = getPreviewCopy(metadata);
   const canonicalUrl = `${origin}/s/${encodeURIComponent(rawToken)}`;
-  const destinationUrl = `/share/${encodeURIComponent(rawToken)}`;
+  const destinationUrl = `/portal/${encodeURIComponent(rawToken)}`;
   const version = Math.max(1, Number(metadata.previewVersion) || 1);
   const imageUrl = `${origin}/api/og/share?id=${encodeURIComponent(previewId)}&v=${version}`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -49,16 +49,27 @@ export function renderShareEntryHtml(input: { metadata: SharePreviewMetadata; or
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
-  const origin = getPublicAppOrigin(req);
-  const url = new URL(req.url || '/', origin);
-  const rawToken = String(url.searchParams.get('token') || '').trim();
-  const previewId = hashTokenSha256(rawToken);
-  const metadata = await fetchSharePreviewMetadata(previewId);
-  const html = renderShareEntryHtml({ metadata, origin, rawToken, previewId });
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=30');
-  res.setHeader('X-Robots-Tag', 'index, follow');
-  res.status(200);
-  if (req.method === 'HEAD') return res.end();
-  return res.send(html);
+  try {
+    const origin = getPublicAppOrigin(req);
+    const url = new URL(req.url || '/', origin);
+    const rawToken = String(url.searchParams.get('token') || '').trim();
+    const previewId = hashTokenSha256(rawToken);
+    const metadata = await fetchSharePreviewMetadata(previewId);
+    const html = renderShareEntryHtml({ metadata, origin, rawToken, previewId });
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=30');
+    res.setHeader('X-Robots-Tag', 'index, follow');
+    res.status(200);
+    if (req.method === 'HEAD') return res.end();
+    return res.send(html);
+  } catch {
+    const rawToken = String(new URL(req.url || '/', 'http://localhost').searchParams.get('token') || '').trim();
+    const origin = getPublicAppOrigin(req);
+    const html = renderShareEntryHtml({ metadata: { state: 'invalid' }, origin, rawToken, previewId: hashTokenSha256(rawToken) });
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(200);
+    if (req.method === 'HEAD') return res.end();
+    return res.send(html);
+  }
 }

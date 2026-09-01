@@ -1,5 +1,5 @@
-import crypto from 'crypto';
-import { supabaseServer } from './supabase-server';
+import { createHash } from 'node:crypto';
+import { getSupabaseServer } from './supabase-server';
 
 export interface SharePreviewMetadata {
   state: 'available' | 'protected' | 'expired' | 'revoked' | 'exhausted' | 'invalid';
@@ -34,7 +34,7 @@ export interface SharePreviewMetadata {
 }
 
 export function hashTokenSha256(token: string): string {
-  return crypto.createHash('sha256').update(token.trim()).digest('hex');
+  return createHash('sha256').update(token.trim()).digest('hex');
 }
 
 export async function fetchSharePreviewMetadata(tokenHash: string): Promise<SharePreviewMetadata> {
@@ -43,6 +43,11 @@ export async function fetchSharePreviewMetadata(tokenHash: string): Promise<Shar
   }
 
   try {
+    const supabaseServer = getSupabaseServer();
+    if (!supabaseServer) {
+      console.error('[SharePreview] Configuration error category: supabase_unavailable');
+      return { state: 'invalid' };
+    }
     const { data, error } = await supabaseServer.rpc('get_share_preview_metadata', {
       p_token_hash: tokenHash.toLowerCase(),
     });

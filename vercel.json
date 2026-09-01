@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/og/share.ts": {
+      "includeFiles": "node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"
+    }
+  },
   "rewrites": [
     {
       "source": "/s/:token",
@@ -6,7 +11,7 @@
     },
     {
       "source": "/share/:token",
-      "destination": "/index.html"
+      "destination": "/api/share-entry?token=:token"
     },
     {
       "source": "/portal/:token",
