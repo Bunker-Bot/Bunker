@@ -34,6 +34,7 @@ const VIEW_TITLES: Record<ViewMode, string> = {
   dashboard: 'Dashboard Overview',
   projects: 'Client Projects',
   clients: 'Client Management',
+  teams: 'Collaborative Team Workspaces',
   'avatar-studio': 'Avatar Studio',
   tasks: 'Tasks & Kanban',
   milestones: 'Project Milestones',

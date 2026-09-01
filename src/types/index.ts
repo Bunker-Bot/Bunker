@@ -2,6 +2,7 @@ export type ViewMode =
   | 'dashboard'
   | 'projects'
   | 'clients'
+  | 'teams'
   | 'avatar-studio'
   | 'tasks'
   | 'milestones'

@@ -89,6 +89,12 @@ export function AppSidebar({
       isActive: currentView === "clients",
     },
     {
+      title: "Collaborative Teams",
+      view: "teams" as ViewMode,
+      icon: <HugeiconsIcon icon={UserGroupIcon} size={16} />,
+      isActive: currentView === "teams",
+    },
+    {
       title: "Avatar Studio",
       view: "avatar-studio" as ViewMode,
       icon: <HugeiconsIcon icon={SparklesIcon} size={16} />,
